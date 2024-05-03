@@ -57,10 +57,13 @@ class _AppListScreenState extends State<AppListScreen> {
                                       .contains(filter.toLowerCase()))
                                   .map((e) => GestureDetector(
                                       onTap: () {
-                                        if (!kDebugMode)
+                                        if (!kDebugMode) {
                                           DeviceApps.openApp(
                                               e.app!.packageName);
+                                        }
                                         cubit.increaseLaunches(e);
+                                        cubit.setFilter('');
+                                        searchController.text = '';
                                       },
                                       child: App(app: e)))
                                   .toList(),

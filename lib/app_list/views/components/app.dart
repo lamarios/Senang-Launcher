@@ -2,10 +2,10 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:simple_launcher/app_list/models/app_data.dart';
-import 'package:simple_launcher/app_list/state/app_list.dart';
-import 'package:simple_launcher/settings/state/settings.dart';
-import 'package:simple_launcher/utils/utils.dart';
+import 'package:senang_launcher/app_list/models/app_data.dart';
+import 'package:senang_launcher/app_list/state/app_list.dart';
+import 'package:senang_launcher/settings/state/settings.dart';
+import 'package:senang_launcher/utils/utils.dart';
 
 // const List<double> _brackets = [0, 0.25, 0.5, 0.75, 1];
 

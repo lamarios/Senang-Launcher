@@ -2,8 +2,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_settings_ui/flutter_settings_ui.dart';
-import 'package:simple_launcher/router.dart';
-import 'package:simple_launcher/settings/state/settings.dart';
+import 'package:senang_launcher/router.dart';
+import 'package:senang_launcher/settings/state/settings.dart';
 
 import '../components/plus_minus.dart';
 

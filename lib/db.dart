@@ -5,7 +5,7 @@ import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:sembast/sembast.dart';
 import 'package:sembast_sqflite/sembast_sqflite.dart';
-import 'package:simple_launcher/app_list/models/app_data.dart';
+import 'package:senang_launcher/app_list/models/app_data.dart';
 import 'package:sqflite/sqflite.dart' as sqflite;
 
 DbClient db = DbClient();

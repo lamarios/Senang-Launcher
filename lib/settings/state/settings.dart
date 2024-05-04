@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:simple_launcher/db.dart';
+import 'package:senang_launcher/db.dart';
 
 part 'settings.freezed.dart';
 

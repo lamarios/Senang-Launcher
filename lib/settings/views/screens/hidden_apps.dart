@@ -1,8 +1,8 @@
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:simple_launcher/app_list/state/app_list.dart';
-import 'package:simple_launcher/settings/state/settings.dart';
+import 'package:senang_launcher/app_list/state/app_list.dart';
+import 'package:senang_launcher/settings/state/settings.dart';
 
 @RoutePage()
 class HiddenAppScreen extends StatelessWidget {

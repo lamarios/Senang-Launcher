@@ -7,8 +7,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:notification_listener_service/notification_event.dart';
 import 'package:notification_listener_service/notification_listener_service.dart';
-import 'package:simple_launcher/db.dart';
-import 'package:simple_launcher/settings/state/settings.dart';
+import 'package:senang_launcher/db.dart';
+import 'package:senang_launcher/settings/state/settings.dart';
 
 import '../models/app_data.dart';
 

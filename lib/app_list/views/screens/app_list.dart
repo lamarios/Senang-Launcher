@@ -5,11 +5,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:simple_launcher/app_list/state/app_list.dart';
-import 'package:simple_launcher/app_list/views/components/app.dart';
-import 'package:simple_launcher/app_list/views/components/letter_list.dart';
-import 'package:simple_launcher/settings/state/settings.dart';
-import 'package:simple_launcher/settings/views/screens/settings.dart';
+import 'package:senang_launcher/app_list/state/app_list.dart';
+import 'package:senang_launcher/app_list/views/components/app.dart';
+import 'package:senang_launcher/app_list/views/components/letter_list.dart';
+import 'package:senang_launcher/settings/state/settings.dart';
+import 'package:senang_launcher/settings/views/screens/settings.dart';
 
 @RoutePage()
 class AppListScreen extends StatefulWidget {

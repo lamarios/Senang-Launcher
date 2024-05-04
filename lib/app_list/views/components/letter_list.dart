@@ -3,8 +3,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:simple_launcher/app_list/state/app_list.dart';
-import 'package:simple_launcher/app_list/state/letter_list.dart';
+import 'package:senang_launcher/app_list/state/app_list.dart';
+import 'package:senang_launcher/app_list/state/letter_list.dart';
 import 'package:vibration/vibration.dart';
 
 const double _fingerGap = 125;

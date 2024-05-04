@@ -1,7 +1,7 @@
 // This file is "main.dart"
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:simple_launcher/app_list/state/app_list.dart';
+import 'package:senang_launcher/app_list/state/app_list.dart';
 
 part 'letter_list.freezed.dart';
 

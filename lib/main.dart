@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:simple_launcher/db.dart';
-import 'package:simple_launcher/router.dart';
-import 'package:simple_launcher/settings/state/settings.dart';
+import 'package:senang_launcher/db.dart';
+import 'package:senang_launcher/router.dart';
+import 'package:senang_launcher/settings/state/settings.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

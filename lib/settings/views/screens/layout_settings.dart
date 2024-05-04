@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_settings_ui/flutter_settings_ui.dart';
-import 'package:simple_launcher/settings/state/settings.dart';
+import 'package:senang_launcher/settings/state/settings.dart';
 
 class LayoutSettingsSheet extends StatelessWidget {
   const LayoutSettingsSheet({super.key});

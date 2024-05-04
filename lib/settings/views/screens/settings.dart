@@ -1,11 +1,11 @@
 import 'package:device_apps/device_apps.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_settings_ui/flutter_settings_ui.dart';
-import 'package:simple_launcher/app_list/models/app_data.dart';
-import 'package:simple_launcher/settings/views/screens/app_settings.dart';
-import 'package:simple_launcher/settings/views/screens/color_settings.dart';
-import 'package:simple_launcher/settings/views/screens/layout_settings.dart';
-import 'package:simple_launcher/settings/views/screens/text_settings.dart';
+import 'package:senang_launcher/app_list/models/app_data.dart';
+import 'package:senang_launcher/settings/views/screens/app_settings.dart';
+import 'package:senang_launcher/settings/views/screens/color_settings.dart';
+import 'package:senang_launcher/settings/views/screens/layout_settings.dart';
+import 'package:senang_launcher/settings/views/screens/text_settings.dart';
 
 const settingsDarkTheme =
     SettingsThemeData(settingsListBackground: Colors.transparent);

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_settings_ui/flutter_settings_ui.dart';
-import 'package:simple_launcher/settings/state/settings.dart';
-import 'package:simple_launcher/settings/views/screens/color_picker.dart';
-import 'package:simple_launcher/settings/views/screens/settings.dart';
+import 'package:senang_launcher/settings/state/settings.dart';
+import 'package:senang_launcher/settings/views/screens/color_picker.dart';
+import 'package:senang_launcher/settings/views/screens/settings.dart';
 
 class ColorSettings extends StatelessWidget {
   const ColorSettings({super.key});

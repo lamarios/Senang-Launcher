@@ -9,8 +9,8 @@ class LetterListCubit extends Cubit<LetterListState> {
   final AppListCubit appListCubit;
   LetterListCubit(super.initialState, this.appListCubit);
 
-  setIndex(int? index, String letter) {
-    emit(state.copyWith(index: index));
+  setIndex(int? index, String letter, double? xOffset) {
+    emit(state.copyWith(index: index, xOffset: xOffset?.abs()));
     if (index != null) {
       appListCubit.setLetterFilter(index == 0 ? null : letter);
     }
@@ -19,5 +19,6 @@ class LetterListCubit extends Cubit<LetterListState> {
 
 @freezed
 class LetterListState with _$LetterListState {
-  const factory LetterListState({int? index}) = _LetterListState;
+  const factory LetterListState({int? index, double? xOffset}) =
+      _LetterListState;
 }

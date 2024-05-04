@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,7 +9,8 @@ import 'package:simple_launcher/app_list/state/letter_list.dart';
 import 'package:vibration/vibration.dart';
 
 const double _fingerGap = 125;
-const double _fingerIndexGap = 7;
+const double _fingerIndexGap = 12;
+const double _letterScale = 1.75;
 
 class LetterList extends StatefulWidget {
   const LetterList({super.key});
@@ -24,12 +26,13 @@ class _LetterListState extends State<LetterList> {
     RenderBox box = key.currentContext?.findRenderObject() as RenderBox;
     Offset position = box.localToGlobal(Offset.zero); //this is global position
     double y = position.dy; //this is y - I think it's what you want
+    final xPosition = (globalPosition.dx - position.dx);
     double percentageOfHeight = (globalPosition.dy - y) / box.size.height;
     int index = (letters.length * percentageOfHeight).toInt();
     index = min(letters.length - 1, index);
     index = max(0, index);
 
-    context.read<LetterListCubit>().setIndex(index, letters[index]);
+    context.read<LetterListCubit>().setIndex(index, letters[index], xPosition);
   }
 
   @override
@@ -67,6 +70,9 @@ class _LetterListState extends State<LetterList> {
           final hoveredIndex =
               context.select((LetterListCubit value) => value.state.index);
 
+          final xOffset =
+              context.select((LetterListCubit value) => value.state.xOffset);
+
           final letterCubit = context.read<LetterListCubit>();
 
           letters.insert(0, '○');
@@ -74,22 +80,25 @@ class _LetterListState extends State<LetterList> {
           final letterWidgets = <Widget>[];
 
           double mean = (_fingerIndexGap * 2 - 1) / 2; // Mean of the bell curve
-          double deviation = mean / 2.5; // Standard deviation
+          double deviation = mean / 3.2; // Standard deviation
 
           for (final (idx, l) in letters.indexed) {
             var hovered = idx == hoveredIndex;
             double offset = 0;
+            double scale = 1;
 
             // we do a cascade of offsets
             if (hovered) {
-              offset = _fingerGap;
+              offset = _fingerGap + (xOffset ?? 0);
+              scale = _letterScale;
             } else if (hoveredIndex != null &&
                 (hoveredIndex - idx).abs() <= _fingerIndexGap) {
               var distance = (idx - hoveredIndex).abs();
               double bellValue =
                   1 - exp(-(pow(distance - mean, 2) / (2 * pow(deviation, 2))));
 
-              offset = bellValue * _fingerGap;
+              offset = bellValue * (_fingerGap + (xOffset ?? 0));
+              scale = max(1, bellValue * _letterScale);
             }
 
             letterWidgets.add(Container(
@@ -101,10 +110,14 @@ class _LetterListState extends State<LetterList> {
               child: Padding(
                 padding: EdgeInsets.symmetric(
                     vertical: 2.0, horizontal: hovered ? 4 : 0),
-                child: Text(
-                  l,
-                  style: textTheme.labelLarge?.copyWith(
-                      color: hovered ? colors.primary : colors.onBackground),
+                child: AnimatedScale(
+                  duration: const Duration(milliseconds: 100),
+                  scale: scale,
+                  child: Text(
+                    l,
+                    style: textTheme.labelLarge?.copyWith(
+                        color: hovered ? colors.primary : colors.onBackground),
+                  ),
                 ),
               ),
             ).animate(target: offset > 0 ? 1 : 0).moveX(
@@ -117,12 +130,13 @@ class _LetterListState extends State<LetterList> {
           return LayoutBuilder(builder: (context, constraints) {
             return GestureDetector(
               behavior: HitTestBehavior.opaque,
-              onVerticalDragEnd: (details) => letterCubit.setIndex(null, ''),
+              onVerticalDragEnd: (details) =>
+                  letterCubit.setIndex(null, '', null),
               onVerticalDragDown: (details) =>
                   setIndex(context, details.globalPosition, letters),
               onVerticalDragUpdate: (details) =>
                   setIndex(context, details.globalPosition, letters),
-              onTapUp: (details) => letterCubit.setIndex(null, ''),
+              onTapUp: (details) => letterCubit.setIndex(null, '', null),
               child: Padding(
                 padding: const EdgeInsets.only(left: 8.0),
                 child: Column(

@@ -25,7 +25,6 @@ class App extends StatelessWidget {
         return (app.launchCount - c.state.minLaunches) /
             max(1, (c.state.maxLaunches - c.state.minLaunches));
       });
-      print('${app.app?.appName} $percentageOfMax');
 
       final color = app.hasNotification
           ? Colors.yellow

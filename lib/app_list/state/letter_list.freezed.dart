@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$LetterListState {
   int? get index => throw _privateConstructorUsedError;
+  double? get xOffset => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $LetterListStateCopyWith<LetterListState> get copyWith =>
@@ -29,7 +30,7 @@ abstract class $LetterListStateCopyWith<$Res> {
           LetterListState value, $Res Function(LetterListState) then) =
       _$LetterListStateCopyWithImpl<$Res, LetterListState>;
   @useResult
-  $Res call({int? index});
+  $Res call({int? index, double? xOffset});
 }
 
 /// @nodoc
@@ -46,12 +47,17 @@ class _$LetterListStateCopyWithImpl<$Res, $Val extends LetterListState>
   @override
   $Res call({
     Object? index = freezed,
+    Object? xOffset = freezed,
   }) {
     return _then(_value.copyWith(
       index: freezed == index
           ? _value.index
           : index // ignore: cast_nullable_to_non_nullable
               as int?,
+      xOffset: freezed == xOffset
+          ? _value.xOffset
+          : xOffset // ignore: cast_nullable_to_non_nullable
+              as double?,
     ) as $Val);
   }
 }
@@ -64,7 +70,7 @@ abstract class _$$LetterListStateImplCopyWith<$Res>
       __$$LetterListStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int? index});
+  $Res call({int? index, double? xOffset});
 }
 
 /// @nodoc
@@ -79,12 +85,17 @@ class __$$LetterListStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? index = freezed,
+    Object? xOffset = freezed,
   }) {
     return _then(_$LetterListStateImpl(
       index: freezed == index
           ? _value.index
           : index // ignore: cast_nullable_to_non_nullable
               as int?,
+      xOffset: freezed == xOffset
+          ? _value.xOffset
+          : xOffset // ignore: cast_nullable_to_non_nullable
+              as double?,
     ));
   }
 }
@@ -92,14 +103,16 @@ class __$$LetterListStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$LetterListStateImpl implements _LetterListState {
-  const _$LetterListStateImpl({this.index});
+  const _$LetterListStateImpl({this.index, this.xOffset});
 
   @override
   final int? index;
+  @override
+  final double? xOffset;
 
   @override
   String toString() {
-    return 'LetterListState(index: $index)';
+    return 'LetterListState(index: $index, xOffset: $xOffset)';
   }
 
   @override
@@ -107,11 +120,12 @@ class _$LetterListStateImpl implements _LetterListState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$LetterListStateImpl &&
-            (identical(other.index, index) || other.index == index));
+            (identical(other.index, index) || other.index == index) &&
+            (identical(other.xOffset, xOffset) || other.xOffset == xOffset));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, index);
+  int get hashCode => Object.hash(runtimeType, index, xOffset);
 
   @JsonKey(ignore: true)
   @override
@@ -122,10 +136,13 @@ class _$LetterListStateImpl implements _LetterListState {
 }
 
 abstract class _LetterListState implements LetterListState {
-  const factory _LetterListState({final int? index}) = _$LetterListStateImpl;
+  const factory _LetterListState({final int? index, final double? xOffset}) =
+      _$LetterListStateImpl;
 
   @override
   int? get index;
+  @override
+  double? get xOffset;
   @override
   @JsonKey(ignore: true)
   _$$LetterListStateImplCopyWith<_$LetterListStateImpl> get copyWith =>

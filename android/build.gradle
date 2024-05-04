@@ -1,3 +1,6 @@
+// kotlin 1.7.10
+// graddle 7.2.2
+
 allprojects {
     repositories {
         google()

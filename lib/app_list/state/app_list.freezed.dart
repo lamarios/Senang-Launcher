@@ -15,32 +15,36 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
-mixin _$AppList {
+mixin _$AppListState {
   List<AppData> get apps => throw _privateConstructorUsedError;
   int get maxLaunches => throw _privateConstructorUsedError;
   String get filter => throw _privateConstructorUsedError;
+  bool get isLetterFilter => throw _privateConstructorUsedError;
   dynamic get minLaunches => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $AppListCopyWith<AppList> get copyWith => throw _privateConstructorUsedError;
+  $AppListStateCopyWith<AppListState> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $AppListCopyWith<$Res> {
-  factory $AppListCopyWith(AppList value, $Res Function(AppList) then) =
-      _$AppListCopyWithImpl<$Res, AppList>;
+abstract class $AppListStateCopyWith<$Res> {
+  factory $AppListStateCopyWith(
+          AppListState value, $Res Function(AppListState) then) =
+      _$AppListStateCopyWithImpl<$Res, AppListState>;
   @useResult
   $Res call(
       {List<AppData> apps,
       int maxLaunches,
       String filter,
+      bool isLetterFilter,
       dynamic minLaunches});
 }
 
 /// @nodoc
-class _$AppListCopyWithImpl<$Res, $Val extends AppList>
-    implements $AppListCopyWith<$Res> {
-  _$AppListCopyWithImpl(this._value, this._then);
+class _$AppListStateCopyWithImpl<$Res, $Val extends AppListState>
+    implements $AppListStateCopyWith<$Res> {
+  _$AppListStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -53,6 +57,7 @@ class _$AppListCopyWithImpl<$Res, $Val extends AppList>
     Object? apps = null,
     Object? maxLaunches = null,
     Object? filter = null,
+    Object? isLetterFilter = null,
     Object? minLaunches = freezed,
   }) {
     return _then(_value.copyWith(
@@ -68,6 +73,10 @@ class _$AppListCopyWithImpl<$Res, $Val extends AppList>
           ? _value.filter
           : filter // ignore: cast_nullable_to_non_nullable
               as String,
+      isLetterFilter: null == isLetterFilter
+          ? _value.isLetterFilter
+          : isLetterFilter // ignore: cast_nullable_to_non_nullable
+              as bool,
       minLaunches: freezed == minLaunches
           ? _value.minLaunches
           : minLaunches // ignore: cast_nullable_to_non_nullable
@@ -77,25 +86,27 @@ class _$AppListCopyWithImpl<$Res, $Val extends AppList>
 }
 
 /// @nodoc
-abstract class _$$AppListImplCopyWith<$Res> implements $AppListCopyWith<$Res> {
-  factory _$$AppListImplCopyWith(
-          _$AppListImpl value, $Res Function(_$AppListImpl) then) =
-      __$$AppListImplCopyWithImpl<$Res>;
+abstract class _$$AppListStateImplCopyWith<$Res>
+    implements $AppListStateCopyWith<$Res> {
+  factory _$$AppListStateImplCopyWith(
+          _$AppListStateImpl value, $Res Function(_$AppListStateImpl) then) =
+      __$$AppListStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
       {List<AppData> apps,
       int maxLaunches,
       String filter,
+      bool isLetterFilter,
       dynamic minLaunches});
 }
 
 /// @nodoc
-class __$$AppListImplCopyWithImpl<$Res>
-    extends _$AppListCopyWithImpl<$Res, _$AppListImpl>
-    implements _$$AppListImplCopyWith<$Res> {
-  __$$AppListImplCopyWithImpl(
-      _$AppListImpl _value, $Res Function(_$AppListImpl) _then)
+class __$$AppListStateImplCopyWithImpl<$Res>
+    extends _$AppListStateCopyWithImpl<$Res, _$AppListStateImpl>
+    implements _$$AppListStateImplCopyWith<$Res> {
+  __$$AppListStateImplCopyWithImpl(
+      _$AppListStateImpl _value, $Res Function(_$AppListStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -104,9 +115,10 @@ class __$$AppListImplCopyWithImpl<$Res>
     Object? apps = null,
     Object? maxLaunches = null,
     Object? filter = null,
+    Object? isLetterFilter = null,
     Object? minLaunches = freezed,
   }) {
-    return _then(_$AppListImpl(
+    return _then(_$AppListStateImpl(
       apps: null == apps
           ? _value._apps
           : apps // ignore: cast_nullable_to_non_nullable
@@ -119,6 +131,10 @@ class __$$AppListImplCopyWithImpl<$Res>
           ? _value.filter
           : filter // ignore: cast_nullable_to_non_nullable
               as String,
+      isLetterFilter: null == isLetterFilter
+          ? _value.isLetterFilter
+          : isLetterFilter // ignore: cast_nullable_to_non_nullable
+              as bool,
       minLaunches: freezed == minLaunches ? _value.minLaunches! : minLaunches,
     ));
   }
@@ -126,11 +142,12 @@ class __$$AppListImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$AppListImpl implements _AppList {
-  const _$AppListImpl(
+class _$AppListStateImpl implements _AppListState {
+  const _$AppListStateImpl(
       {final List<AppData> apps = const [],
       this.maxLaunches = 0,
       this.filter = '',
+      this.isLetterFilter = false,
       this.minLaunches = 0})
       : _apps = apps;
 
@@ -151,22 +168,27 @@ class _$AppListImpl implements _AppList {
   final String filter;
   @override
   @JsonKey()
+  final bool isLetterFilter;
+  @override
+  @JsonKey()
   final dynamic minLaunches;
 
   @override
   String toString() {
-    return 'AppList(apps: $apps, maxLaunches: $maxLaunches, filter: $filter, minLaunches: $minLaunches)';
+    return 'AppListState(apps: $apps, maxLaunches: $maxLaunches, filter: $filter, isLetterFilter: $isLetterFilter, minLaunches: $minLaunches)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$AppListImpl &&
+            other is _$AppListStateImpl &&
             const DeepCollectionEquality().equals(other._apps, _apps) &&
             (identical(other.maxLaunches, maxLaunches) ||
                 other.maxLaunches == maxLaunches) &&
             (identical(other.filter, filter) || other.filter == filter) &&
+            (identical(other.isLetterFilter, isLetterFilter) ||
+                other.isLetterFilter == isLetterFilter) &&
             const DeepCollectionEquality()
                 .equals(other.minLaunches, minLaunches));
   }
@@ -177,21 +199,23 @@ class _$AppListImpl implements _AppList {
       const DeepCollectionEquality().hash(_apps),
       maxLaunches,
       filter,
+      isLetterFilter,
       const DeepCollectionEquality().hash(minLaunches));
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$AppListImplCopyWith<_$AppListImpl> get copyWith =>
-      __$$AppListImplCopyWithImpl<_$AppListImpl>(this, _$identity);
+  _$$AppListStateImplCopyWith<_$AppListStateImpl> get copyWith =>
+      __$$AppListStateImplCopyWithImpl<_$AppListStateImpl>(this, _$identity);
 }
 
-abstract class _AppList implements AppList {
-  const factory _AppList(
+abstract class _AppListState implements AppListState {
+  const factory _AppListState(
       {final List<AppData> apps,
       final int maxLaunches,
       final String filter,
-      final dynamic minLaunches}) = _$AppListImpl;
+      final bool isLetterFilter,
+      final dynamic minLaunches}) = _$AppListStateImpl;
 
   @override
   List<AppData> get apps;
@@ -200,9 +224,11 @@ abstract class _AppList implements AppList {
   @override
   String get filter;
   @override
+  bool get isLetterFilter;
+  @override
   dynamic get minLaunches;
   @override
   @JsonKey(ignore: true)
-  _$$AppListImplCopyWith<_$AppListImpl> get copyWith =>
+  _$$AppListStateImplCopyWith<_$AppListStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

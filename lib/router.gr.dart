@@ -20,7 +20,13 @@ abstract class _$AppRouter extends RootStackRouter {
         routeData: routeData,
         child: const AppListScreen(),
       );
-    }
+    },
+    HiddenAppRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const HiddenAppScreen(),
+      );
+    },
   };
 }
 
@@ -34,6 +40,20 @@ class AppListRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'AppListRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [HiddenAppScreen]
+class HiddenAppRoute extends PageRouteInfo<void> {
+  const HiddenAppRoute({List<PageRouteInfo>? children})
+      : super(
+          HiddenAppRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'HiddenAppRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

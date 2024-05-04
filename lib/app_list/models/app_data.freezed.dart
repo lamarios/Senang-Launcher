@@ -20,8 +20,11 @@ AppData _$AppDataFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$AppData {
-  int get launchCount => throw _privateConstructorUsedError;
   bool get hidden => throw _privateConstructorUsedError;
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  int get launchCount => throw _privateConstructorUsedError;
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  bool get hasNotification => throw _privateConstructorUsedError;
   @JsonKey(includeFromJson: false, includeToJson: false)
   Application? get app => throw _privateConstructorUsedError;
 
@@ -36,8 +39,10 @@ abstract class $AppDataCopyWith<$Res> {
       _$AppDataCopyWithImpl<$Res, AppData>;
   @useResult
   $Res call(
-      {int launchCount,
-      bool hidden,
+      {bool hidden,
+      @JsonKey(includeFromJson: false, includeToJson: false) int launchCount,
+      @JsonKey(includeFromJson: false, includeToJson: false)
+      bool hasNotification,
       @JsonKey(includeFromJson: false, includeToJson: false) Application? app});
 }
 
@@ -54,18 +59,23 @@ class _$AppDataCopyWithImpl<$Res, $Val extends AppData>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? launchCount = null,
     Object? hidden = null,
+    Object? launchCount = null,
+    Object? hasNotification = null,
     Object? app = freezed,
   }) {
     return _then(_value.copyWith(
+      hidden: null == hidden
+          ? _value.hidden
+          : hidden // ignore: cast_nullable_to_non_nullable
+              as bool,
       launchCount: null == launchCount
           ? _value.launchCount
           : launchCount // ignore: cast_nullable_to_non_nullable
               as int,
-      hidden: null == hidden
-          ? _value.hidden
-          : hidden // ignore: cast_nullable_to_non_nullable
+      hasNotification: null == hasNotification
+          ? _value.hasNotification
+          : hasNotification // ignore: cast_nullable_to_non_nullable
               as bool,
       app: freezed == app
           ? _value.app
@@ -83,8 +93,10 @@ abstract class _$$AppDataImplCopyWith<$Res> implements $AppDataCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {int launchCount,
-      bool hidden,
+      {bool hidden,
+      @JsonKey(includeFromJson: false, includeToJson: false) int launchCount,
+      @JsonKey(includeFromJson: false, includeToJson: false)
+      bool hasNotification,
       @JsonKey(includeFromJson: false, includeToJson: false) Application? app});
 }
 
@@ -99,18 +111,23 @@ class __$$AppDataImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? launchCount = null,
     Object? hidden = null,
+    Object? launchCount = null,
+    Object? hasNotification = null,
     Object? app = freezed,
   }) {
     return _then(_$AppDataImpl(
+      hidden: null == hidden
+          ? _value.hidden
+          : hidden // ignore: cast_nullable_to_non_nullable
+              as bool,
       launchCount: null == launchCount
           ? _value.launchCount
           : launchCount // ignore: cast_nullable_to_non_nullable
               as int,
-      hidden: null == hidden
-          ? _value.hidden
-          : hidden // ignore: cast_nullable_to_non_nullable
+      hasNotification: null == hasNotification
+          ? _value.hasNotification
+          : hasNotification // ignore: cast_nullable_to_non_nullable
               as bool,
       app: freezed == app
           ? _value.app
@@ -124,8 +141,11 @@ class __$$AppDataImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$AppDataImpl implements _AppData {
   const _$AppDataImpl(
-      {this.launchCount = 0,
-      this.hidden = false,
+      {this.hidden = false,
+      @JsonKey(includeFromJson: false, includeToJson: false)
+      this.launchCount = 0,
+      @JsonKey(includeFromJson: false, includeToJson: false)
+      this.hasNotification = false,
       @JsonKey(includeFromJson: false, includeToJson: false) this.app});
 
   factory _$AppDataImpl.fromJson(Map<String, dynamic> json) =>
@@ -133,17 +153,20 @@ class _$AppDataImpl implements _AppData {
 
   @override
   @JsonKey()
+  final bool hidden;
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   final int launchCount;
   @override
-  @JsonKey()
-  final bool hidden;
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  final bool hasNotification;
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   final Application? app;
 
   @override
   String toString() {
-    return 'AppData(launchCount: $launchCount, hidden: $hidden, app: $app)';
+    return 'AppData(hidden: $hidden, launchCount: $launchCount, hasNotification: $hasNotification, app: $app)';
   }
 
   @override
@@ -151,15 +174,18 @@ class _$AppDataImpl implements _AppData {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$AppDataImpl &&
+            (identical(other.hidden, hidden) || other.hidden == hidden) &&
             (identical(other.launchCount, launchCount) ||
                 other.launchCount == launchCount) &&
-            (identical(other.hidden, hidden) || other.hidden == hidden) &&
+            (identical(other.hasNotification, hasNotification) ||
+                other.hasNotification == hasNotification) &&
             (identical(other.app, app) || other.app == app));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, launchCount, hidden, app);
+  int get hashCode =>
+      Object.hash(runtimeType, hidden, launchCount, hasNotification, app);
 
   @JsonKey(ignore: true)
   @override
@@ -177,17 +203,24 @@ class _$AppDataImpl implements _AppData {
 
 abstract class _AppData implements AppData {
   const factory _AppData(
-      {final int launchCount,
-      final bool hidden,
+      {final bool hidden,
+      @JsonKey(includeFromJson: false, includeToJson: false)
+      final int launchCount,
+      @JsonKey(includeFromJson: false, includeToJson: false)
+      final bool hasNotification,
       @JsonKey(includeFromJson: false, includeToJson: false)
       final Application? app}) = _$AppDataImpl;
 
   factory _AppData.fromJson(Map<String, dynamic> json) = _$AppDataImpl.fromJson;
 
   @override
+  bool get hidden;
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   int get launchCount;
   @override
-  bool get hidden;
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  bool get hasNotification;
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   Application? get app;

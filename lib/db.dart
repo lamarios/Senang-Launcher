@@ -14,6 +14,8 @@ class DbClient {
   late final Database db;
 
   final appData = stringMapStoreFactory.store('app-data');
+  final appLaunches = StoreRef<int, String>('app-launches');
+  final settings = StoreRef<String, String>('settings');
 
   Future<void> setUpDb() async {
     late final Directory docsDir;
@@ -33,19 +35,60 @@ class DbClient {
     );
   }
 
-  Future<List<AppData>> getAppData(List<Application> apps) async {
+  Future<Map<String, String>> getSettings() async {
+    final records = await settings.find(db);
+    Map<String, String> map = {};
+    for (final r in records) {
+      map[r.key] = r.value;
+    }
+    return map;
+  }
+
+  Future<void> updateSetting(String name, String value) async {
+    await settings.record(name).put(db, value);
+  }
+
+  Future<void> addLaunch(String appPackage) async {
+    await appLaunches
+        .record(DateTime.now().millisecondsSinceEpoch)
+        .put(db, appPackage);
+  }
+
+  Future<Map<String, int>> getLaunchCountByApp(DateTime since) async {
+    final records = await appLaunches.find(db,
+        finder: Finder(
+            filter:
+                Filter.greaterThan(Field.key, since.millisecondsSinceEpoch)));
+    Map<String, int> launches = {};
+
+    for (final r in records) {
+      launches[r.value] ??= 0;
+      launches[r.value] = launches[r.value]! + 1;
+    }
+
+    return launches;
+  }
+
+  Future<List<AppData>> getAppData(
+      {required List<Application> apps, required DateTime since}) async {
+    final launches = await getLaunchCountByApp(since);
     var records = await appData.find(db);
     return apps
         .map((app) =>
             records
                 .where((element) => element.key == app.packageName)
-                .map((e) => AppData.fromJson(e.value).copyWith(app: app))
+                .map((e) => AppData.fromJson(e.value)
+                    .copyWith(app: app, launchCount: launches[e.key] ?? 0))
                 .firstOrNull ??
-            AppData(app: app))
+            AppData(app: app, launchCount: launches[app.packageName] ?? 0))
         .toList();
   }
 
   Future<void> saveAppData(String packageName, AppData newApp) async {
     await appData.record(packageName).put(db, newApp.toJson());
+  }
+
+  Future<void> updateApp(AppData app) async {
+    appData.record(app.app?.packageName ?? '').put(db, app.toJson());
   }
 }

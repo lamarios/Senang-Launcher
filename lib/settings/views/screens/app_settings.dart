@@ -21,10 +21,10 @@ class AppSettingsSheet extends StatelessWidget {
         lightTheme:
             const SettingsThemeData(settingsListBackground: Colors.transparent),
         sections: [
-          SettingsSection(title: Text('App settings'), tiles: [
+          SettingsSection(title: const Text('App settings'), tiles: [
             SettingsTile(
-              title: Text('Days of stats'),
-              description: Text(
+              title: const Text('Days of stats'),
+              description: const Text(
                   'How many days of usage to use to determine the size of the apps'),
               trailing: PlusMinus(
                 value: settings.dataDays.toDouble(),
@@ -35,7 +35,7 @@ class AppSettingsSheet extends StatelessWidget {
               ),
             ),
             SettingsTile.navigation(
-              title: Text('Hidden apps'),
+              title: const Text('Hidden apps'),
               leading: const Icon(Icons.remove_red_eye),
               onPressed: (context) =>
                   AutoRouter.of(context).push(const HiddenAppRoute()),

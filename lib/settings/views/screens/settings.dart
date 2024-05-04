@@ -51,30 +51,30 @@ class SettingsSheet extends StatelessWidget {
             SettingsTile(
               title: const Text('Hide app'),
               onPressed: (context) => hideApp(app!, true),
-              leading: Icon(Icons.remove_red_eye_rounded),
+              leading: const Icon(Icons.remove_red_eye_rounded),
             )
           ]),
-        SettingsSection(title: Text('Settings'), tiles: [
+        SettingsSection(title: const Text('Settings'), tiles: [
           SettingsTile(
             leading: const Icon(Icons.apps),
-            title: Text('Apps settings'),
+            title: const Text('Apps settings'),
             onPressed: (context) => showSettingsSheet(
                 context, (context) => const AppSettingsSheet()),
           ),
           SettingsTile(
             leading: const Icon(Icons.text_fields),
-            title: Text('Text settings'),
+            title: const Text('Text settings'),
             onPressed: (context) => showSettingsSheet(
                 context, (context) => const TextSettingsSheet()),
           ),
           SettingsTile(
               leading: const Icon(Icons.format_paint),
-              title: Text('Color settings'),
+              title: const Text('Color settings'),
               onPressed: (context) => showSettingsSheet(
                   context, (context) => const ColorSettings())),
           SettingsTile(
               leading: const Icon(Icons.square_foot),
-              title: Text('Layout settings'),
+              title: const Text('Layout settings'),
               onPressed: (context) => showSettingsSheet(
                   context, (context) => const LayoutSettingsSheet())),
         ])

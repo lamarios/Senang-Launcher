@@ -30,7 +30,7 @@ class _ColorPickerSheetState extends State<ColorPickerSheet> {
         ),
         TextButton(
             onPressed: () => widget.onChanged(pickedColor),
-            child: Text('Apply'))
+            child: const Text('Apply'))
       ],
     );
   }

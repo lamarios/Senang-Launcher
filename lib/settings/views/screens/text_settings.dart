@@ -9,8 +9,6 @@ class TextSettingsSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = Theme.of(context).colorScheme;
-
     return BlocBuilder<SettingsCubit, SettingsState>(
         builder: (context, settings) {
       final cubit = context.read<SettingsCubit>();
@@ -20,9 +18,9 @@ class TextSettingsSheet extends StatelessWidget {
         lightTheme:
             const SettingsThemeData(settingsListBackground: Colors.transparent),
         sections: [
-          SettingsSection(title: Text('Text size'), tiles: [
+          SettingsSection(title: const Text('Text size'), tiles: [
             SettingsTile(
-              title: Text('Minimum size'),
+              title: const Text('Minimum size'),
               trailing: PlusMinus(
                 value: settings.minFontSize,
                 min: 1,
@@ -32,7 +30,7 @@ class TextSettingsSheet extends StatelessWidget {
               ),
             ),
             SettingsTile(
-              title: Text('Maximum size'),
+              title: const Text('Maximum size'),
               trailing: PlusMinus(
                 value: settings.maxFontSize,
                 min: settings.minFontSize,
@@ -41,7 +39,7 @@ class TextSettingsSheet extends StatelessWidget {
               ),
             ),
             SettingsTile(
-              title: Text('Line height'),
+              title: const Text('Line height'),
               trailing: PlusMinus(
                 value: settings.lineHeight,
                 step: 0.1,
@@ -50,9 +48,9 @@ class TextSettingsSheet extends StatelessWidget {
               ),
             ),
           ]),
-          SettingsSection(title: Text('Spacing'), tiles: [
+          SettingsSection(title: const Text('Spacing'), tiles: [
             SettingsTile(
-              title: Text('Horizontal spacing'),
+              title: const Text('Horizontal spacing'),
               trailing: PlusMinus(
                 value: settings.horizontalSpacing,
                 min: 0,
@@ -61,7 +59,7 @@ class TextSettingsSheet extends StatelessWidget {
               ),
             ),
             SettingsTile(
-              title: Text('Vertical spacing'),
+              title: const Text('Vertical spacing'),
               trailing: PlusMinus(
                 value: settings.verticalSpacing,
                 min: 0,

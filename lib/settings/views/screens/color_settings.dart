@@ -21,10 +21,10 @@ class ColorSettings extends StatelessWidget {
         lightTheme:
             const SettingsThemeData(settingsListBackground: Colors.transparent),
         sections: [
-          SettingsSection(title: Text('Text color'), tiles: [
+          SettingsSection(title: const Text('Text color'), tiles: [
             SettingsTile.switchTile(
-              title: Text('Color tint'),
-              description: Text(
+              title: const Text('Color tint'),
+              description: const Text(
                   'The bigger the text it will tend to go black (light theme) or white (dart theme)'),
               initialValue: settings.tintColor,
               onToggle: (value) =>
@@ -51,10 +51,10 @@ class ColorSettings extends StatelessWidget {
                       )),
             )
           ]),
-          SettingsSection(title: Text('Notification color'), tiles: [
+          SettingsSection(title: const Text('Notification color'), tiles: [
             SettingsTile.switchTile(
-              title: Text('Color app with notifications'),
-              description: Text(
+              title: const Text('Color app with notifications'),
+              description: const Text(
                   'When an app has a notification, it will be displayed in a different color'),
               initialValue: settings.colorOnNotifications,
               onToggle: (value) => cubit.updateSetting(

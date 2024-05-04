@@ -1,4 +1,3 @@
-import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:simple_launcher/app_list/views/screens/app_list.dart';
 import 'package:simple_launcher/settings/views/screens/hidden_apps.dart';

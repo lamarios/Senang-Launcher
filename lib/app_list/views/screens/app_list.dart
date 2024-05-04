@@ -1,10 +1,8 @@
 import 'package:access_wallpaper/access_wallpaper.dart';
 import 'package:auto_route/annotations.dart';
 import 'package:device_apps/device_apps.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simple_launcher/app_list/state/app_list.dart';
@@ -158,11 +156,11 @@ class _AppListScreenState extends State<AppListScreen> {
                                               duration: const Duration(
                                                   milliseconds: 150))
                                           .scale(
-                                              duration:
-                                                  Duration(milliseconds: 150),
+                                              duration: const Duration(
+                                                  milliseconds: 150),
                                               curve: Curves.easeInOutQuad,
-                                              begin: Offset(0.99, 0.99),
-                                              end: Offset(1, 1)),
+                                              begin: const Offset(0.99, 0.99),
+                                              end: const Offset(1, 1)),
                                     ),
                                     if (showLetterList)
                                       const Align(

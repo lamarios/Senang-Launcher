@@ -17,15 +17,15 @@ class LayoutSettingsSheet extends StatelessWidget {
         lightTheme:
             const SettingsThemeData(settingsListBackground: Colors.transparent),
         sections: [
-          SettingsSection(title: Text('Layout settings'), tiles: [
+          SettingsSection(title: const Text('Layout settings'), tiles: [
             SettingsTile.switchTile(
-              title: Text('Show search bar'),
+              title: const Text('Show search bar'),
               initialValue: settings.showSearch,
               onToggle: (value) =>
                   cubit.updateSetting(showSearchSettingName, value.toString()),
             ),
             SettingsTile.switchTile(
-              title: Text('Show right letter list'),
+              title: const Text('Show right letter list'),
               initialValue: settings.showLetterList,
               onToggle: (value) => cubit.updateSetting(
                   showLetterListSettingName, value.toString()),

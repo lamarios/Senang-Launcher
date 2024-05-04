@@ -39,7 +39,7 @@ class App extends StatelessWidget {
                   : colors.primary;
 
       return Text(
-        '${app.app!.appName}',
+        app.app!.appName,
         style: textTheme.bodyLarge?.copyWith(
             fontSize:
                 settings.minFontSize + settings.maxFontSize * percentageOfMax,

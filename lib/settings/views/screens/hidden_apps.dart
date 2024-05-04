@@ -12,7 +12,7 @@ class HiddenAppScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Hidden apps'),
+        title: const Text('Hidden apps'),
       ),
       body: SafeArea(
         bottom: false,

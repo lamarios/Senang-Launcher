@@ -127,22 +127,24 @@ class _LetterListState extends State<LetterList> {
                 child: AnimatedScale(
                   duration: const Duration(milliseconds: 100),
                   scale: scale,
-                  child: l == settingLetterPlaceHolder
-                      ? Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 16.0),
-                          child: Icon(Icons.settings,
+                  child: SizedBox(
+                    height: 20,
+                    child: Center(
+                      child: l == settingLetterPlaceHolder
+                          ? Icon(Icons.settings,
                               size: 15,
                               color: hovered
                                   ? colors.primary
-                                  : colors.onBackground),
-                        )
-                      : Text(
-                          l,
-                          style: textTheme.labelLarge?.copyWith(
-                              color: hovered
-                                  ? colors.primary
-                                  : colors.onBackground),
-                        ),
+                                  : colors.onBackground)
+                          : Text(
+                              l,
+                              style: textTheme.labelLarge?.copyWith(
+                                  color: hovered
+                                      ? colors.primary
+                                      : colors.onBackground),
+                            ),
+                    ),
+                  ),
                 ),
               ),
             ).animate(target: offset > 0 ? 1 : 0).moveX(

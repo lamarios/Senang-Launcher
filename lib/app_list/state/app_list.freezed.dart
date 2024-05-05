@@ -19,6 +19,7 @@ mixin _$AppListState {
   List<AppData> get apps => throw _privateConstructorUsedError;
   int get maxLaunches => throw _privateConstructorUsedError;
   String get filter => throw _privateConstructorUsedError;
+  bool get loading => throw _privateConstructorUsedError;
   bool get isLetterFilter => throw _privateConstructorUsedError;
   dynamic get minLaunches => throw _privateConstructorUsedError;
 
@@ -37,6 +38,7 @@ abstract class $AppListStateCopyWith<$Res> {
       {List<AppData> apps,
       int maxLaunches,
       String filter,
+      bool loading,
       bool isLetterFilter,
       dynamic minLaunches});
 }
@@ -57,6 +59,7 @@ class _$AppListStateCopyWithImpl<$Res, $Val extends AppListState>
     Object? apps = null,
     Object? maxLaunches = null,
     Object? filter = null,
+    Object? loading = null,
     Object? isLetterFilter = null,
     Object? minLaunches = freezed,
   }) {
@@ -73,6 +76,10 @@ class _$AppListStateCopyWithImpl<$Res, $Val extends AppListState>
           ? _value.filter
           : filter // ignore: cast_nullable_to_non_nullable
               as String,
+      loading: null == loading
+          ? _value.loading
+          : loading // ignore: cast_nullable_to_non_nullable
+              as bool,
       isLetterFilter: null == isLetterFilter
           ? _value.isLetterFilter
           : isLetterFilter // ignore: cast_nullable_to_non_nullable
@@ -97,6 +104,7 @@ abstract class _$$AppListStateImplCopyWith<$Res>
       {List<AppData> apps,
       int maxLaunches,
       String filter,
+      bool loading,
       bool isLetterFilter,
       dynamic minLaunches});
 }
@@ -115,6 +123,7 @@ class __$$AppListStateImplCopyWithImpl<$Res>
     Object? apps = null,
     Object? maxLaunches = null,
     Object? filter = null,
+    Object? loading = null,
     Object? isLetterFilter = null,
     Object? minLaunches = freezed,
   }) {
@@ -131,6 +140,10 @@ class __$$AppListStateImplCopyWithImpl<$Res>
           ? _value.filter
           : filter // ignore: cast_nullable_to_non_nullable
               as String,
+      loading: null == loading
+          ? _value.loading
+          : loading // ignore: cast_nullable_to_non_nullable
+              as bool,
       isLetterFilter: null == isLetterFilter
           ? _value.isLetterFilter
           : isLetterFilter // ignore: cast_nullable_to_non_nullable
@@ -147,6 +160,7 @@ class _$AppListStateImpl implements _AppListState {
       {final List<AppData> apps = const [],
       this.maxLaunches = 0,
       this.filter = '',
+      this.loading = false,
       this.isLetterFilter = false,
       this.minLaunches = 0})
       : _apps = apps;
@@ -168,6 +182,9 @@ class _$AppListStateImpl implements _AppListState {
   final String filter;
   @override
   @JsonKey()
+  final bool loading;
+  @override
+  @JsonKey()
   final bool isLetterFilter;
   @override
   @JsonKey()
@@ -175,7 +192,7 @@ class _$AppListStateImpl implements _AppListState {
 
   @override
   String toString() {
-    return 'AppListState(apps: $apps, maxLaunches: $maxLaunches, filter: $filter, isLetterFilter: $isLetterFilter, minLaunches: $minLaunches)';
+    return 'AppListState(apps: $apps, maxLaunches: $maxLaunches, filter: $filter, loading: $loading, isLetterFilter: $isLetterFilter, minLaunches: $minLaunches)';
   }
 
   @override
@@ -187,6 +204,7 @@ class _$AppListStateImpl implements _AppListState {
             (identical(other.maxLaunches, maxLaunches) ||
                 other.maxLaunches == maxLaunches) &&
             (identical(other.filter, filter) || other.filter == filter) &&
+            (identical(other.loading, loading) || other.loading == loading) &&
             (identical(other.isLetterFilter, isLetterFilter) ||
                 other.isLetterFilter == isLetterFilter) &&
             const DeepCollectionEquality()
@@ -199,6 +217,7 @@ class _$AppListStateImpl implements _AppListState {
       const DeepCollectionEquality().hash(_apps),
       maxLaunches,
       filter,
+      loading,
       isLetterFilter,
       const DeepCollectionEquality().hash(minLaunches));
 
@@ -214,6 +233,7 @@ abstract class _AppListState implements AppListState {
       {final List<AppData> apps,
       final int maxLaunches,
       final String filter,
+      final bool loading,
       final bool isLetterFilter,
       final dynamic minLaunches}) = _$AppListStateImpl;
 
@@ -223,6 +243,8 @@ abstract class _AppListState implements AppListState {
   int get maxLaunches;
   @override
   String get filter;
+  @override
+  bool get loading;
   @override
   bool get isLetterFilter;
   @override

@@ -28,28 +28,33 @@ class HiddenAppScreen extends StatelessWidget {
           child: BlocBuilder<AppListCubit, AppListState>(
             builder: (context, state) {
               final cubit = context.read<AppListCubit>();
-              return ListView.builder(
-                itemCount: state.apps.length,
-                itemBuilder: (context, index) {
-                  final app = state.apps[index];
-                  return CheckboxListTile(
-                      title: Row(
-                        children: [
-                          if (app.app! is ApplicationWithIcon) ...[
-                            Image.memory(
-                              (app.app! as ApplicationWithIcon).icon,
-                              width: 20,
-                              height: 20,
+              return state.loading
+                  ? const Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : ListView.builder(
+                      itemCount: state.apps.length,
+                      itemBuilder: (context, index) {
+                        final app = state.apps[index];
+                        return CheckboxListTile(
+                            key: ValueKey(app.app?.appName),
+                            title: Row(
+                              children: [
+                                if (app.app! is ApplicationWithIcon) ...[
+                                  Image.memory(
+                                    (app.app! as ApplicationWithIcon).icon,
+                                    width: 20,
+                                    height: 20,
+                                  ),
+                                  const Gap(10)
+                                ],
+                                Expanded(child: Text(app.app!.appName)),
+                              ],
                             ),
-                            const Gap(10)
-                          ],
-                          Expanded(child: Text(app.app!.appName)),
-                        ],
-                      ),
-                      value: app.hidden,
-                      onChanged: (value) => cubit.hideApp(app, value));
-                },
-              );
+                            value: app.hidden,
+                            onChanged: (value) => cubit.hideApp(app, value));
+                      },
+                    );
             },
           ),
         ),

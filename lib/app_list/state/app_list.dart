@@ -66,6 +66,7 @@ class AppListCubit extends Cubit<AppListState> {
   }
 
   getApps() async {
+    emit(state.copyWith(loading: false));
     List<Application> apps = await DeviceApps.getInstalledApplications(
         onlyAppsWithLaunchIntent: true,
         includeSystemApps: true,
@@ -94,7 +95,7 @@ class AppListCubit extends Cubit<AppListState> {
       }
     }
 
-    emit(state.copyWith(apps: appData));
+    emit(state.copyWith(apps: appData, loading: false));
     setMinMax();
   }
 
@@ -158,6 +159,7 @@ class AppListState with _$AppListState {
       {@Default([]) List<AppData> apps,
       @Default(0) int maxLaunches,
       @Default('') String filter,
+      @Default(false) bool loading,
       @Default(false) bool isLetterFilter,
       @Default(0) minLaunches}) = _AppListState;
 }

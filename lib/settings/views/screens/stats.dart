@@ -55,69 +55,81 @@ class StatsScreen extends StatelessWidget {
                       .toDouble();
                 }
 
-                return Column(
-                  children: [
-                    Text(
-                        'Since ${DateFormat.yMMMd().format(DateTime.now().add(Duration(days: -daysStats)))}'),
-                    Expanded(
-                      child: ListView.builder(
-                        itemCount: data.length,
-                        itemBuilder: (context, index) {
-                          final app = data[index];
-                          return Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: [
-                                Row(
-                                  children: [
-                                    if (app.app! is ApplicationWithIcon) ...[
-                                      Image.memory(
-                                        (app.app! as ApplicationWithIcon).icon,
-                                        width: 20,
-                                        height: 20,
+                return state.loading
+                    ? const Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    : Column(
+                        children: [
+                          Text(
+                              'Since ${DateFormat.yMMMd().format(DateTime.now().add(Duration(days: -daysStats)))}'),
+                          Expanded(
+                            child: ListView.builder(
+                              itemCount: data.length,
+                              itemBuilder: (context, index) {
+                                final app = data[index];
+                                return Padding(
+                                  key: ValueKey(app),
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.stretch,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          if (app.app!
+                                              is ApplicationWithIcon) ...[
+                                            Image.memory(
+                                              (app.app! as ApplicationWithIcon)
+                                                  .icon,
+                                              width: 20,
+                                              height: 20,
+                                            ),
+                                            const Gap(10)
+                                          ],
+                                          Expanded(
+                                              child: Text(app.app!.appName)),
+                                        ],
                                       ),
-                                      const Gap(10)
+                                      const Gap(5),
+                                      Container(
+                                        alignment: Alignment.centerLeft,
+                                        height: 10,
+                                        decoration: BoxDecoration(
+                                            color: colors.secondaryContainer,
+                                            borderRadius:
+                                                BorderRadius.circular(5)),
+                                        child: FractionallySizedBox(
+                                          widthFactor: totalLaunches > 0
+                                              ? app.launchCount / totalLaunches
+                                              : 0,
+                                          heightFactor: 1,
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(5),
+                                                color: colors
+                                                    .onSecondaryContainer),
+                                          ),
+                                        ),
+                                      ),
+                                      Align(
+                                          alignment: Alignment.centerRight,
+                                          child: Text(
+                                            '${app.launchCount} launches',
+                                            style: textTheme.labelSmall
+                                                ?.copyWith(
+                                                    color: colors.secondary),
+                                          ))
                                     ],
-                                    Expanded(child: Text(app.app!.appName)),
-                                  ],
-                                ),
-                                const Gap(5),
-                                Container(
-                                  alignment: Alignment.centerLeft,
-                                  height: 10,
-                                  decoration: BoxDecoration(
-                                      color: colors.secondaryContainer,
-                                      borderRadius: BorderRadius.circular(5)),
-                                  child: FractionallySizedBox(
-                                    widthFactor: totalLaunches > 0
-                                        ? app.launchCount / totalLaunches
-                                        : 0,
-                                    heightFactor: 1,
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(5),
-                                          color: colors.onSecondaryContainer),
-                                    ),
                                   ),
-                                ),
-                                Align(
-                                    alignment: Alignment.centerRight,
-                                    child: Text(
-                                      '${app.launchCount} launches',
-                                      style: textTheme.labelSmall
-                                          ?.copyWith(color: colors.secondary),
-                                    ))
-                              ],
+                                );
+                              },
                             ),
-                          );
-                        },
-                      ),
-                    ),
-                  ],
-                );
+                          ),
+                        ],
+                      );
               },
             ),
           )),

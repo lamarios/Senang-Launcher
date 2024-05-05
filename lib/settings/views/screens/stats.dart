@@ -85,6 +85,7 @@ class StatsScreen extends StatelessWidget {
                                                   .icon,
                                               width: 20,
                                               height: 20,
+                                              gaplessPlayback: true
                                             ),
                                             const Gap(10)
                                           ],

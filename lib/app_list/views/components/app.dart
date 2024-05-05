@@ -51,6 +51,7 @@ class App extends StatelessWidget {
                   settings.minFontSize + settings.maxFontSize * percentageOfMax,
               height:
                   settings.minFontSize + settings.maxFontSize * percentageOfMax,
+              gaplessPlayback: true
             ),
             const Gap(10)
           ],

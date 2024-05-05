@@ -45,6 +45,7 @@ class HiddenAppScreen extends StatelessWidget {
                                     (app.app! as ApplicationWithIcon).icon,
                                     width: 20,
                                     height: 20,
+                                    gaplessPlayback: true
                                   ),
                                   const Gap(10)
                                 ],

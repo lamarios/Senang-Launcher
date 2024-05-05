@@ -3,12 +3,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_settings_ui/flutter_settings_ui.dart';
 import 'package:senang_launcher/settings/state/settings.dart';
 import 'package:senang_launcher/settings/views/components/plus_minus.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class TextSettingsSheet extends StatelessWidget {
   const TextSettingsSheet({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final locals = AppLocalizations.of(context)!;
+
     return BlocBuilder<SettingsCubit, SettingsState>(
         builder: (context, settings) {
       final cubit = context.read<SettingsCubit>();
@@ -18,9 +21,9 @@ class TextSettingsSheet extends StatelessWidget {
         lightTheme:
             const SettingsThemeData(settingsListBackground: Colors.transparent),
         sections: [
-          SettingsSection(title: const Text('Text size'), tiles: [
+          SettingsSection(title: Text(locals.textSize), tiles: [
             SettingsTile(
-              title: const Text('Minimum size'),
+              title: Text(locals.minimumSize),
               trailing: PlusMinus(
                 value: settings.minFontSize,
                 min: 1,
@@ -30,7 +33,7 @@ class TextSettingsSheet extends StatelessWidget {
               ),
             ),
             SettingsTile(
-              title: const Text('Maximum size'),
+              title: Text(locals.maximumSize),
               trailing: PlusMinus(
                 value: settings.maxFontSize,
                 min: settings.minFontSize,
@@ -38,19 +41,10 @@ class TextSettingsSheet extends StatelessWidget {
                     maxFontSizeSettingName, newValue.toString()),
               ),
             ),
-            SettingsTile(
-              title: const Text('Line height'),
-              trailing: PlusMinus(
-                value: settings.lineHeight,
-                step: 0.1,
-                onChanged: (newValue) => cubit.updateSetting(
-                    lineHeightSettingName, newValue.toString()),
-              ),
-            ),
           ]),
-          SettingsSection(title: const Text('Spacing'), tiles: [
+          SettingsSection(title: Text(locals.spacing), tiles: [
             SettingsTile(
-              title: const Text('Horizontal spacing'),
+              title: Text(locals.horizontalSpacing),
               trailing: PlusMinus(
                 value: settings.horizontalSpacing,
                 min: 0,
@@ -59,7 +53,7 @@ class TextSettingsSheet extends StatelessWidget {
               ),
             ),
             SettingsTile(
-              title: const Text('Vertical spacing'),
+              title: Text(locals.verticalSpacing),
               trailing: PlusMinus(
                 value: settings.verticalSpacing,
                 min: 0,

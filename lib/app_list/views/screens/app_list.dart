@@ -9,6 +9,8 @@ import 'package:senang_launcher/app_list/state/app_list.dart';
 import 'package:senang_launcher/app_list/views/components/app.dart';
 import 'package:senang_launcher/app_list/views/components/letter_list.dart';
 import 'package:senang_launcher/settings/state/settings.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 import 'package:senang_launcher/settings/views/screens/settings.dart';
 
 @RoutePage()
@@ -31,6 +33,8 @@ class _AppListScreenState extends State<AppListScreen> {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
+    final locals = AppLocalizations.of(context)!;
+    final textTheme = Theme.of(context).textTheme;
 
     return Scaffold(
       body: SafeArea(
@@ -101,53 +105,78 @@ class _AppListScreenState extends State<AppListScreen> {
                                     Expanded(
                                       child: SingleChildScrollView(
                                         child: Center(
-                                          child: Wrap(
-                                            crossAxisAlignment:
-                                                WrapCrossAlignment.center,
-                                            alignment: WrapAlignment.center,
-                                            runSpacing:
-                                                settings.verticalSpacing,
-                                            spacing: settings.horizontalSpacing,
-                                            children: apps
-                                                .where((element) {
-                                                  if (isLetterFilter) {
-                                                    return element.app!.appName
-                                                        .toLowerCase()
-                                                        .startsWith(filter
-                                                            .toLowerCase());
-                                                  } else {
-                                                    return element.app!.appName
-                                                        .toLowerCase()
-                                                        .contains(filter
-                                                            .toLowerCase());
-                                                  }
-                                                })
-                                                .map((e) => GestureDetector(
-                                                    onLongPress: () =>
-                                                        SettingsSheet
-                                                            .showSettingsSheet(
-                                                                context,
-                                                                (context) =>
-                                                                    SettingsSheet(
-                                                                      hideApp: cubit
-                                                                          .hideApp,
-                                                                      app: e,
-                                                                    )).then(
-                                                            (value) => cubit
-                                                                .getApps()),
-                                                    onTap: () {
-                                                      if (!kDebugMode) {
-                                                        DeviceApps.openApp(
-                                                            e.app!.packageName);
-                                                      }
-                                                      cubit.increaseLaunches(e);
-                                                      cubit.setFilter('');
-                                                      searchController.text =
-                                                          '';
-                                                    },
-                                                    child: App(app: e)))
-                                                .toList(),
-                                          ),
+                                          child: isLetterFilter &&
+                                                  filter ==
+                                                      settingLetterPlaceHolder
+                                              ? Text(
+                                                  locals.releaseToOpenSettings,
+                                                  style: textTheme.displayMedium
+                                                      ?.copyWith(
+                                                          color:
+                                                              colors.primary),
+                                                  textAlign: TextAlign.center,
+                                                )
+                                              : Wrap(
+                                                  crossAxisAlignment:
+                                                      WrapCrossAlignment.center,
+                                                  alignment:
+                                                      WrapAlignment.center,
+                                                  runSpacing:
+                                                      settings.verticalSpacing,
+                                                  spacing: settings
+                                                      .horizontalSpacing,
+                                                  children: apps
+                                                      .where((element) {
+                                                        if (isLetterFilter) {
+                                                          return element
+                                                              .app!.appName
+                                                              .toLowerCase()
+                                                              .startsWith(filter
+                                                                  .toLowerCase());
+                                                        } else {
+                                                          return element
+                                                              .app!.appName
+                                                              .toLowerCase()
+                                                              .contains(filter
+                                                                  .toLowerCase());
+                                                        }
+                                                      })
+                                                      .map((e) =>
+                                                          GestureDetector(
+                                                              onLongPress: () => SettingsSheet
+                                                                  .showSettingsSheet(
+                                                                      context,
+                                                                      (context) =>
+                                                                          SettingsSheet(
+                                                                            hideApp:
+                                                                                cubit.hideApp,
+                                                                            app:
+                                                                                e,
+                                                                          )).then(
+                                                                  (value) => cubit
+                                                                      .getApps()),
+                                                              onTap: () {
+                                                                if (!kDebugMode) {
+                                                                  DeviceApps
+                                                                      .openApp(e
+                                                                          .app!
+                                                                          .packageName);
+                                                                }
+                                                                cubit
+                                                                    .increaseLaunches(
+                                                                        e);
+                                                                cubit.setFilter(
+                                                                    '');
+                                                                searchController
+                                                                    .text = '';
+                                                              },
+                                                              child: App(
+                                                                  key: ValueKey(e
+                                                                      .app!
+                                                                      .packageName),
+                                                                  app: e)))
+                                                      .toList(),
+                                                ),
                                         ),
                                       )
                                           .animate(key: ValueKey(filter))

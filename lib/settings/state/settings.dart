@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:senang_launcher/db.dart';
 
 part 'settings.freezed.dart';
@@ -19,15 +20,20 @@ const notificationColorSettingName = 'notification-color';
 const showSearchSettingName = 'show-search';
 const showLetterListSettingName = 'show-letter-list';
 const showWallPaperSettingName = 'show-wallpaper';
+const showAppIconsSettingName = 'show-app-icon';
+const showAppNamesSettingName = 'show-app-name';
 
 const wallPaperDimSettingName = 'wall-paper-dim';
 
 class SettingsCubit extends Cubit<SettingsState> {
+  late PackageInfo packageInfo;
+
   SettingsCubit(super.initialState) {
     getSettings();
   }
 
   getSettings() async {
+    packageInfo = await PackageInfo.fromPlatform();
     final settings = await db.getSettings();
     emit(state.copyWith(settings: settings));
   }
@@ -86,4 +92,10 @@ class SettingsState with _$SettingsState {
 
   bool get showLetterList =>
       bool.tryParse(settings[showLetterListSettingName] ?? 'true') ?? true;
+
+  bool get showAppIcons =>
+      bool.tryParse(settings[showAppIconsSettingName] ?? 'false') ?? false;
+
+  bool get showAppNames =>
+      bool.tryParse(settings[showAppNamesSettingName] ?? 'true') ?? true;
 }

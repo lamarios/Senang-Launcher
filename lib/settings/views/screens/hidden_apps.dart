@@ -1,8 +1,11 @@
 import 'package:auto_route/annotations.dart';
+import 'package:device_apps/device_apps.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gap/gap.dart';
 import 'package:senang_launcher/app_list/state/app_list.dart';
 import 'package:senang_launcher/settings/state/settings.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 @RoutePage()
 class HiddenAppScreen extends StatelessWidget {
@@ -10,9 +13,11 @@ class HiddenAppScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final locals = AppLocalizations.of(context)!;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Hidden apps'),
+        title: Text(locals.hiddenApps),
       ),
       body: SafeArea(
         bottom: false,
@@ -28,7 +33,19 @@ class HiddenAppScreen extends StatelessWidget {
                 itemBuilder: (context, index) {
                   final app = state.apps[index];
                   return CheckboxListTile(
-                      title: Text(app.app!.appName),
+                      title: Row(
+                        children: [
+                          if (app.app! is ApplicationWithIcon) ...[
+                            Image.memory(
+                              (app.app! as ApplicationWithIcon).icon,
+                              width: 20,
+                              height: 20,
+                            ),
+                            const Gap(10)
+                          ],
+                          Expanded(child: Text(app.app!.appName)),
+                        ],
+                      ),
                       value: app.hidden,
                       onChanged: (value) => cubit.hideApp(app, value));
                 },

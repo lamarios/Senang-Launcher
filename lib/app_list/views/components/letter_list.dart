@@ -5,11 +5,14 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:senang_launcher/app_list/state/app_list.dart';
 import 'package:senang_launcher/app_list/state/letter_list.dart';
+import 'package:senang_launcher/settings/views/screens/settings.dart';
 import 'package:vibration/vibration.dart';
 
 const double _fingerGap = 125;
 const double _fingerIndexGap = 12;
 const double _letterScale = 1.75;
+
+const settingLetterPlaceHolder = 'show-settings-instead-of-filter';
 
 class LetterList extends StatefulWidget {
   const LetterList({super.key});
@@ -32,6 +35,17 @@ class _LetterListState extends State<LetterList> {
     index = max(0, index);
 
     context.read<LetterListCubit>().setIndex(index, letters[index], xPosition);
+  }
+
+  showSettings(BuildContext context) {
+    final cubit = context.read<AppListCubit>();
+    SettingsSheet.showSettingsSheet(
+        context,
+        (context) => SettingsSheet(
+              hideApp: cubit.hideApp,
+            ));
+
+    cubit.setLetterFilter(null);
   }
 
   @override
@@ -75,6 +89,7 @@ class _LetterListState extends State<LetterList> {
           final letterCubit = context.read<LetterListCubit>();
 
           letters.insert(0, '○');
+          letters.add(settingLetterPlaceHolder);
 
           final letterWidgets = <Widget>[];
 
@@ -112,11 +127,22 @@ class _LetterListState extends State<LetterList> {
                 child: AnimatedScale(
                   duration: const Duration(milliseconds: 100),
                   scale: scale,
-                  child: Text(
-                    l,
-                    style: textTheme.labelLarge?.copyWith(
-                        color: hovered ? colors.primary : colors.onBackground),
-                  ),
+                  child: l == settingLetterPlaceHolder
+                      ? Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 16.0),
+                          child: Icon(Icons.settings,
+                              size: 15,
+                              color: hovered
+                                  ? colors.primary
+                                  : colors.onBackground),
+                        )
+                      : Text(
+                          l,
+                          style: textTheme.labelLarge?.copyWith(
+                              color: hovered
+                                  ? colors.primary
+                                  : colors.onBackground),
+                        ),
                 ),
               ),
             ).animate(target: offset > 0 ? 1 : 0).moveX(
@@ -129,13 +155,22 @@ class _LetterListState extends State<LetterList> {
           return LayoutBuilder(builder: (context, constraints) {
             return GestureDetector(
               behavior: HitTestBehavior.opaque,
-              onVerticalDragEnd: (details) =>
-                  letterCubit.setIndex(null, '', null),
+              onVerticalDragEnd: (details) {
+                if (hoveredIndex == letters.length - 1) {
+                  showSettings(context);
+                }
+                letterCubit.setIndex(null, '', null);
+              },
               onVerticalDragDown: (details) =>
                   setIndex(context, details.globalPosition, letters),
               onVerticalDragUpdate: (details) =>
                   setIndex(context, details.globalPosition, letters),
-              onTapUp: (details) => letterCubit.setIndex(null, '', null),
+              onTapUp: (details) {
+                if (hoveredIndex == letters.length - 1) {
+                  showSettings(context);
+                }
+                letterCubit.setIndex(null, '', null);
+              },
               child: Padding(
                 padding: const EdgeInsets.only(left: 8.0),
                 child: Column(

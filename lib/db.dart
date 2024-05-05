@@ -91,4 +91,8 @@ class DbClient {
   Future<void> updateApp(AppData app) async {
     appData.record(app.app?.packageName ?? '').put(db, app.toJson());
   }
+
+  Future<void> resetLaunches() async {
+    await appLaunches.delete(db);
+  }
 }

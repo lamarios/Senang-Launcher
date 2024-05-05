@@ -1,7 +1,9 @@
 import 'dart:math';
 
+import 'package:device_apps/device_apps.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gap/gap.dart';
 import 'package:senang_launcher/app_list/models/app_data.dart';
 import 'package:senang_launcher/app_list/state/app_list.dart';
 import 'package:senang_launcher/settings/state/settings.dart';
@@ -17,35 +19,52 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    final colors = Theme.of(context).colorScheme;
 
     return BlocBuilder<SettingsCubit, SettingsState>(
         builder: (context, settings) {
       final double percentageOfMax = context.select((AppListCubit c) {
-        return (app.launchCount - c.state.minLaunches) /
-            max(1, (c.state.maxLaunches - c.state.minLaunches));
+        return c.percentageOfMax(app);
       });
 
+      final notificationColor = context
+          .select((SettingsCubit value) => value.state.notificationColor);
+      final mainColor =
+          context.select((SettingsCubit value) => value.state.color);
+
       final color = app.hasNotification
-          ? Colors.yellow
+          ? notificationColor
           : Theme.of(context).brightness == Brightness.light
               ? settings.tintColor
-                  ? darken(
-                      colors.primary, max(1, (percentageOfMax * 100).toInt()))
-                  : colors.primary
+                  ? darken(mainColor, max(1, (percentageOfMax * 100).toInt()))
+                  : mainColor
               : settings.tintColor
-                  ? lighten(
-                      colors.primary, max(1, (percentageOfMax * 100).toInt()))
-                  : colors.primary;
+                  ? lighten(mainColor, max(1, (percentageOfMax * 100).toInt()))
+                  : mainColor;
 
-      return Text(
-        app.app!.appName,
-        style: textTheme.bodyLarge?.copyWith(
-            fontSize:
-                settings.minFontSize + settings.maxFontSize * percentageOfMax,
-            color: color,
-            fontWeight: FontWeight.bold,
-            height: settings.lineHeight),
+      return Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (settings.showAppIcons && app.app! is ApplicationWithIcon) ...[
+            Image.memory(
+              (app.app! as ApplicationWithIcon).icon,
+              width:
+                  settings.minFontSize + settings.maxFontSize * percentageOfMax,
+              height:
+                  settings.minFontSize + settings.maxFontSize * percentageOfMax,
+            ),
+            const Gap(10)
+          ],
+          if (settings.showAppNames)
+            Text(
+              app.app!.appName,
+              style: textTheme.bodyLarge?.copyWith(
+                  fontSize: settings.minFontSize +
+                      settings.maxFontSize * percentageOfMax,
+                  color: color,
+                  fontWeight: FontWeight.bold,
+                  height: settings.lineHeight),
+            ),
+        ],
       );
     });
   }

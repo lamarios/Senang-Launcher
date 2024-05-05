@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_settings_ui/flutter_settings_ui.dart';
 import 'package:senang_launcher/settings/state/settings.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LayoutSettingsSheet extends StatelessWidget {
   const LayoutSettingsSheet({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final locals = AppLocalizations.of(context)!;
+
     return BlocBuilder<SettingsCubit, SettingsState>(
         builder: (context, settings) {
       final cubit = context.read<SettingsCubit>();
@@ -17,15 +20,15 @@ class LayoutSettingsSheet extends StatelessWidget {
         lightTheme:
             const SettingsThemeData(settingsListBackground: Colors.transparent),
         sections: [
-          SettingsSection(title: const Text('Layout settings'), tiles: [
+          SettingsSection(title: Text(locals.layoutSettings), tiles: [
             SettingsTile.switchTile(
-              title: const Text('Show search bar'),
+              title: Text(locals.showSearchBar),
               initialValue: settings.showSearch,
               onToggle: (value) =>
                   cubit.updateSetting(showSearchSettingName, value.toString()),
             ),
             SettingsTile.switchTile(
-              title: const Text('Show right letter list'),
+              title: Text(locals.showRightLetterList),
               initialValue: settings.showLetterList,
               onToggle: (value) => cubit.updateSetting(
                   showLetterListSettingName, value.toString()),

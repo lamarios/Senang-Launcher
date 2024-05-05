@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:senang_launcher/db.dart';
 import 'package:senang_launcher/router.dart';
 import 'package:senang_launcher/settings/state/settings.dart';
@@ -36,6 +37,7 @@ class MyApp extends StatelessWidget {
             colorScheme: lightTheme,
             useMaterial3: true,
           ),
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
           darkTheme: ThemeData(colorScheme: darkTheme, useMaterial3: true),
           routerConfig: _appRouter.config(),
         );

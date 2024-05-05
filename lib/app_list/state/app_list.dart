@@ -49,6 +49,11 @@ class AppListCubit extends Cubit<AppListState> {
         NotificationListenerService.notificationsStream.listen(onNotification);
   }
 
+  double percentageOfMax(AppData app) {
+    return (app.launchCount - state.minLaunches) /
+        max(1, (state.maxLaunches - state.minLaunches));
+  }
+
   onNotification(ServiceNotificationEvent notification) {
     List<AppData> appData = List.from(state.apps);
 
@@ -62,7 +67,9 @@ class AppListCubit extends Cubit<AppListState> {
 
   getApps() async {
     List<Application> apps = await DeviceApps.getInstalledApplications(
-        onlyAppsWithLaunchIntent: true, includeSystemApps: true);
+        onlyAppsWithLaunchIntent: true,
+        includeSystemApps: true,
+        includeAppIcons: true);
 
     List<AppData> appData = (await db.getAppData(
             apps: apps,
@@ -137,6 +144,11 @@ class AppListCubit extends Cubit<AppListState> {
     } else {
       emit(state.copyWith(filter: letter, isLetterFilter: true));
     }
+  }
+
+  resetStats() async {
+    await db.resetLaunches();
+    getApps();
   }
 }
 

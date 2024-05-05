@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ColorPickerSheet extends StatefulWidget {
   final Color color;
@@ -17,6 +18,8 @@ class _ColorPickerSheetState extends State<ColorPickerSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final locals = AppLocalizations.of(context)!;
+
     return Column(
       children: [
         ColorPicker(
@@ -30,7 +33,7 @@ class _ColorPickerSheetState extends State<ColorPickerSheet> {
         ),
         TextButton(
             onPressed: () => widget.onChanged(pickedColor),
-            child: const Text('Apply'))
+            child: Text(locals.apply))
       ],
     );
   }

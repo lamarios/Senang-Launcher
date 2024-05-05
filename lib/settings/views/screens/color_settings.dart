@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_settings_ui/flutter_settings_ui.dart';
 import 'package:senang_launcher/settings/state/settings.dart';
@@ -11,6 +13,7 @@ class ColorSettings extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
+    final locals = AppLocalizations.of(context)!;
 
     return BlocBuilder<SettingsCubit, SettingsState>(
         builder: (context, settings) {
@@ -21,11 +24,10 @@ class ColorSettings extends StatelessWidget {
         lightTheme:
             const SettingsThemeData(settingsListBackground: Colors.transparent),
         sections: [
-          SettingsSection(title: const Text('Text color'), tiles: [
+          SettingsSection(title: Text(locals.textColor), tiles: [
             SettingsTile.switchTile(
-              title: const Text('Color tint'),
-              description: const Text(
-                  'The bigger the text it will tend to go black (light theme) or white (dart theme)'),
+              title: Text(locals.colorTint),
+              description: Text(locals.colorTintDescription),
               initialValue: settings.tintColor,
               onToggle: (value) =>
                   cubit.updateSetting(tintColorSettingName, value.toString()),
@@ -39,7 +41,7 @@ class ColorSettings extends StatelessWidget {
                     shape: BoxShape.circle,
                     color: settings.color),
               ),
-              title: const Text('Text base color'),
+              title: Text(locals.textBaseColor),
               onPressed: (context) => SettingsSheet.showSettingsSheet(
                   context,
                   (context) => ColorPickerSheet(
@@ -51,11 +53,10 @@ class ColorSettings extends StatelessWidget {
                       )),
             )
           ]),
-          SettingsSection(title: const Text('Notification color'), tiles: [
+          SettingsSection(title: Text(locals.notificationColor), tiles: [
             SettingsTile.switchTile(
-              title: const Text('Color app with notifications'),
-              description: const Text(
-                  'When an app has a notification, it will be displayed in a different color'),
+              title: Text(locals.colorAppWithNotification),
+              description: Text(locals.colorAppWithNotificationDescription),
               initialValue: settings.colorOnNotifications,
               onToggle: (value) => cubit.updateSetting(
                   colorOnNotificationSettingName, value.toString()),
@@ -69,7 +70,7 @@ class ColorSettings extends StatelessWidget {
                     shape: BoxShape.circle,
                     color: settings.notificationColor),
               ),
-              title: const Text('Notification color'),
+              title: Text(locals.notificationColor),
               onPressed: (context) => SettingsSheet.showSettingsSheet(
                   context,
                   (context) => ColorPickerSheet(

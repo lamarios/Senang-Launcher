@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_settings_ui/flutter_settings_ui.dart';
 import 'package:senang_launcher/router.dart';
 import 'package:senang_launcher/settings/state/settings.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../components/plus_minus.dart';
 
@@ -12,6 +13,8 @@ class AppSettingsSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final locals = AppLocalizations.of(context)!;
+
     return BlocBuilder<SettingsCubit, SettingsState>(
         builder: (context, settings) {
       final cubit = context.read<SettingsCubit>();
@@ -21,11 +24,10 @@ class AppSettingsSheet extends StatelessWidget {
         lightTheme:
             const SettingsThemeData(settingsListBackground: Colors.transparent),
         sections: [
-          SettingsSection(title: const Text('App settings'), tiles: [
+          SettingsSection(title: Text(locals.appSettings), tiles: [
             SettingsTile(
-              title: const Text('Days of stats'),
-              description: const Text(
-                  'How many days of usage to use to determine the size of the apps'),
+              title: Text(locals.daysOfStats),
+              description: Text(locals.daysOfStatsDescription),
               trailing: PlusMinus(
                 value: settings.dataDays.toDouble(),
                 step: 1,
@@ -34,8 +36,30 @@ class AppSettingsSheet extends StatelessWidget {
                     dataDaysSettingName, newValue.toInt().toString()),
               ),
             ),
+            SettingsTile.switchTile(
+              enabled: settings.showAppNames,
+              initialValue: settings.showAppIcons,
+              onToggle: (value) => cubit.updateSetting(
+                  showAppIconsSettingName, value.toString()),
+              title: const Text('Show app icons'),
+              leading: const Icon(Icons.touch_app_rounded),
+            ),
+            SettingsTile.switchTile(
+              enabled: settings.showAppIcons,
+              initialValue: settings.showAppNames,
+              onToggle: (value) => cubit.updateSetting(
+                  showAppNamesSettingName, value.toString()),
+              title: const Text('Show app names'),
+              leading: const Icon(Icons.title),
+            ),
             SettingsTile.navigation(
-              title: const Text('Hidden apps'),
+              title: Text(locals.stats),
+              leading: const Icon(Icons.auto_graph),
+              onPressed: (context) =>
+                  AutoRouter.of(context).push(const StatsRoute()),
+            ),
+            SettingsTile.navigation(
+              title: Text(locals.hiddenApps),
               leading: const Icon(Icons.remove_red_eye),
               onPressed: (context) =>
                   AutoRouter.of(context).push(const HiddenAppRoute()),

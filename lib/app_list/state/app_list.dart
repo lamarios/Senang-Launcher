@@ -66,7 +66,7 @@ class AppListCubit extends Cubit<AppListState> {
   }
 
   getApps() async {
-    emit(state.copyWith(loading: false));
+    emit(state.copyWith(loading: true));
     List<Application> apps = await DeviceApps.getInstalledApplications(
         onlyAppsWithLaunchIntent: true,
         includeSystemApps: true,

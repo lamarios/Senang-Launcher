@@ -45,14 +45,12 @@ class App extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           if (settings.showAppIcons && app.app! is ApplicationWithIcon) ...[
-            Image.memory(
-              (app.app! as ApplicationWithIcon).icon,
-              width:
-                  settings.minFontSize + settings.maxFontSize * percentageOfMax,
-              height:
-                  settings.minFontSize + settings.maxFontSize * percentageOfMax,
-              gaplessPlayback: true
-            ),
+            Image.memory((app.app! as ApplicationWithIcon).icon,
+                width: settings.minFontSize +
+                    settings.maxFontSize * percentageOfMax,
+                height: settings.minFontSize +
+                    settings.maxFontSize * percentageOfMax,
+                gaplessPlayback: true),
             const Gap(10)
           ],
           if (settings.showAppNames)

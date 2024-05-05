@@ -81,12 +81,12 @@ class StatsScreen extends StatelessWidget {
                                           if (app.app!
                                               is ApplicationWithIcon) ...[
                                             Image.memory(
-                                              (app.app! as ApplicationWithIcon)
-                                                  .icon,
-                                              width: 20,
-                                              height: 20,
-                                              gaplessPlayback: true
-                                            ),
+                                                (app.app!
+                                                        as ApplicationWithIcon)
+                                                    .icon,
+                                                width: 20,
+                                                height: 20,
+                                                gaplessPlayback: true),
                                             const Gap(10)
                                           ],
                                           Expanded(

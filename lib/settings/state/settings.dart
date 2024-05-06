@@ -22,6 +22,9 @@ const showLetterListSettingName = 'show-letter-list';
 const showWallPaperSettingName = 'show-wallpaper';
 const showAppIconsSettingName = 'show-app-icon';
 const showAppNamesSettingName = 'show-app-name';
+const blackBackGroundSettingName = 'black-background';
+const themeSettingName = 'theme';
+const wallpaperBlurSettingName = 'wallpaper-blur';
 
 const wallPaperDimSettingName = 'wall-paper-dim';
 
@@ -42,6 +45,11 @@ class SettingsCubit extends Cubit<SettingsState> {
     await db.updateSetting(name, value);
     getSettings();
   }
+
+  Future<void> deleteSetting(String settingName) async {
+    await db.deleteSetting(settingName);
+    getSettings();
+  }
 }
 
 @freezed
@@ -51,7 +59,7 @@ class SettingsState with _$SettingsState {
 
   const SettingsState._();
 
-  int get dataDays => int.tryParse(settings[dataDaysSettingName] ?? '30') ?? 30;
+  int get dataDays => int.tryParse(settings[dataDaysSettingName] ?? '7') ?? 7;
 
   double get horizontalSpacing =>
       double.tryParse(settings[horizontalSpacingSettingName] ?? '25') ?? 15;
@@ -75,7 +83,7 @@ class SettingsState with _$SettingsState {
       bool.tryParse(settings[tintColorSettingName] ?? 'true') ?? true;
 
   Color get notificationColor => Color(
-      int.tryParse(settings[colorOnNotificationSettingName] ?? '0xFFFFEB3B') ??
+      int.tryParse(settings[notificationColorSettingName] ?? '0xFFFFEB3B') ??
           Colors.yellow.value);
 
   bool get colorOnNotifications =>
@@ -90,6 +98,9 @@ class SettingsState with _$SettingsState {
   double get wallPaperDim =>
       double.tryParse(settings[wallPaperDimSettingName] ?? '0.5') ?? 0.5;
 
+  double get wallpaperBlur =>
+      double.tryParse(settings[wallpaperBlurSettingName] ?? '0.0') ?? 0.0;
+
   bool get showLetterList =>
       bool.tryParse(settings[showLetterListSettingName] ?? 'true') ?? true;
 
@@ -98,4 +109,11 @@ class SettingsState with _$SettingsState {
 
   bool get showAppNames =>
       bool.tryParse(settings[showAppNamesSettingName] ?? 'true') ?? true;
+
+  bool get blackBackground =>
+      bool.tryParse(settings[blackBackGroundSettingName] ?? 'false') ?? false;
+
+  ThemeMode? get themeMode => ThemeMode.values
+      .where((element) => element.name == settings[themeSettingName])
+      .firstOrNull;
 }

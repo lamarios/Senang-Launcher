@@ -1,9 +1,7 @@
 import 'dart:math';
 
-import 'package:device_apps/device_apps.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gap/gap.dart';
 import 'package:senang_launcher/app_list/models/app_data.dart';
 import 'package:senang_launcher/app_list/state/app_list.dart';
 import 'package:senang_launcher/settings/state/settings.dart';
@@ -28,6 +26,7 @@ class App extends StatelessWidget {
 
       final notificationColor = context
           .select((SettingsCubit value) => value.state.notificationColor);
+
       final mainColor =
           context.select((SettingsCubit value) => value.state.color);
 
@@ -41,7 +40,9 @@ class App extends StatelessWidget {
                   ? lighten(mainColor, max(1, (percentageOfMax * 100).toInt()))
                   : mainColor;
 
-      return Row(
+      return
+/*
+        Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           if (settings.showAppIcons && app.app! is ApplicationWithIcon) ...[
@@ -54,17 +55,20 @@ class App extends StatelessWidget {
             const Gap(10)
           ],
           if (settings.showAppNames)
-            Text(
-              app.app!.appName,
-              style: textTheme.bodyLarge?.copyWith(
-                  fontSize: settings.minFontSize +
-                      settings.maxFontSize * percentageOfMax,
-                  color: color,
-                  fontWeight: FontWeight.bold,
-                  height: settings.lineHeight),
-            ),
+*/
+          Text(
+        app.app!.appName,
+        style: textTheme.bodyLarge?.copyWith(
+            fontSize:
+                settings.minFontSize + settings.maxFontSize * percentageOfMax,
+            color: color,
+            fontWeight: FontWeight.bold,
+            height: settings.lineHeight),
+      );
+/*
         ],
       );
+*/
     });
   }
 }

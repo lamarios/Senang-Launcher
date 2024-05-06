@@ -22,17 +22,25 @@ class MyApp extends StatelessWidget {
     return BlocProvider(
       create: (context) => SettingsCubit(const SettingsState()),
       child: Builder(builder: (context) {
-        var brandColor =
+        final brandColor =
             context.select((SettingsCubit value) => value.state.color);
+
+        final blackBackground = context
+            .select((SettingsCubit value) => value.state.blackBackground);
+
+        final theme = context.select(
+            (SettingsCubit value) => value.state.themeMode ?? ThemeMode.system);
 
         final lightTheme = ColorScheme.fromSeed(
             seedColor: brandColor, brightness: Brightness.light);
         final darkTheme = ColorScheme.fromSeed(
-            seedColor: brandColor, brightness: Brightness.dark);
+            seedColor: brandColor,
+            brightness: Brightness.dark,
+            background: blackBackground ? Colors.black : null);
 
         return MaterialApp.router(
           title: 'Flutter Demo',
-          themeMode: ThemeMode.system,
+          themeMode: theme,
           theme: ThemeData(
             colorScheme: lightTheme,
             useMaterial3: true,

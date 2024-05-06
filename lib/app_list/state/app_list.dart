@@ -15,10 +15,12 @@ import '../models/app_data.dart';
 part 'app_list.freezed.dart';
 
 class AppListCubit extends Cubit<AppListState> {
+  final bool withIcons;
   StreamSubscription<ServiceNotificationEvent>? notificationSubscription;
   final SettingsCubit settingsCubit;
 
-  AppListCubit(super.initialState, this.settingsCubit) {
+  AppListCubit(super.initialState, this.settingsCubit,
+      {this.withIcons = false}) {
     DeviceApps.listenToAppsChanges().listen(onAppChange);
     setUpNotificationListener();
   }
@@ -65,12 +67,12 @@ class AppListCubit extends Cubit<AppListState> {
     emit(state.copyWith(apps: appData));
   }
 
-  getApps() async {
-    emit(state.copyWith(loading: true));
+  getApps({bool withLoading = false}) async {
+    emit(state.copyWith(loading: withLoading));
     List<Application> apps = await DeviceApps.getInstalledApplications(
         onlyAppsWithLaunchIntent: true,
         includeSystemApps: true,
-        includeAppIcons: true);
+        includeAppIcons: withIcons);
 
     List<AppData> appData = (await db.getAppData(
             apps: apps,

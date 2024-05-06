@@ -10,7 +10,7 @@ import 'package:vibration/vibration.dart';
 
 const double _fingerGap = 125;
 const double _fingerIndexGap = 12;
-const double _letterScale = 1.75;
+// const double _letterScale = 1.75;
 
 const settingLetterPlaceHolder = 'show-settings-instead-of-filter';
 
@@ -99,12 +99,12 @@ class _LetterListState extends State<LetterList> {
           for (final (idx, l) in letters.indexed) {
             var hovered = idx == hoveredIndex;
             double offset = 0;
-            double scale = 1;
+            // double scale = 1;
 
             // we do a cascade of offsets
             if (hovered) {
               offset = _fingerGap + (xOffset ?? 0);
-              scale = _letterScale;
+              // scale = _letterScale;
             } else if (hoveredIndex != null &&
                 (hoveredIndex - idx).abs() <= _fingerIndexGap) {
               var distance = (idx - hoveredIndex).abs();
@@ -112,7 +112,7 @@ class _LetterListState extends State<LetterList> {
                   1 - exp(-(pow(distance - mean, 2) / (2 * pow(deviation, 2))));
 
               offset = bellValue * (_fingerGap + (xOffset ?? 0));
-              scale = max(1, bellValue * _letterScale);
+              // scale = max(1, bellValue * _letterScale);
             }
 
             letterWidgets.add(Container(
@@ -126,19 +126,19 @@ class _LetterListState extends State<LetterList> {
                     vertical: 2.0, horizontal: hovered ? 4 : 0),
                 child: AnimatedScale(
                   duration: const Duration(milliseconds: 100),
-                  scale: scale,
+                  scale: 1,
                   child: SizedBox(
-                    height: 20,
+                    height: 15,
                     child: Center(
                       child: l == settingLetterPlaceHolder
                           ? Icon(Icons.settings,
-                              size: 15,
+                              size: 13,
                               color: hovered
                                   ? colors.primary
                                   : colors.onBackground)
                           : Text(
                               l,
-                              style: textTheme.labelLarge?.copyWith(
+                              style: textTheme.labelMedium?.copyWith(
                                   color: hovered
                                       ? colors.primary
                                       : colors.onBackground),

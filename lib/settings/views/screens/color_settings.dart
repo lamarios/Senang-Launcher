@@ -75,14 +75,43 @@ class ColorSettings extends StatelessWidget {
                   context,
                   (context) => ColorPickerSheet(
                         color: settings.notificationColor,
-                        onChanged: (value) {
-                          return cubit.updateSetting(
-                              notificationColorSettingName,
-                              value.value.toString());
-                        },
+                        onChanged: (value) => cubit.updateSetting(
+                            notificationColorSettingName,
+                            value.value.toString()),
                       )),
             )
-          ])
+          ]),
+          SettingsSection(title: Text(locals.theme), tiles: [
+            SettingsTile.switchTile(
+              enabled: Theme.of(context).brightness == Brightness.dark,
+              title: Text(locals.blackBackground),
+              initialValue: settings.blackBackground,
+              onToggle: (value) => cubit.updateSetting(
+                  blackBackGroundSettingName, value.toString()),
+            ),
+            SettingsTile(
+              title: Text(locals.theme),
+              trailing: DropdownButton<ThemeMode>(
+                value: settings.themeMode ?? ThemeMode.system,
+                items: [
+                  ...ThemeMode.values.map((e) => DropdownMenuItem<ThemeMode>(
+                      value: e,
+                      child: Text(switch (e) {
+                        ThemeMode.dark => locals.darkMode,
+                        ThemeMode.light => locals.lightMode,
+                        ThemeMode.system => locals.followSystem,
+                      })))
+                ],
+                onChanged: (ThemeMode? value) {
+                  if (value == null || value == ThemeMode.system) {
+                    cubit.deleteSetting(themeSettingName);
+                  } else {
+                    cubit.updateSetting(themeSettingName, value.name);
+                  }
+                },
+              ),
+            )
+          ]),
         ],
       );
     });

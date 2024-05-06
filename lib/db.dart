@@ -95,4 +95,8 @@ class DbClient {
   Future<void> resetLaunches() async {
     await appLaunches.delete(db);
   }
+
+  deleteSetting(String settingName) async {
+    await settings.record(settingName).delete(db);
+  }
 }

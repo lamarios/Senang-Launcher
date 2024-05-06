@@ -35,5 +35,14 @@
   "horizontalSpacing": "Horizontal spacing",
   "verticalSpacing": "Vertical spacing",
   "resetStats": "Reset stats",
-  "releaseToOpenSettings": "Release to open settings"
+  "releaseToOpenSettings": "Release to open settings",
+  "wallpaper": "Wallpaper",
+  "showWallpaper": "Show wallpaper",
+  "wallpaperDimming": "Wallpaper dimming",
+  "blackBackground": "Black background",
+  "theme": "Theme",
+  "lightMode": "Light",
+  "darkMode": "Dark",
+  "followSystem": "Follow system",
+  "wallpaperBlur": "Wallpaper blur"
 }

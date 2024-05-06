@@ -22,9 +22,10 @@ class HiddenAppScreen extends StatelessWidget {
       body: SafeArea(
         bottom: false,
         child: BlocProvider(
-          create: (context) =>
-              AppListCubit(const AppListState(), context.read<SettingsCubit>())
-                ..getApps(),
+          create: (context) => AppListCubit(
+              const AppListState(), context.read<SettingsCubit>(),
+              withIcons: true)
+            ..getApps(withLoading: true),
           child: BlocBuilder<AppListCubit, AppListState>(
             builder: (context, state) {
               final cubit = context.read<AppListCubit>();

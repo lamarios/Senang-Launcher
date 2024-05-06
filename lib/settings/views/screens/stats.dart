@@ -2,12 +2,12 @@ import 'package:auto_route/auto_route.dart';
 import 'package:device_apps/device_apps.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
 import 'package:senang_launcher/app_list/models/app_data.dart';
 import 'package:senang_launcher/app_list/state/app_list.dart';
 import 'package:senang_launcher/settings/state/settings.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 @RoutePage()
 class StatsScreen extends StatelessWidget {
@@ -21,9 +21,10 @@ class StatsScreen extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
 
     return BlocProvider(
-      create: (context) =>
-          AppListCubit(const AppListState(), context.read<SettingsCubit>())
-            ..getApps(),
+      create: (context) => AppListCubit(
+          const AppListState(), context.read<SettingsCubit>(),
+          withIcons: true)
+        ..getApps(withLoading: true),
       child: Scaffold(
           appBar: AppBar(
             title: Text(locals.appsStats),

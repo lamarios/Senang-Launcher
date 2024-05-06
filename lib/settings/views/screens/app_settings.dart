@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_settings_ui/flutter_settings_ui.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:senang_launcher/router.dart';
 import 'package:senang_launcher/settings/state/settings.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -36,6 +37,7 @@ class AppSettingsSheet extends StatelessWidget {
                     dataDaysSettingName, newValue.toInt().toString()),
               ),
             ),
+/*
             SettingsTile.switchTile(
               enabled: settings.showAppNames,
               initialValue: settings.showAppIcons,
@@ -52,6 +54,7 @@ class AppSettingsSheet extends StatelessWidget {
               title: const Text('Show app names'),
               leading: const Icon(Icons.title),
             ),
+*/
             SettingsTile.navigation(
               title: Text(locals.stats),
               leading: const Icon(Icons.auto_graph),
@@ -65,16 +68,21 @@ class AppSettingsSheet extends StatelessWidget {
                   AutoRouter.of(context).push(const HiddenAppRoute()),
             )
           ]),
-/*
-          SettingsSection(title: Text('Wallpaper'), tiles: [
+          SettingsSection(title: Text(locals.wallpaper), tiles: [
             SettingsTile.switchTile(
-              title: Text('Show wallpaper'),
+              title: Text(locals.showWallpaper),
               initialValue: settings.showWallPaper,
-              onToggle: (value) => cubit.updateSetting(
-                  showWallPaperSettingName, value.toString()),
+              onToggle: (value) async {
+                var status = await Permission.manageExternalStorage.request();
+                print(status);
+                if (status.isGranted) {
+                  cubit.updateSetting(
+                      showWallPaperSettingName, value.toString());
+                }
+              },
             ),
             SettingsTile(
-              title: Text('Wallpaper dimming'),
+              title: Text(locals.wallpaperDimming),
               trailing: PlusMinus(
                 value: settings.wallPaperDim,
                 step: 0.05,
@@ -84,8 +92,18 @@ class AppSettingsSheet extends StatelessWidget {
                     wallPaperDimSettingName, newValue.toString()),
               ),
             ),
+            SettingsTile(
+              title: Text(locals.wallpaperBlur),
+              trailing: PlusMinus(
+                value: settings.wallpaperBlur,
+                step: 1,
+                max: 100,
+                min: 0,
+                onChanged: (newValue) => cubit.updateSetting(
+                    wallpaperBlurSettingName, newValue.toString()),
+              ),
+            ),
           ])
-*/
         ],
       );
     });

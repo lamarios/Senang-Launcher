@@ -155,31 +155,34 @@ class _LetterListState extends State<LetterList> {
           }
 
           return LayoutBuilder(builder: (context, constraints) {
-            return GestureDetector(
-              behavior: HitTestBehavior.opaque,
-              onVerticalDragEnd: (details) {
-                if (hoveredIndex == letters.length - 1) {
-                  showSettings(context);
-                }
-                letterCubit.setIndex(null, '', null);
-              },
-              onVerticalDragDown: (details) =>
-                  setIndex(context, details.globalPosition, letters),
-              onVerticalDragUpdate: (details) =>
-                  setIndex(context, details.globalPosition, letters),
-              onTapUp: (details) {
-                if (hoveredIndex == letters.length - 1) {
-                  showSettings(context);
-                }
-                letterCubit.setIndex(null, '', null);
-              },
-              child: Padding(
-                padding: const EdgeInsets.only(left: 8.0),
-                child: Column(
-                  key: key,
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: letterWidgets,
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 32.0),
+              child: GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onVerticalDragEnd: (details) {
+                  if (hoveredIndex == letters.length - 1) {
+                    showSettings(context);
+                  }
+                  letterCubit.setIndex(null, '', null);
+                },
+                onVerticalDragDown: (details) =>
+                    setIndex(context, details.globalPosition, letters),
+                onVerticalDragUpdate: (details) =>
+                    setIndex(context, details.globalPosition, letters),
+                onTapUp: (details) {
+                  if (hoveredIndex == letters.length - 1) {
+                    showSettings(context);
+                  }
+                  letterCubit.setIndex(null, '', null);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: Column(
+                    key: key,
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: letterWidgets,
+                  ),
                 ),
               ),
             );

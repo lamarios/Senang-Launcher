@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -41,7 +42,9 @@ class MyApp extends StatelessWidget {
               : ColorScheme.fromSeed(
                   seedColor: brandColor, brightness: Brightness.light);
           final darkTheme = dynamicColors && darkDynamic != null
-              ? darkDynamic.harmonized()
+              ? darkDynamic
+                  .harmonized()
+                  .copyWith(background: blackBackground ? Colors.black : null)
               : ColorScheme.fromSeed(
                   seedColor: brandColor,
                   brightness: Brightness.dark,

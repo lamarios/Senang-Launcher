@@ -25,6 +25,7 @@ const showAppNamesSettingName = 'show-app-name';
 const blackBackGroundSettingName = 'black-background';
 const themeSettingName = 'theme';
 const wallpaperBlurSettingName = 'wallpaper-blur';
+const useDynamicColorSettingName = 'dynamic-colors';
 
 const wallPaperDimSettingName = 'wall-paper-dim';
 
@@ -112,6 +113,9 @@ class SettingsState with _$SettingsState {
 
   bool get blackBackground =>
       bool.tryParse(settings[blackBackGroundSettingName] ?? 'false') ?? false;
+
+  bool get dynamicColors =>
+      bool.tryParse(settings[useDynamicColorSettingName] ?? 'true') ?? true;
 
   ThemeMode? get themeMode => ThemeMode.values
       .where((element) => element.name == settings[themeSettingName])

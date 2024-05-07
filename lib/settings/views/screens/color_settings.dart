@@ -32,14 +32,23 @@ class ColorSettings extends StatelessWidget {
               onToggle: (value) =>
                   cubit.updateSetting(tintColorSettingName, value.toString()),
             ),
+            SettingsTile.switchTile(
+              title: Text(locals.dynamicColors),
+              description: Text(locals.dynamicColorsExplanation),
+              initialValue: settings.dynamicColors,
+              onToggle: (value) => cubit.updateSetting(
+                  useDynamicColorSettingName, value.toString()),
+            ),
             SettingsTile(
+              enabled: !settings.dynamicColors,
               leading: Container(
                 width: 40,
                 height: 40,
                 decoration: BoxDecoration(
                     border: Border.all(color: colors.outline, width: 1),
                     shape: BoxShape.circle,
-                    color: settings.color),
+                    color:
+                        settings.dynamicColors ? Colors.grey : settings.color),
               ),
               title: Text(locals.textBaseColor),
               onPressed: (context) => SettingsSheet.showSettingsSheet(

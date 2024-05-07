@@ -17,6 +17,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+    final colors = Theme.of(context).colorScheme;
 
     return BlocBuilder<SettingsCubit, SettingsState>(
         builder: (context, settings) {
@@ -24,14 +25,11 @@ class App extends StatelessWidget {
         return c.percentageOfMax(app);
       });
 
-      final notificationColor = context
-          .select((SettingsCubit value) => value.state.notificationColor);
-
       final mainColor =
-          context.select((SettingsCubit value) => value.state.color);
+          settings.dynamicColors ? colors.primary : settings.color;
 
       final color = app.hasNotification
-          ? notificationColor
+          ? settings.notificationColor
           : Theme.of(context).brightness == Brightness.light
               ? settings.tintColor
                   ? darken(mainColor, max(1, (percentageOfMax * 100).toInt()))

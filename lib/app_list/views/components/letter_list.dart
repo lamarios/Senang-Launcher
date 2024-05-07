@@ -128,7 +128,7 @@ class _LetterListState extends State<LetterList> {
                   duration: const Duration(milliseconds: 100),
                   scale: 1,
                   child: SizedBox(
-                    height: 15,
+                    height: 17,
                     child: Center(
                       child: l == settingLetterPlaceHolder
                           ? Icon(Icons.settings,
@@ -139,6 +139,7 @@ class _LetterListState extends State<LetterList> {
                           : Text(
                               l,
                               style: textTheme.labelMedium?.copyWith(
+                                  fontSize: 14,
                                   color: hovered
                                       ? colors.primary
                                       : colors.onBackground),

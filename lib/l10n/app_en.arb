@@ -44,5 +44,7 @@
   "lightMode": "Light",
   "darkMode": "Dark",
   "followSystem": "Follow system",
-  "wallpaperBlur": "Wallpaper blur"
+  "wallpaperBlur": "Wallpaper blur",
+  "dynamicColors": "Dynamic colors",
+  "dynamicColorsExplanation": "User Material You colors (only available on Android 12+)"
 }

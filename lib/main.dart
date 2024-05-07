@@ -1,3 +1,4 @@
+import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -25,30 +26,39 @@ class MyApp extends StatelessWidget {
         final brandColor =
             context.select((SettingsCubit value) => value.state.color);
 
+        final dynamicColors =
+            context.select((SettingsCubit value) => value.state.dynamicColors);
+
         final blackBackground = context
             .select((SettingsCubit value) => value.state.blackBackground);
 
         final theme = context.select(
             (SettingsCubit value) => value.state.themeMode ?? ThemeMode.system);
 
-        final lightTheme = ColorScheme.fromSeed(
-            seedColor: brandColor, brightness: Brightness.light);
-        final darkTheme = ColorScheme.fromSeed(
-            seedColor: brandColor,
-            brightness: Brightness.dark,
-            background: blackBackground ? Colors.black : null);
+        return DynamicColorBuilder(builder: (lightDynamic, darkDynamic) {
+          final lightTheme = dynamicColors && lightDynamic != null
+              ? lightDynamic.harmonized()
+              : ColorScheme.fromSeed(
+                  seedColor: brandColor, brightness: Brightness.light);
+          final darkTheme = dynamicColors && darkDynamic != null
+              ? darkDynamic.harmonized()
+              : ColorScheme.fromSeed(
+                  seedColor: brandColor,
+                  brightness: Brightness.dark,
+                  background: blackBackground ? Colors.black : null);
 
-        return MaterialApp.router(
-          title: 'Flutter Demo',
-          themeMode: theme,
-          theme: ThemeData(
-            colorScheme: lightTheme,
-            useMaterial3: true,
-          ),
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          darkTheme: ThemeData(colorScheme: darkTheme, useMaterial3: true),
-          routerConfig: _appRouter.config(),
-        );
+          return MaterialApp.router(
+            title: 'Senang Launcher',
+            themeMode: theme,
+            theme: ThemeData(
+              colorScheme: lightTheme,
+              useMaterial3: true,
+            ),
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            darkTheme: ThemeData(colorScheme: darkTheme, useMaterial3: true),
+            routerConfig: _appRouter.config(),
+          );
+        });
       }),
     );
   }

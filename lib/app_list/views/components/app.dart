@@ -38,12 +38,18 @@ class App extends StatelessWidget {
                   ? lighten(mainColor, max(1, (percentageOfMax * 100).toInt()))
                   : mainColor;
 
+      var fontSize = min(
+          settings.maxFontSize,
+          settings.minFontSize +
+              ((settings.maxFontSize - settings.minFontSize) *
+                  percentageOfMax));
+
+      print('${app.app!.appName} $fontSize  ${settings.maxFontSize}');
       return Text(
         app.app!.appName,
         textAlign: settings.listStyle.textAlign,
         style: textTheme.bodyLarge?.copyWith(
-            fontSize:
-                settings.minFontSize + settings.maxFontSize * percentageOfMax,
+            fontSize: fontSize,
             color: color,
             fontWeight: FontWeight.bold,
             height: settings.lineHeight),

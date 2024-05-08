@@ -160,28 +160,26 @@ class _AppListScreenState extends State<AppListScreen> {
                                         children: [
                                           Expanded(
                                             child: SingleChildScrollView(
-                                              child: Center(
-                                                  child: isLetterFilter &&
-                                                          filter ==
-                                                              settingLetterPlaceHolder
-                                                      ? Text(
-                                                          locals
-                                                              .releaseToOpenSettings,
-                                                          style: textTheme
-                                                              .displayMedium
-                                                              ?.copyWith(
-                                                                  color: colors
-                                                                      .primary),
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                        )
-                                                      : listStyle.wrapApps(
-                                                          context,
-                                                          appsWidget,
-                                                          settings
-                                                              .verticalSpacing,
-                                                          settings
-                                                              .horizontalSpacing)),
+                                              child: isLetterFilter &&
+                                                      filter ==
+                                                          settingLetterPlaceHolder
+                                                  ? Text(
+                                                      locals
+                                                          .releaseToOpenSettings,
+                                                      style: textTheme
+                                                          .displayMedium
+                                                          ?.copyWith(
+                                                              color: colors
+                                                                  .primary),
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                    )
+                                                  : listStyle.wrapApps(
+                                                      context,
+                                                      appsWidget,
+                                                      settings.verticalSpacing,
+                                                      settings
+                                                          .horizontalSpacing),
                                             )
                                                 .animate(key: ValueKey(filter))
                                                 .fadeIn(

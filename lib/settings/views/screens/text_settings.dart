@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_settings_ui/flutter_settings_ui.dart';
+import 'package:senang_launcher/app_list/models/list_style.dart';
 import 'package:senang_launcher/settings/state/settings.dart';
 import 'package:senang_launcher/settings/views/components/plus_minus.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -61,6 +62,21 @@ class TextSettingsSheet extends StatelessWidget {
                     verticalSpacingSettingName, newValue.toString()),
               ),
             )
+          ]),
+          SettingsSection(title: Text(locals.listStyle), tiles: [
+            CustomSettingsTile(
+                child: Center(
+              child: SegmentedButton<ListStyle>(
+                multiSelectionEnabled: false,
+                emptySelectionAllowed: false,
+                onSelectionChanged: (value) => cubit.updateSetting(
+                    listStyleSettingsName, value.first.name),
+                segments: ListStyle.values
+                    .map((e) => ButtonSegment(value: e, icon: Icon(e.icon)))
+                    .toList(),
+                selected: {settings.listStyle},
+              ),
+            ))
           ])
         ],
       );

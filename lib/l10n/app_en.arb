@@ -46,5 +46,6 @@
   "followSystem": "Follow system",
   "wallpaperBlur": "Wallpaper blur",
   "dynamicColors": "Dynamic colors",
-  "dynamicColorsExplanation": "User Material You colors (only available on Android 12+)"
+  "dynamicColorsExplanation": "User Material You colors (only available on Android 12+)",
+  "listStyle": "List style"
 }

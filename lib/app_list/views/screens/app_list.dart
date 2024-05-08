@@ -62,6 +62,9 @@ class _AppListScreenState extends State<AppListScreen> {
                 final wallpaperBlur = context.select(
                     (SettingsCubit settings) => settings.state.wallpaperBlur);
 
+                final listStyle = context.select(
+                    (SettingsCubit settings) => settings.state.listStyle);
+
                 final isLetterFilter = context
                     .select((AppListCubit value) => value.state.isLetterFilter);
                 final loading =
@@ -70,6 +73,35 @@ class _AppListScreenState extends State<AppListScreen> {
                     context.select((AppListCubit value) => value.state.filter);
 
                 final cubit = context.read<AppListCubit>();
+                final appsWidget = apps
+                    .where((element) {
+                      if (isLetterFilter) {
+                        return element.app!.appName
+                            .toLowerCase()
+                            .startsWith(filter.toLowerCase());
+                      } else {
+                        return element.app!.appName
+                            .toLowerCase()
+                            .contains(filter.toLowerCase());
+                      }
+                    })
+                    .map((e) => GestureDetector(
+                        onLongPress: () => SettingsSheet.showSettingsSheet(
+                            context,
+                            (context) => SettingsSheet(
+                                  hideApp: cubit.hideApp,
+                                  app: e,
+                                )).then((value) => cubit.getApps()),
+                        onTap: () {
+                          if (!kDebugMode) {
+                            DeviceApps.openApp(e.app!.packageName);
+                          }
+                          cubit.increaseLaunches(e);
+                          cubit.setFilter('');
+                          searchController.text = '';
+                        },
+                        child: App(key: ValueKey(e.app!.packageName), app: e)))
+                    .toList();
                 return BlocListener<SettingsCubit, SettingsState>(
                   listener: (context, state) => cubit.getApps(),
                   listenWhen: (previous, current) =>
@@ -129,84 +161,27 @@ class _AppListScreenState extends State<AppListScreen> {
                                           Expanded(
                                             child: SingleChildScrollView(
                                               child: Center(
-                                                child: isLetterFilter &&
-                                                        filter ==
-                                                            settingLetterPlaceHolder
-                                                    ? Text(
-                                                        locals
-                                                            .releaseToOpenSettings,
-                                                        style: textTheme
-                                                            .displayMedium
-                                                            ?.copyWith(
-                                                                color: colors
-                                                                    .primary),
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                      )
-                                                    : Wrap(
-                                                        crossAxisAlignment:
-                                                            WrapCrossAlignment
-                                                                .center,
-                                                        alignment: WrapAlignment
-                                                            .center,
-                                                        runSpacing: settings
-                                                            .verticalSpacing,
-                                                        spacing: settings
-                                                            .horizontalSpacing,
-                                                        children: apps
-                                                            .where((element) {
-                                                              if (isLetterFilter) {
-                                                                return element
-                                                                    .app!
-                                                                    .appName
-                                                                    .toLowerCase()
-                                                                    .startsWith(
-                                                                        filter
-                                                                            .toLowerCase());
-                                                              } else {
-                                                                return element
-                                                                    .app!
-                                                                    .appName
-                                                                    .toLowerCase()
-                                                                    .contains(filter
-                                                                        .toLowerCase());
-                                                              }
-                                                            })
-                                                            .map((e) =>
-                                                                GestureDetector(
-                                                                    onLongPress: () => SettingsSheet
-                                                                        .showSettingsSheet(
-                                                                            context,
-                                                                            (context) =>
-                                                                                SettingsSheet(
-                                                                                  hideApp: cubit.hideApp,
-                                                                                  app: e,
-                                                                                )).then(
-                                                                        (value) =>
-                                                                            cubit
-                                                                                .getApps()),
-                                                                    onTap: () {
-                                                                      if (!kDebugMode) {
-                                                                        DeviceApps.openApp(e
-                                                                            .app!
-                                                                            .packageName);
-                                                                      }
-                                                                      cubit.increaseLaunches(
-                                                                          e);
-                                                                      cubit.setFilter(
-                                                                          '');
-                                                                      searchController
-                                                                          .text = '';
-                                                                    },
-                                                                    child: App(
-                                                                        key: ValueKey(e
-                                                                            .app!
-                                                                            .packageName),
-                                                                        app:
-                                                                            e)))
-                                                            .toList(),
-                                                      ),
-                                              ),
+                                                  child: isLetterFilter &&
+                                                          filter ==
+                                                              settingLetterPlaceHolder
+                                                      ? Text(
+                                                          locals
+                                                              .releaseToOpenSettings,
+                                                          style: textTheme
+                                                              .displayMedium
+                                                              ?.copyWith(
+                                                                  color: colors
+                                                                      .primary),
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                        )
+                                                      : listStyle.wrapApps(
+                                                          context,
+                                                          appsWidget,
+                                                          settings
+                                                              .verticalSpacing,
+                                                          settings
+                                                              .horizontalSpacing)),
                                             )
                                                 .animate(key: ValueKey(filter))
                                                 .fadeIn(

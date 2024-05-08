@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:senang_launcher/app_list/models/list_style.dart';
 import 'package:senang_launcher/db.dart';
 
 part 'settings.freezed.dart';
@@ -26,6 +27,7 @@ const blackBackGroundSettingName = 'black-background';
 const themeSettingName = 'theme';
 const wallpaperBlurSettingName = 'wallpaper-blur';
 const useDynamicColorSettingName = 'dynamic-colors';
+const listStyleSettingsName = 'app-list-style';
 
 const wallPaperDimSettingName = 'wall-paper-dim';
 
@@ -120,4 +122,10 @@ class SettingsState with _$SettingsState {
   ThemeMode? get themeMode => ThemeMode.values
       .where((element) => element.name == settings[themeSettingName])
       .firstOrNull;
+
+  ListStyle get listStyle =>
+      ListStyle.values
+          .where((element) => element.name == settings[listStyleSettingsName])
+          .firstOrNull ??
+      ListStyle.wrap;
 }

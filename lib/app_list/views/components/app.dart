@@ -38,24 +38,9 @@ class App extends StatelessWidget {
                   ? lighten(mainColor, max(1, (percentageOfMax * 100).toInt()))
                   : mainColor;
 
-      return
-/*
-        Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          if (settings.showAppIcons && app.app! is ApplicationWithIcon) ...[
-            Image.memory((app.app! as ApplicationWithIcon).icon,
-                width: settings.minFontSize +
-                    settings.maxFontSize * percentageOfMax,
-                height: settings.minFontSize +
-                    settings.maxFontSize * percentageOfMax,
-                gaplessPlayback: true),
-            const Gap(10)
-          ],
-          if (settings.showAppNames)
-*/
-          Text(
+      return Text(
         app.app!.appName,
+        textAlign: settings.listStyle.textAlign,
         style: textTheme.bodyLarge?.copyWith(
             fontSize:
                 settings.minFontSize + settings.maxFontSize * percentageOfMax,
@@ -63,10 +48,6 @@ class App extends StatelessWidget {
             fontWeight: FontWeight.bold,
             height: settings.lineHeight),
       );
-/*
-        ],
-      );
-*/
     });
   }
 }

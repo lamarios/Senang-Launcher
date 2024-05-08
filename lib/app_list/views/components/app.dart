@@ -44,7 +44,6 @@ class App extends StatelessWidget {
               ((settings.maxFontSize - settings.minFontSize) *
                   percentageOfMax));
 
-      print('${app.app!.appName} $fontSize  ${settings.maxFontSize}');
       return Text(
         app.app!.appName,
         textAlign: settings.listStyle.textAlign,

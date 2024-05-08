@@ -13,6 +13,7 @@ const double _fingerIndexGap = 12;
 // const double _letterScale = 1.75;
 
 const settingLetterPlaceHolder = 'show-settings-instead-of-filter';
+const allApps = 'all-apps';
 
 class LetterList extends StatefulWidget {
   const LetterList({super.key});
@@ -88,7 +89,7 @@ class _LetterListState extends State<LetterList> {
 
           final letterCubit = context.read<LetterListCubit>();
 
-          letters.insert(0, '○');
+          letters.insert(0, allApps);
           letters.add(settingLetterPlaceHolder);
 
           final letterWidgets = <Widget>[];
@@ -99,13 +100,13 @@ class _LetterListState extends State<LetterList> {
           for (final (idx, l) in letters.indexed) {
             var hovered = idx == hoveredIndex;
             double offset = 0;
-            // double scale = 1;
+            double scale = 1;
 
             // we do a cascade of offsets
             if (hovered) {
-              offset = _fingerGap + (xOffset ?? 0);
-              // scale = _letterScale;
-            } else if (hoveredIndex != null &&
+              scale = 3;
+            }
+            if (hoveredIndex != null &&
                 (hoveredIndex - idx).abs() <= _fingerIndexGap) {
               var distance = (idx - hoveredIndex).abs();
               double bellValue =
@@ -115,35 +116,44 @@ class _LetterListState extends State<LetterList> {
               // scale = max(1, bellValue * _letterScale);
             }
 
-            letterWidgets.add(Container(
-              decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: hovered
-                      ? colors.secondaryContainer
-                      : colors.secondaryContainer.withOpacity(0)),
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                    vertical: 2.0, horizontal: hovered ? 4 : 0),
-                child: AnimatedScale(
+            letterWidgets.add(Padding(
+              padding: EdgeInsets.symmetric(
+                  vertical: 2.0, horizontal: hovered ? 4 : 0),
+              child: AnimatedScale(
+                duration: const Duration(milliseconds: 75),
+                curve: Curves.easeInOutQuad,
+                scale: scale,
+                child: AnimatedContainer(
                   duration: const Duration(milliseconds: 100),
-                  scale: 1,
+                  curve: Curves.easeInOutQuad,
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: hovered
+                          ? colors.secondaryContainer
+                          : colors.secondaryContainer.withOpacity(0)),
                   child: SizedBox(
                     height: 17,
                     child: Center(
-                      child: l == settingLetterPlaceHolder
-                          ? Icon(Icons.settings,
+                      child: l == allApps
+                          ? Icon(Icons.apps,
                               size: 13,
                               color: hovered
                                   ? colors.primary
                                   : colors.onBackground)
-                          : Text(
-                              l,
-                              style: textTheme.labelMedium?.copyWith(
-                                  fontSize: 14,
+                          : l == settingLetterPlaceHolder
+                              ? Icon(Icons.settings,
+                                  size: 13,
                                   color: hovered
                                       ? colors.primary
-                                      : colors.onBackground),
-                            ),
+                                      : colors.onBackground)
+                              : Text(
+                                  l,
+                                  style: textTheme.labelMedium?.copyWith(
+                                      fontSize: 14,
+                                      color: hovered
+                                          ? colors.primary
+                                          : colors.onBackground),
+                                ),
                     ),
                   ),
                 ),
@@ -166,6 +176,16 @@ class _LetterListState extends State<LetterList> {
                   }
                   letterCubit.setIndex(null, '', null);
                 },
+                onLongPress: () {},
+                onLongPressCancel: () {},
+                onLongPressEnd: (details) {
+                  if (hoveredIndex == letters.length - 1) {
+                    showSettings(context);
+                  }
+                  letterCubit.setIndex(null, '', null);
+                },
+                onLongPressMoveUpdate: (details) =>
+                    setIndex(context, details.globalPosition, letters),
                 onVerticalDragDown: (details) =>
                     setIndex(context, details.globalPosition, letters),
                 onVerticalDragUpdate: (details) =>

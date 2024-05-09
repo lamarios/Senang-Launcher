@@ -3,6 +3,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:device_apps/device_apps.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:notification_listener_service/notification_event.dart';
@@ -18,6 +19,7 @@ class AppListCubit extends Cubit<AppListState> {
   final bool withIcons;
   StreamSubscription<ServiceNotificationEvent>? notificationSubscription;
   StreamSubscription<ApplicationEvent>? appListener;
+  final TextEditingController searchController = TextEditingController();
   final SettingsCubit settingsCubit;
 
   AppListCubit(super.initialState, this.settingsCubit,
@@ -30,6 +32,7 @@ class AppListCubit extends Cubit<AppListState> {
 
   @override
   close() async {
+    searchController.dispose();
     notificationSubscription?.cancel();
     appListener?.cancel();
     super.close();
@@ -132,7 +135,7 @@ class AppListCubit extends Cubit<AppListState> {
   }
 
   void setFilter(String value) {
-    emit(state.copyWith(filter: value));
+    emit(state.copyWith(filter: value.trim().toLowerCase()));
   }
 
   Future<void> hideApp(AppData app, bool? value) async {
@@ -146,10 +149,11 @@ class AppListCubit extends Cubit<AppListState> {
   }
 
   void setLetterFilter(String? letter) {
+    searchController.text = '';
     if (letter == null) {
       emit(state.copyWith(filter: '', isLetterFilter: false));
     } else {
-      emit(state.copyWith(filter: letter, isLetterFilter: true));
+      emit(state.copyWith(filter: letter.toLowerCase(), isLetterFilter: true));
     }
   }
 

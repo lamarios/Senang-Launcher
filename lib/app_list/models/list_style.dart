@@ -11,8 +11,10 @@ enum ListStyle {
 
   const ListStyle(this.icon, this.textAlign);
 
-  Widget wrapApps(BuildContext context, List<Widget> children,
-      double verticalSpacing, double horizontalSpacing) {
+  Widget wrapApps(BuildContext context,
+      {required List<Widget> children,
+      required double verticalSpacing,
+      required double horizontalSpacing}) {
     return switch (this) {
       wrap => Wrap(
           crossAxisAlignment: WrapCrossAlignment.center,

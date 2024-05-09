@@ -13,73 +13,22 @@ import 'package:senang_launcher/settings/state/settings.dart';
 import 'package:senang_launcher/settings/views/screens/settings.dart';
 
 @RoutePage()
-class AppListScreen extends StatefulWidget {
+class AppListScreen extends StatelessWidget {
   const AppListScreen({super.key});
-
-  @override
-  State<AppListScreen> createState() => _AppListScreenState();
-}
-
-class _AppListScreenState extends State<AppListScreen> {
-  final TextEditingController searchController = TextEditingController();
-
-  @override
-  void dispose() {
-    searchController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
-    final locals = AppLocalizations.of(context)!;
-    final textTheme = Theme.of(context).textTheme;
 
     return PopScope(
       canPop: false,
       child: Scaffold(
         body: BlocBuilder<SettingsCubit, SettingsState>(
           builder: (context, settings) {
-            final apps = context.select((AppListCubit value) =>
-                value.state.apps.where((element) => !element.hidden));
-
-            final isLetterFilter = context
-                .select((AppListCubit value) => value.state.isLetterFilter);
             final loading =
                 context.select((AppListCubit value) => value.state.loading);
-            final filter =
-                context.select((AppListCubit value) => value.state.filter);
 
             final cubit = context.read<AppListCubit>();
-            final appsWidget = apps
-                .where((element) {
-                  if (isLetterFilter) {
-                    return element.app!.appName
-                        .toLowerCase()
-                        .startsWith(filter.toLowerCase());
-                  } else {
-                    return element.app!.appName
-                        .toLowerCase()
-                        .contains(filter.toLowerCase());
-                  }
-                })
-                .map((e) => GestureDetector(
-                    onLongPress: () => SettingsSheet.showSettingsSheet(
-                        context,
-                        (context) => SettingsSheet(
-                              hideApp: cubit.hideApp,
-                              app: e,
-                            )).then((value) => cubit.getApps()),
-                    onTap: () {
-                      if (!kDebugMode) {
-                        DeviceApps.openApp(e.app!.packageName);
-                      }
-                      cubit.increaseLaunches(e);
-                      cubit.setFilter('');
-                      searchController.text = '';
-                    },
-                    child: App(key: ValueKey(e.app!.packageName), app: e)))
-                .toList();
             return Stack(
               children: [
                 if (settings.showWallPaper)
@@ -134,35 +83,9 @@ class _AppListScreenState extends State<AppListScreen> {
                                                 settings
                                                     .showInvisibleLetterList,
                                           )),
-                                    Expanded(
+                                    const Expanded(
                                       child: SingleChildScrollView(
-                                        child: isLetterFilter &&
-                                                filter ==
-                                                    settingLetterPlaceHolder
-                                            ? Text(
-                                                locals.releaseToOpenSettings,
-                                                style: textTheme.displayMedium
-                                                    ?.copyWith(
-                                                        color: colors.primary),
-                                                textAlign: TextAlign.center,
-                                              )
-                                            : settings.listStyle.wrapApps(
-                                                context,
-                                                appsWidget,
-                                                settings.verticalSpacing,
-                                                settings.horizontalSpacing),
-                                      )
-                                          .animate(key: ValueKey(filter))
-                                          .fadeIn(
-                                              begin: 0.3,
-                                              duration: const Duration(
-                                                  milliseconds: 150))
-                                          .scale(
-                                              duration: const Duration(
-                                                  milliseconds: 150),
-                                              curve: Curves.easeInOutQuad,
-                                              begin: const Offset(0.99, 0.99),
-                                              end: const Offset(1, 1)),
+                                          child: _AppList()),
                                     ),
                                     if (settings.showLetterList &&
                                         (settings.letterListOnRight ||
@@ -186,7 +109,7 @@ class _AppListScreenState extends State<AppListScreen> {
                                     children: [
                                       Expanded(
                                         child: TextField(
-                                          controller: searchController,
+                                          controller: cubit.searchController,
                                           autocorrect: false,
                                           decoration: InputDecoration(
                                               label: Icon(
@@ -196,13 +119,6 @@ class _AppListScreenState extends State<AppListScreen> {
                                           onChanged: cubit.setFilter,
                                         ),
                                       ),
-                                      if (filter.isNotEmpty)
-                                        IconButton(
-                                            onPressed: () {
-                                              cubit.setFilter('');
-                                              searchController.text = '';
-                                            },
-                                            icon: const Icon(Icons.clear))
                                     ],
                                   ),
                                 )
@@ -215,6 +131,78 @@ class _AppListScreenState extends State<AppListScreen> {
           },
         ),
       ),
+    );
+  }
+}
+
+class _AppList extends StatelessWidget {
+  const _AppList();
+
+  @override
+  Widget build(BuildContext context) {
+    final locals = AppLocalizations.of(context)!;
+    final textTheme = Theme.of(context).textTheme;
+    final colors = Theme.of(context).colorScheme;
+
+    return BlocBuilder<SettingsCubit, SettingsState>(
+      builder: (context, settings) {
+        final apps = context.select((AppListCubit value) =>
+            value.state.apps.where((element) => !element.hidden));
+        final filter =
+            context.select((AppListCubit value) => value.state.filter);
+        final isLetterFilter =
+            context.select((AppListCubit value) => value.state.isLetterFilter);
+
+        final cubit = context.read<AppListCubit>();
+
+        return isLetterFilter && filter == settingLetterPlaceHolder
+            ? Text(
+                locals.releaseToOpenSettings,
+                style: textTheme.displayMedium?.copyWith(color: colors.primary),
+                textAlign: TextAlign.center,
+              )
+            : settings.listStyle
+                .wrapApps(context,
+                    children: apps
+                        .where((element) {
+                          if (isLetterFilter) {
+                            return element.app!.appName
+                                .toLowerCase()
+                                .startsWith(filter);
+                          } else {
+                            return element.app!.appName
+                                .toLowerCase()
+                                .contains(filter);
+                          }
+                        })
+                        .map((e) => GestureDetector(
+                            onLongPress: () => SettingsSheet.showSettingsSheet(
+                                context,
+                                (context) => SettingsSheet(
+                                      hideApp: cubit.hideApp,
+                                      app: e,
+                                    )).then((value) => cubit.getApps()),
+                            onTap: () {
+                              if (!kDebugMode) {
+                                DeviceApps.openApp(e.app!.packageName);
+                              }
+                              cubit.increaseLaunches(e);
+                              cubit.setFilter('');
+                              cubit.searchController.text = '';
+                            },
+                            child:
+                                App(key: ValueKey(e.app!.packageName), app: e)))
+                        .toList(),
+                    verticalSpacing: settings.verticalSpacing,
+                    horizontalSpacing: settings.horizontalSpacing)
+                .animate(key: ValueKey(filter))
+                .fadeIn(begin: 0.3, duration: const Duration(milliseconds: 150))
+                .scale(
+                    duration: const Duration(milliseconds: 150),
+                    curve: Curves.easeInOutQuad,
+                    begin: const Offset(0.99, 0.99),
+                    end: const Offset(1, 1));
+      },
     );
   }
 }

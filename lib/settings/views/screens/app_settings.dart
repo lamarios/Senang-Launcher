@@ -94,6 +94,7 @@ class AppSettingsSheet extends StatelessWidget {
             ),
             SettingsTile(
               title: Text(locals.wallpaperBlur),
+              description: Text(locals.wallpaperBlurWarning),
               trailing: PlusMinus(
                 value: settings.wallpaperBlur,
                 step: 1,

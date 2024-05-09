@@ -20,6 +20,8 @@ const colorOnNotificationSettingName = 'color-on-notification';
 const notificationColorSettingName = 'notification-color';
 const showSearchSettingName = 'show-search';
 const showLetterListSettingName = 'show-letter-list';
+const showInvisibleLetterListSettingName = 'show-invisible-letter-list';
+const showLetterListOnRightSettingName = 'show-letter-list-on-right';
 const showWallPaperSettingName = 'show-wallpaper';
 const showAppIconsSettingName = 'show-app-icon';
 const showAppNamesSettingName = 'show-app-name';
@@ -106,6 +108,14 @@ class SettingsState with _$SettingsState {
 
   bool get showLetterList =>
       bool.tryParse(settings[showLetterListSettingName] ?? 'true') ?? true;
+
+  bool get letterListOnRight =>
+      bool.tryParse(settings[showLetterListOnRightSettingName] ?? 'true') ??
+      true;
+
+  bool get showInvisibleLetterList =>
+      bool.tryParse(settings[showInvisibleLetterListSettingName] ?? 'true') ??
+      true;
 
   bool get showAppIcons =>
       bool.tryParse(settings[showAppIconsSettingName] ?? 'false') ?? false;

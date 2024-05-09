@@ -33,6 +33,30 @@ class LayoutSettingsSheet extends StatelessWidget {
               onToggle: (value) => cubit.updateSetting(
                   showLetterListSettingName, value.toString()),
             ),
+            CustomSettingsTile(
+                child: SegmentedButton<bool>(
+              segments: const [
+                ButtonSegment<bool>(
+                    value: false, icon: Icon(Icons.border_left_outlined)),
+                ButtonSegment<bool>(
+                    value: true, icon: Icon(Icons.border_right_outlined)),
+              ],
+              selected: {settings.letterListOnRight},
+              onSelectionChanged: settings.showLetterList
+                  ? (value) => cubit.updateSetting(
+                      showLetterListOnRightSettingName,
+                      (value.firstOrNull ?? true).toString())
+                  : null,
+            )),
+            SettingsTile.switchTile(
+              enabled: settings.showLetterList,
+              title: Text(locals.invisibleLetterListOnOpposite),
+              description:
+                  Text(locals.invisibleLetterListOnOppositeExplanation),
+              initialValue: settings.showInvisibleLetterList,
+              onToggle: (value) => cubit.updateSetting(
+                  showInvisibleLetterListSettingName, value.toString()),
+            ),
           ]),
 /*
           SettingsSection(title: Text('Wallpaper'), tiles: [

@@ -7,10 +7,13 @@ part 'letter_list.freezed.dart';
 
 class LetterListCubit extends Cubit<LetterListState> {
   final AppListCubit appListCubit;
+
   LetterListCubit(super.initialState, this.appListCubit);
 
-  setIndex(int? index, String letter, double? xOffset) {
-    emit(state.copyWith(index: index, xOffset: xOffset?.abs()));
+  setIndex(int? index, String letter, double? xOffset,
+      {bool fromInvisible = false}) {
+    emit(state.copyWith(
+        index: index, xOffset: xOffset?.abs(), fromInvisible: fromInvisible));
     if (index != null) {
       appListCubit.setLetterFilter(index == 0 ? null : letter);
     }
@@ -19,6 +22,8 @@ class LetterListCubit extends Cubit<LetterListState> {
 
 @freezed
 class LetterListState with _$LetterListState {
-  const factory LetterListState({int? index, double? xOffset}) =
-      _LetterListState;
+  const factory LetterListState(
+      {int? index,
+      double? xOffset,
+      @Default(false) bool fromInvisible}) = _LetterListState;
 }

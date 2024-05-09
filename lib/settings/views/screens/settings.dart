@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_settings_ui/flutter_settings_ui.dart';
 import 'package:gap/gap.dart';
+import 'package:open_settings/open_settings.dart';
 import 'package:senang_launcher/app_list/models/app_data.dart';
 import 'package:senang_launcher/settings/state/settings.dart';
 import 'package:senang_launcher/settings/views/screens/app_settings.dart';
@@ -103,6 +104,14 @@ class SettingsSheet extends StatelessWidget {
                     context, (context) => const LayoutSettingsSheet())),
           ]),
           SettingsSection(title: (Text(locals.about)), tiles: [
+            SettingsTile.navigation(
+              leading: const Icon(Icons.approval),
+              title: Text(locals.setAsDefaultLauncher),
+              description: Text(locals.setAsDefaultLauncherExplanation),
+              onPressed: (context) {
+                OpenSettings.openManageDefaultAppsSetting();
+              },
+            ),
             SettingsTile(
               leading: const Icon(Icons.badge_outlined),
               title: Text('${locals.name}: ${packageInfo.appName}'),

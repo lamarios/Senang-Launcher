@@ -18,6 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$LetterListState {
   int? get index => throw _privateConstructorUsedError;
   double? get xOffset => throw _privateConstructorUsedError;
+  bool get fromInvisible => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $LetterListStateCopyWith<LetterListState> get copyWith =>
@@ -30,7 +31,7 @@ abstract class $LetterListStateCopyWith<$Res> {
           LetterListState value, $Res Function(LetterListState) then) =
       _$LetterListStateCopyWithImpl<$Res, LetterListState>;
   @useResult
-  $Res call({int? index, double? xOffset});
+  $Res call({int? index, double? xOffset, bool fromInvisible});
 }
 
 /// @nodoc
@@ -48,6 +49,7 @@ class _$LetterListStateCopyWithImpl<$Res, $Val extends LetterListState>
   $Res call({
     Object? index = freezed,
     Object? xOffset = freezed,
+    Object? fromInvisible = null,
   }) {
     return _then(_value.copyWith(
       index: freezed == index
@@ -58,6 +60,10 @@ class _$LetterListStateCopyWithImpl<$Res, $Val extends LetterListState>
           ? _value.xOffset
           : xOffset // ignore: cast_nullable_to_non_nullable
               as double?,
+      fromInvisible: null == fromInvisible
+          ? _value.fromInvisible
+          : fromInvisible // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -70,7 +76,7 @@ abstract class _$$LetterListStateImplCopyWith<$Res>
       __$$LetterListStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int? index, double? xOffset});
+  $Res call({int? index, double? xOffset, bool fromInvisible});
 }
 
 /// @nodoc
@@ -86,6 +92,7 @@ class __$$LetterListStateImplCopyWithImpl<$Res>
   $Res call({
     Object? index = freezed,
     Object? xOffset = freezed,
+    Object? fromInvisible = null,
   }) {
     return _then(_$LetterListStateImpl(
       index: freezed == index
@@ -96,6 +103,10 @@ class __$$LetterListStateImplCopyWithImpl<$Res>
           ? _value.xOffset
           : xOffset // ignore: cast_nullable_to_non_nullable
               as double?,
+      fromInvisible: null == fromInvisible
+          ? _value.fromInvisible
+          : fromInvisible // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -103,16 +114,20 @@ class __$$LetterListStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$LetterListStateImpl implements _LetterListState {
-  const _$LetterListStateImpl({this.index, this.xOffset});
+  const _$LetterListStateImpl(
+      {this.index, this.xOffset, this.fromInvisible = false});
 
   @override
   final int? index;
   @override
   final double? xOffset;
+  @override
+  @JsonKey()
+  final bool fromInvisible;
 
   @override
   String toString() {
-    return 'LetterListState(index: $index, xOffset: $xOffset)';
+    return 'LetterListState(index: $index, xOffset: $xOffset, fromInvisible: $fromInvisible)';
   }
 
   @override
@@ -121,11 +136,13 @@ class _$LetterListStateImpl implements _LetterListState {
         (other.runtimeType == runtimeType &&
             other is _$LetterListStateImpl &&
             (identical(other.index, index) || other.index == index) &&
-            (identical(other.xOffset, xOffset) || other.xOffset == xOffset));
+            (identical(other.xOffset, xOffset) || other.xOffset == xOffset) &&
+            (identical(other.fromInvisible, fromInvisible) ||
+                other.fromInvisible == fromInvisible));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, index, xOffset);
+  int get hashCode => Object.hash(runtimeType, index, xOffset, fromInvisible);
 
   @JsonKey(ignore: true)
   @override
@@ -136,13 +153,17 @@ class _$LetterListStateImpl implements _LetterListState {
 }
 
 abstract class _LetterListState implements LetterListState {
-  const factory _LetterListState({final int? index, final double? xOffset}) =
-      _$LetterListStateImpl;
+  const factory _LetterListState(
+      {final int? index,
+      final double? xOffset,
+      final bool fromInvisible}) = _$LetterListStateImpl;
 
   @override
   int? get index;
   @override
   double? get xOffset;
+  @override
+  bool get fromInvisible;
   @override
   @JsonKey(ignore: true)
   _$$LetterListStateImplCopyWith<_$LetterListStateImpl> get copyWith =>

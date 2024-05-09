@@ -17,17 +17,21 @@ part 'app_list.freezed.dart';
 class AppListCubit extends Cubit<AppListState> {
   final bool withIcons;
   StreamSubscription<ServiceNotificationEvent>? notificationSubscription;
+  StreamSubscription<ApplicationEvent>? appListener;
   final SettingsCubit settingsCubit;
 
   AppListCubit(super.initialState, this.settingsCubit,
-      {this.withIcons = false}) {
-    DeviceApps.listenToAppsChanges().listen(onAppChange);
-    setUpNotificationListener();
+      {this.withIcons = false, bool subscribeToStuff = false}) {
+    if (subscribeToStuff) {
+      appListener = DeviceApps.listenToAppsChanges().listen(onAppChange);
+      setUpNotificationListener();
+    }
   }
 
   @override
   close() async {
     notificationSubscription?.cancel();
+    appListener?.cancel();
     super.close();
   }
 

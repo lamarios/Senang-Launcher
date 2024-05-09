@@ -19,7 +19,9 @@
   "notificationColor": "Notification color",
   "layoutSettings": "Layout settings",
   "showSearchBar": "Show search bar",
-  "showRightLetterList": "Shor right letter list",
+  "showRightLetterList": "Show letter list",
+  "invisibleLetterListOnOpposite": "Add invisible letter list on the opposite side",
+  "invisibleLetterListOnOppositeExplanation": "Will react to the same sliding gestures",
   "appInfo": "App info",
   "uninstall": "Uninstall",
   "hideApp": "Hide app",
@@ -45,7 +47,10 @@
   "darkMode": "Dark",
   "followSystem": "Follow system",
   "wallpaperBlur": "Wallpaper blur",
+  "wallpaperBlurWarning": "Might impact performance",
   "dynamicColors": "Dynamic colors",
   "dynamicColorsExplanation": "User Material You colors (only available on Android 12+)",
-  "listStyle": "List style"
+  "listStyle": "List style",
+  "setAsDefaultLauncher": "Set as default launcher",
+  "setAsDefaultLauncherExplanation": "Once on the settings screen, select the default home app"
 }

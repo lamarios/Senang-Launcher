@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:senang_launcher/app_list/state/app_list.dart';
+import 'package:senang_launcher/app_list/state/letter_list.dart';
 import 'package:senang_launcher/app_list/views/components/app.dart';
 import 'package:senang_launcher/app_list/views/components/letter_list.dart';
 import 'package:senang_launcher/settings/state/settings.dart';
@@ -44,26 +45,13 @@ class _AppListScreenState extends State<AppListScreen> {
       child: Scaffold(
         body: BlocProvider(
             create: (context) => AppListCubit(
-                const AppListState(), context.read<SettingsCubit>())
+                const AppListState(), context.read<SettingsCubit>(),
+                subscribeToStuff: true)
               ..getApps(withLoading: true),
             child: BlocBuilder<SettingsCubit, SettingsState>(
               builder: (context, settings) {
                 final apps = context.select((AppListCubit value) =>
                     value.state.apps.where((element) => !element.hidden));
-                final showSearch = context.select(
-                    (SettingsCubit settings) => settings.state.showSearch);
-                final showLetterList = context.select(
-                    (SettingsCubit settings) => settings.state.showLetterList);
-                final showWallpaper = context.select(
-                    (SettingsCubit settings) => settings.state.showWallPaper);
-                final wallpaperDim = context.select(
-                    (SettingsCubit settings) => settings.state.wallPaperDim);
-
-                final wallpaperBlur = context.select(
-                    (SettingsCubit settings) => settings.state.wallpaperBlur);
-
-                final listStyle = context.select(
-                    (SettingsCubit settings) => settings.state.listStyle);
 
                 final isLetterFilter = context
                     .select((AppListCubit value) => value.state.isLetterFilter);
@@ -108,7 +96,7 @@ class _AppListScreenState extends State<AppListScreen> {
                       previous.dataDays != current.dataDays,
                   child: Stack(
                     children: [
-                      if (showWallpaper)
+                      if (settings.showWallPaper)
                         Positioned.fill(
                           child: FutureBuilder<Uint8List?>(
                             future: AccessWallpaper()
@@ -124,17 +112,19 @@ class _AppListScreenState extends State<AppListScreen> {
                             },
                           ),
                         ),
-                      if (showWallpaper)
+                      if (settings.showWallPaper)
                         Positioned.fill(
                             child: ConditionalWrap(
-                          wrapIf: wallpaperBlur > 0,
+                          wrapIf: settings.wallpaperBlur > 0,
                           wrapper: (child) => BackdropFilter(
                             filter: ImageFilter.blur(
-                                sigmaX: wallpaperBlur, sigmaY: wallpaperBlur),
+                                sigmaX: settings.wallpaperBlur,
+                                sigmaY: settings.wallpaperBlur),
                             child: child,
                           ),
                           child: Container(
-                            color: colors.background.withOpacity(wallpaperDim),
+                            color: colors.background
+                                .withOpacity(settings.wallPaperDim),
                           ),
                         )),
                       loading
@@ -151,85 +141,121 @@ class _AppListScreenState extends State<AppListScreen> {
                                         (context) => SettingsSheet(
                                               hideApp: cubit.hideApp,
                                             )).then((value) => cubit.getApps()),
-                                child: Column(
-                                  children: [
-                                    Expanded(
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Expanded(
-                                            child: SingleChildScrollView(
-                                              child: isLetterFilter &&
-                                                      filter ==
-                                                          settingLetterPlaceHolder
-                                                  ? Text(
-                                                      locals
-                                                          .releaseToOpenSettings,
-                                                      style: textTheme
-                                                          .displayMedium
-                                                          ?.copyWith(
-                                                              color: colors
-                                                                  .primary),
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                    )
-                                                  : listStyle.wrapApps(
-                                                      context,
-                                                      appsWidget,
-                                                      settings.verticalSpacing,
-                                                      settings
-                                                          .horizontalSpacing),
-                                            )
-                                                .animate(key: ValueKey(filter))
-                                                .fadeIn(
-                                                    begin: 0.3,
-                                                    duration: const Duration(
-                                                        milliseconds: 150))
-                                                .scale(
-                                                    duration: const Duration(
-                                                        milliseconds: 150),
-                                                    curve: Curves.easeInOutQuad,
-                                                    begin: const Offset(
-                                                        0.99, 0.99),
-                                                    end: const Offset(1, 1)),
-                                          ),
-                                          if (showLetterList)
-                                            const Align(
-                                                alignment:
-                                                    Alignment.bottomRight,
-                                                child: LetterList())
-                                        ],
-                                      ),
-                                    ),
-                                    if (showSearch)
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
+                                child: ConditionalWrap(
+                                  wrapIf: settings.showLetterList,
+                                  wrapper: (child) => BlocProvider(
+                                    create: (context) => LetterListCubit(
+                                        const LetterListState(), cubit),
+                                    child: child,
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      Expanded(
                                         child: Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
                                           children: [
+                                            if (settings.showLetterList &&
+                                                (!settings.letterListOnRight ||
+                                                    settings
+                                                        .showInvisibleLetterList))
+                                              Align(
+                                                  alignment:
+                                                      Alignment.bottomRight,
+                                                  child: LetterList(
+                                                    rightMode: false,
+                                                    invisible: settings
+                                                            .letterListOnRight &&
+                                                        settings
+                                                            .showInvisibleLetterList,
+                                                  )),
                                             Expanded(
-                                              child: TextField(
-                                                controller: searchController,
-                                                autocorrect: false,
-                                                decoration: InputDecoration(
-                                                    label: Icon(
-                                                  Icons.search,
-                                                  color: colors.secondary,
-                                                )),
-                                                onChanged: cubit.setFilter,
-                                              ),
+                                              child: SingleChildScrollView(
+                                                child: isLetterFilter &&
+                                                        filter ==
+                                                            settingLetterPlaceHolder
+                                                    ? Text(
+                                                        locals
+                                                            .releaseToOpenSettings,
+                                                        style: textTheme
+                                                            .displayMedium
+                                                            ?.copyWith(
+                                                                color: colors
+                                                                    .primary),
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                      )
+                                                    : settings.listStyle.wrapApps(
+                                                        context,
+                                                        appsWidget,
+                                                        settings
+                                                            .verticalSpacing,
+                                                        settings
+                                                            .horizontalSpacing),
+                                              )
+                                                  .animate(
+                                                      key: ValueKey(filter))
+                                                  .fadeIn(
+                                                      begin: 0.3,
+                                                      duration: const Duration(
+                                                          milliseconds: 150))
+                                                  .scale(
+                                                      duration: const Duration(
+                                                          milliseconds: 150),
+                                                      curve:
+                                                          Curves.easeInOutQuad,
+                                                      begin: const Offset(
+                                                          0.99, 0.99),
+                                                      end: const Offset(1, 1)),
                                             ),
-                                            if (filter.isNotEmpty)
-                                              IconButton(
-                                                  onPressed: () {
-                                                    cubit.setFilter('');
-                                                    searchController.text = '';
-                                                  },
-                                                  icon: const Icon(Icons.clear))
+                                            if (settings.showLetterList &&
+                                                (settings.letterListOnRight ||
+                                                    settings
+                                                        .showInvisibleLetterList))
+                                              Align(
+                                                  alignment:
+                                                      Alignment.bottomRight,
+                                                  child: LetterList(
+                                                    rightMode: true,
+                                                    invisible: !settings
+                                                            .letterListOnRight &&
+                                                        settings
+                                                            .showInvisibleLetterList,
+                                                  ))
                                           ],
                                         ),
-                                      )
-                                  ],
+                                      ),
+                                      if (settings.showSearch)
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Row(
+                                            children: [
+                                              Expanded(
+                                                child: TextField(
+                                                  controller: searchController,
+                                                  autocorrect: false,
+                                                  decoration: InputDecoration(
+                                                      label: Icon(
+                                                    Icons.search,
+                                                    color: colors.secondary,
+                                                  )),
+                                                  onChanged: cubit.setFilter,
+                                                ),
+                                              ),
+                                              if (filter.isNotEmpty)
+                                                IconButton(
+                                                    onPressed: () {
+                                                      cubit.setFilter('');
+                                                      searchController.text =
+                                                          '';
+                                                    },
+                                                    icon:
+                                                        const Icon(Icons.clear))
+                                            ],
+                                          ),
+                                        )
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),

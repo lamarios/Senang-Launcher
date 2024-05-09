@@ -6,7 +6,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:senang_launcher/app_list/state/app_list.dart';
 import 'package:senang_launcher/app_list/state/letter_list.dart';
 import 'package:senang_launcher/settings/views/screens/settings.dart';
-import 'package:vibration/vibration.dart';
 
 const double _fingerGap = 125;
 const double _fingerIndexGap = 12;
@@ -58,46 +57,39 @@ class _LetterListState extends State<LetterList> {
     final textTheme = Theme.of(context).textTheme;
     final colors = Theme.of(context).colorScheme;
 
-    return BlocListener<LetterListCubit, LetterListState>(
-      listenWhen: (previous, current) => previous.index != current.index,
-      listener: (context, state) async {
-        if (((await Vibration.hasVibrator()) ?? false) &&
-            (await Vibration.hasAmplitudeControl() ?? false)) {
-          Vibration.vibrate(duration: 10, amplitude: 20);
-        }
-      },
-      child: BlocBuilder<LetterListCubit, LetterListState>(
-          builder: (context, state) {
-        final letters = context.select((AppListCubit value) {
-          Set<String> letters = {};
+    return BlocBuilder<LetterListCubit, LetterListState>(
+        builder: (context, state) {
+      final letters = context.select((AppListCubit value) {
+        Set<String> letters = {};
 
-          value.state.apps
-              .where((element) => !element.hidden)
-              .map((e) => e.app!.appName.substring(0, 1))
-              .forEach((element) {
-            letters.add(element.toUpperCase());
-          });
-
-          var letterList = letters.toList();
-          letterList.sort();
-          return letterList;
+        value.state.apps
+            .where((element) => !element.hidden)
+            .map((e) => e.app!.appName.substring(0, 1))
+            .forEach((element) {
+          letters.add(element.toUpperCase());
         });
 
-        final letterCubit = context.read<LetterListCubit>();
+        var letterList = letters.toList();
+        letterList.sort();
+        return letterList;
+      });
 
-        letters.insert(0, allApps);
-        letters.add(settingLetterPlaceHolder);
+      final letterCubit = context.read<LetterListCubit>();
 
-        final letterWidgets = <Widget>[];
+      letters.insert(0, allApps);
+      letters.add(settingLetterPlaceHolder);
 
-        double mean = (_fingerIndexGap * 2 - 1) / 2; // Mean of the bell curve
-        double deviation = mean / 3.2; // Standard deviation
+      final letterWidgets = <Widget>[];
 
-        for (final (idx, l) in letters.indexed) {
-          var hovered = idx == state.index;
-          double offset = 0;
-          double scale = 1;
+      double mean = (_fingerIndexGap * 2 - 1) / 2; // Mean of the bell curve
+      double deviation = mean / 3.2; // Standard deviation
 
+      for (final (idx, l) in letters.indexed) {
+        var hovered = idx == state.index;
+        double offset = 0;
+        double scale = 1;
+
+        if (!widget.invisible) {
           // we do a cascade of offsets
           if (hovered) {
             scale = 3;
@@ -119,103 +111,103 @@ class _LetterListState extends State<LetterList> {
           if (!widget.rightMode) {
             offset = -offset;
           }
-
-          letterWidgets.add(Padding(
-            padding: EdgeInsets.symmetric(
-                vertical: 2.0, horizontal: hovered ? 4 : 0),
-            child: AnimatedScale(
-              duration: const Duration(milliseconds: 75),
-              curve: Curves.easeInOutQuad,
-              scale: scale,
-              child: SizedBox(
-                height: 17,
-                width: 17,
-                child: widget.invisible
-                    ? null
-                    : AnimatedContainer(
-                        duration: const Duration(milliseconds: 100),
-                        curve: Curves.easeInOutQuad,
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: hovered
-                                ? colors.secondaryContainer
-                                : colors.secondaryContainer.withOpacity(0)),
-                        child: Center(
-                          child: l == allApps
-                              ? Icon(Icons.apps,
-                                  size: 13,
-                                  color: hovered
-                                      ? colors.primary
-                                      : colors.onBackground)
-                              : l == settingLetterPlaceHolder
-                                  ? Icon(Icons.settings,
-                                      size: 13,
-                                      color: hovered
-                                          ? colors.primary
-                                          : colors.onBackground)
-                                  : Text(
-                                      l,
-                                      style: textTheme.labelMedium?.copyWith(
-                                          fontSize: 14,
-                                          color: hovered
-                                              ? colors.primary
-                                              : colors.onBackground),
-                                    ),
-                        ),
-                      ),
-              ),
-            ),
-          ).animate(target: offset != 0 ? 1 : 0).moveX(
-              begin: 0,
-              end: -offset,
-              curve: Curves.easeInOutQuad,
-              duration: const Duration(milliseconds: 100)));
         }
 
-        return LayoutBuilder(builder: (context, constraints) {
-          return Padding(
-            padding: const EdgeInsets.only(bottom: 32.0),
-            child: GestureDetector(
-              behavior: HitTestBehavior.opaque,
-              onVerticalDragEnd: (details) {
-                if (state.index == letters.length - 1) {
-                  showSettings(context);
-                }
-                letterCubit.setIndex(null, '', null);
-              },
-              onLongPress: () {},
-              onLongPressCancel: () {},
-              onLongPressEnd: (details) {
-                if (state.index == letters.length - 1) {
-                  showSettings(context);
-                }
-                letterCubit.setIndex(null, '', null);
-              },
-              onLongPressMoveUpdate: (details) =>
-                  setIndex(context, details.globalPosition, letters),
-              onVerticalDragDown: (details) =>
-                  setIndex(context, details.globalPosition, letters),
-              onVerticalDragUpdate: (details) =>
-                  setIndex(context, details.globalPosition, letters),
-              onTapUp: (details) {
-                if (state.index == letters.length - 1) {
-                  showSettings(context);
-                }
-                letterCubit.setIndex(null, '', null);
-              },
-              child: Padding(
-                padding: const EdgeInsets.only(left: 8.0),
-                child: Column(
-                  key: key,
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: letterWidgets,
-                ),
+        letterWidgets.add(Padding(
+          padding:
+              EdgeInsets.symmetric(vertical: 2.0, horizontal: hovered ? 4 : 0),
+          child: AnimatedScale(
+            duration: const Duration(milliseconds: 75),
+            curve: Curves.easeInOutQuad,
+            scale: scale,
+            child: SizedBox(
+              height: 17,
+              width: 17,
+              child: widget.invisible
+                  ? null
+                  : AnimatedContainer(
+                      duration: const Duration(milliseconds: 100),
+                      curve: Curves.easeInOutQuad,
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: hovered
+                              ? colors.secondaryContainer
+                              : colors.secondaryContainer.withOpacity(0)),
+                      child: Center(
+                        child: l == allApps
+                            ? Icon(Icons.apps,
+                                size: 13,
+                                color: hovered
+                                    ? colors.primary
+                                    : colors.onBackground)
+                            : l == settingLetterPlaceHolder
+                                ? Icon(Icons.settings,
+                                    size: 13,
+                                    color: hovered
+                                        ? colors.primary
+                                        : colors.onBackground)
+                                : Text(
+                                    l,
+                                    style: textTheme.labelMedium?.copyWith(
+                                        fontSize: 14,
+                                        color: hovered
+                                            ? colors.primary
+                                            : colors.onBackground),
+                                  ),
+                      ),
+                    ),
+            ),
+          ),
+        ).animate(target: offset != 0 ? 1 : 0).moveX(
+            begin: 0,
+            end: -offset,
+            curve: Curves.easeInOutQuad,
+            duration: const Duration(milliseconds: 100)));
+      }
+
+      return LayoutBuilder(builder: (context, constraints) {
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 32.0),
+          child: GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onVerticalDragEnd: (details) {
+              if (state.index == letters.length - 1) {
+                showSettings(context);
+              }
+              letterCubit.setIndex(null, '', null);
+            },
+            onLongPress: () {},
+            onLongPressCancel: () {},
+            onLongPressEnd: (details) {
+              if (state.index == letters.length - 1) {
+                showSettings(context);
+              }
+              letterCubit.setIndex(null, '', null);
+            },
+            onLongPressMoveUpdate: (details) =>
+                setIndex(context, details.globalPosition, letters),
+            onVerticalDragDown: (details) =>
+                setIndex(context, details.globalPosition, letters),
+            onVerticalDragUpdate: (details) =>
+                setIndex(context, details.globalPosition, letters),
+            onTapUp: (details) {
+              if (state.index == letters.length - 1) {
+                showSettings(context);
+              }
+              letterCubit.setIndex(null, '', null);
+            },
+            child: Padding(
+              padding: const EdgeInsets.only(left: 8.0),
+              child: Column(
+                key: key,
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: letterWidgets,
               ),
             ),
-          );
-        });
-      }),
-    );
+          ),
+        );
+      });
+    });
   }
 }

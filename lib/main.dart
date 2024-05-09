@@ -1,8 +1,8 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:senang_launcher/app_setup.dart';
 import 'package:senang_launcher/db.dart';
 import 'package:senang_launcher/router.dart';
 import 'package:senang_launcher/settings/state/settings.dart';
@@ -21,8 +21,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => SettingsCubit(const SettingsState()),
+    return AppSetup(
       child: Builder(builder: (context) {
         final brandColor =
             context.select((SettingsCubit value) => value.state.color);

@@ -47,14 +47,6 @@ class StatsScreen extends StatelessWidget {
                 data.sort(
                   (a, b) => b.launchCount.compareTo(a.launchCount),
                 );
-                double totalLaunches = 0;
-
-                if (data.isNotEmpty) {
-                  totalLaunches = data
-                      .map((e) => e.launchCount)
-                      .reduce((value, element) => value + element)
-                      .toDouble();
-                }
 
                 return state.loading
                     ? const Center(
@@ -103,8 +95,9 @@ class StatsScreen extends StatelessWidget {
                                             borderRadius:
                                                 BorderRadius.circular(5)),
                                         child: FractionallySizedBox(
-                                          widthFactor: totalLaunches > 0
-                                              ? app.launchCount / totalLaunches
+                                          widthFactor: state.maxLaunches > 0
+                                              ? app.launchCount /
+                                                  state.maxLaunches
                                               : 0,
                                           heightFactor: 1,
                                           child: Container(

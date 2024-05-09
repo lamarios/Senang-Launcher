@@ -8,6 +8,7 @@ import 'package:vibration/vibration.dart';
 /// sets up all the global providers and listeners
 class AppSetup extends StatelessWidget {
   final Widget child;
+
   const AppSetup({super.key, required this.child});
 
   @override
@@ -35,7 +36,9 @@ class AppSetup extends StatelessWidget {
                 previous.dataDays != current.dataDays,
           ),
           BlocListener<LetterListCubit, LetterListState>(
-            listenWhen: (previous, current) => previous.index != current.index,
+            listenWhen: (previous, current) {
+              return previous.index != current.index;
+            },
             listener: (context, state) async {
               if (((await Vibration.hasVibrator()) ?? false) &&
                   (await Vibration.hasAmplitudeControl() ?? false)) {

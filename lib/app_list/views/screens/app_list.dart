@@ -187,7 +187,7 @@ class _AppList extends StatelessWidget {
                             DeviceApps.openApp(e.app!.packageName);
                           }
                           cubit.increaseLaunches(e);
-                          cubit.setFilter('');
+                          cubit.setLetterFilter(null);
                           cubit.searchController.text = '';
                         },
                         child: App(key: ValueKey(e.app!.packageName), app: e)))

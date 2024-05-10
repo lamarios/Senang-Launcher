@@ -1,7 +1,9 @@
 // This file is "main.dart"
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:senang_launcher/app_list/models/app_data.dart';
 import 'package:senang_launcher/app_list/state/app_list.dart';
+import 'package:senang_launcher/app_list/views/components/letter_list.dart';
 
 part 'letter_list.freezed.dart';
 
@@ -18,6 +20,23 @@ class LetterListCubit extends Cubit<LetterListState> {
       appListCubit.setLetterFilter(index == 0 ? null : letter);
     }
   }
+
+  defineLetters(List<AppData> apps) {
+    Set<String> letters = {};
+
+    apps
+        .where((element) => !element.hidden)
+        .map((e) => e.app!.appName.substring(0, 1))
+        .forEach((element) {
+      letters.add(element.toUpperCase());
+    });
+
+    var letterList = letters.toList();
+    letterList.sort();
+    letterList.insert(0, allApps);
+    letterList.add(settingLetterPlaceHolder);
+    emit(state.copyWith(letters: letterList));
+  }
 }
 
 @freezed
@@ -25,5 +44,6 @@ class LetterListState with _$LetterListState {
   const factory LetterListState(
       {int? index,
       double? xOffset,
+      @Default([]) List<String> letters,
       @Default(false) bool fromInvisible}) = _LetterListState;
 }

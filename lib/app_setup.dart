@@ -35,6 +35,11 @@ class AppSetup extends StatelessWidget {
             listenWhen: (previous, current) =>
                 previous.dataDays != current.dataDays,
           ),
+          BlocListener<AppListCubit, AppListState>(
+            listenWhen: (previous, current) => previous.apps != current.apps,
+            listener: (context, state) =>
+                context.read<LetterListCubit>().defineLetters(state.apps),
+          ),
           BlocListener<LetterListCubit, LetterListState>(
             listenWhen: (previous, current) {
               return previous.index != current.index;

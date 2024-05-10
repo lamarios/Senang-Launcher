@@ -18,6 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$LetterListState {
   int? get index => throw _privateConstructorUsedError;
   double? get xOffset => throw _privateConstructorUsedError;
+  List<String> get letters => throw _privateConstructorUsedError;
   bool get fromInvisible => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -31,7 +32,8 @@ abstract class $LetterListStateCopyWith<$Res> {
           LetterListState value, $Res Function(LetterListState) then) =
       _$LetterListStateCopyWithImpl<$Res, LetterListState>;
   @useResult
-  $Res call({int? index, double? xOffset, bool fromInvisible});
+  $Res call(
+      {int? index, double? xOffset, List<String> letters, bool fromInvisible});
 }
 
 /// @nodoc
@@ -49,6 +51,7 @@ class _$LetterListStateCopyWithImpl<$Res, $Val extends LetterListState>
   $Res call({
     Object? index = freezed,
     Object? xOffset = freezed,
+    Object? letters = null,
     Object? fromInvisible = null,
   }) {
     return _then(_value.copyWith(
@@ -60,6 +63,10 @@ class _$LetterListStateCopyWithImpl<$Res, $Val extends LetterListState>
           ? _value.xOffset
           : xOffset // ignore: cast_nullable_to_non_nullable
               as double?,
+      letters: null == letters
+          ? _value.letters
+          : letters // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       fromInvisible: null == fromInvisible
           ? _value.fromInvisible
           : fromInvisible // ignore: cast_nullable_to_non_nullable
@@ -76,7 +83,8 @@ abstract class _$$LetterListStateImplCopyWith<$Res>
       __$$LetterListStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int? index, double? xOffset, bool fromInvisible});
+  $Res call(
+      {int? index, double? xOffset, List<String> letters, bool fromInvisible});
 }
 
 /// @nodoc
@@ -92,6 +100,7 @@ class __$$LetterListStateImplCopyWithImpl<$Res>
   $Res call({
     Object? index = freezed,
     Object? xOffset = freezed,
+    Object? letters = null,
     Object? fromInvisible = null,
   }) {
     return _then(_$LetterListStateImpl(
@@ -103,6 +112,10 @@ class __$$LetterListStateImplCopyWithImpl<$Res>
           ? _value.xOffset
           : xOffset // ignore: cast_nullable_to_non_nullable
               as double?,
+      letters: null == letters
+          ? _value._letters
+          : letters // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       fromInvisible: null == fromInvisible
           ? _value.fromInvisible
           : fromInvisible // ignore: cast_nullable_to_non_nullable
@@ -115,19 +128,32 @@ class __$$LetterListStateImplCopyWithImpl<$Res>
 
 class _$LetterListStateImpl implements _LetterListState {
   const _$LetterListStateImpl(
-      {this.index, this.xOffset, this.fromInvisible = false});
+      {this.index,
+      this.xOffset,
+      final List<String> letters = const [],
+      this.fromInvisible = false})
+      : _letters = letters;
 
   @override
   final int? index;
   @override
   final double? xOffset;
+  final List<String> _letters;
+  @override
+  @JsonKey()
+  List<String> get letters {
+    if (_letters is EqualUnmodifiableListView) return _letters;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_letters);
+  }
+
   @override
   @JsonKey()
   final bool fromInvisible;
 
   @override
   String toString() {
-    return 'LetterListState(index: $index, xOffset: $xOffset, fromInvisible: $fromInvisible)';
+    return 'LetterListState(index: $index, xOffset: $xOffset, letters: $letters, fromInvisible: $fromInvisible)';
   }
 
   @override
@@ -137,12 +163,14 @@ class _$LetterListStateImpl implements _LetterListState {
             other is _$LetterListStateImpl &&
             (identical(other.index, index) || other.index == index) &&
             (identical(other.xOffset, xOffset) || other.xOffset == xOffset) &&
+            const DeepCollectionEquality().equals(other._letters, _letters) &&
             (identical(other.fromInvisible, fromInvisible) ||
                 other.fromInvisible == fromInvisible));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, index, xOffset, fromInvisible);
+  int get hashCode => Object.hash(runtimeType, index, xOffset,
+      const DeepCollectionEquality().hash(_letters), fromInvisible);
 
   @JsonKey(ignore: true)
   @override
@@ -156,12 +184,15 @@ abstract class _LetterListState implements LetterListState {
   const factory _LetterListState(
       {final int? index,
       final double? xOffset,
+      final List<String> letters,
       final bool fromInvisible}) = _$LetterListStateImpl;
 
   @override
   int? get index;
   @override
   double? get xOffset;
+  @override
+  List<String> get letters;
   @override
   bool get fromInvisible;
   @override

@@ -3,7 +3,6 @@ import 'package:auto_route/annotations.dart';
 import 'package:device_apps/device_apps.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:senang_launcher/app_list/state/app_list.dart';
@@ -161,47 +160,38 @@ class _AppList extends StatelessWidget {
                 style: textTheme.displayMedium?.copyWith(color: colors.primary),
                 textAlign: TextAlign.center,
               )
-            : settings.listStyle
-                .wrapApps(context,
-                    children: apps
-                        .where((element) {
-                          if (isLetterFilter) {
-                            return element.app!.appName
-                                .toLowerCase()
-                                .startsWith(filter);
-                          } else {
-                            return element.app!.appName
-                                .toLowerCase()
-                                .contains(filter);
+            : settings.listStyle.wrapApps(context,
+                children: apps
+                    .where((element) {
+                      if (isLetterFilter) {
+                        return element.app!.appName
+                            .toLowerCase()
+                            .startsWith(filter);
+                      } else {
+                        return element.app!.appName
+                            .toLowerCase()
+                            .contains(filter);
+                      }
+                    })
+                    .map((e) => GestureDetector(
+                        onLongPress: () => SettingsSheet.showSettingsSheet(
+                            context,
+                            (context) => SettingsSheet(
+                                  hideApp: cubit.hideApp,
+                                  app: e,
+                                )).then((value) => cubit.getApps()),
+                        onTap: () {
+                          if (!kDebugMode) {
+                            DeviceApps.openApp(e.app!.packageName);
                           }
-                        })
-                        .map((e) => GestureDetector(
-                            onLongPress: () => SettingsSheet.showSettingsSheet(
-                                context,
-                                (context) => SettingsSheet(
-                                      hideApp: cubit.hideApp,
-                                      app: e,
-                                    )).then((value) => cubit.getApps()),
-                            onTap: () {
-                              if (!kDebugMode) {
-                                DeviceApps.openApp(e.app!.packageName);
-                              }
-                              cubit.increaseLaunches(e);
-                              cubit.setFilter('');
-                              cubit.searchController.text = '';
-                            },
-                            child:
-                                App(key: ValueKey(e.app!.packageName), app: e)))
-                        .toList(),
-                    verticalSpacing: settings.verticalSpacing,
-                    horizontalSpacing: settings.horizontalSpacing)
-                .animate(key: ValueKey(filter))
-                .fadeIn(begin: 0.3, duration: const Duration(milliseconds: 150))
-                .scale(
-                    duration: const Duration(milliseconds: 150),
-                    curve: Curves.easeInOutQuad,
-                    begin: const Offset(0.99, 0.99),
-                    end: const Offset(1, 1));
+                          cubit.increaseLaunches(e);
+                          cubit.setFilter('');
+                          cubit.searchController.text = '';
+                        },
+                        child: App(key: ValueKey(e.app!.packageName), app: e)))
+                    .toList(),
+                verticalSpacing: settings.verticalSpacing,
+                horizontalSpacing: settings.horizontalSpacing);
       },
     );
   }

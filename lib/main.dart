@@ -49,15 +49,26 @@ class MyApp extends StatelessWidget {
                   brightness: Brightness.dark,
                   background: blackBackground ? Colors.black : null);
 
+          const appBarTheme = AppBarTheme(
+            elevation: 0,
+            scrolledUnderElevation: 0,
+          );
+
           return MaterialApp.router(
             title: 'Senang Launcher',
             themeMode: theme,
             theme: ThemeData(
+              appBarTheme:
+                  appBarTheme.copyWith(backgroundColor: lightTheme.background),
               colorScheme: lightTheme,
               useMaterial3: true,
             ),
             localizationsDelegates: AppLocalizations.localizationsDelegates,
-            darkTheme: ThemeData(colorScheme: darkTheme, useMaterial3: true),
+            darkTheme: ThemeData(
+                colorScheme: darkTheme,
+                useMaterial3: true,
+                appBarTheme: appBarTheme.copyWith(
+                    backgroundColor: darkTheme.background)),
             routerConfig: _appRouter.config(),
           );
         });

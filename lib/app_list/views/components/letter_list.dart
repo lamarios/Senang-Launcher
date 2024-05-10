@@ -47,7 +47,7 @@ class _LetterListState extends State<LetterList> {
         context,
         (context) => SettingsSheet(
               hideApp: cubit.hideApp,
-            ));
+            )).then((value) => context.read<AppListCubit>().getApps());
 
     cubit.setLetterFilter(null);
   }

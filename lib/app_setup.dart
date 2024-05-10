@@ -1,3 +1,4 @@
+import 'package:easy_debounce/easy_throttle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:senang_launcher/app_list/state/app_list.dart';
@@ -47,7 +48,10 @@ class AppSetup extends StatelessWidget {
             listener: (context, state) async {
               if (((await Vibration.hasVibrator()) ?? false) &&
                   (await Vibration.hasAmplitudeControl() ?? false)) {
-                Vibration.vibrate(duration: 10, amplitude: 20);
+                EasyThrottle.throttle(
+                    'vibration', const Duration(milliseconds: 10), () {
+                  Vibration.vibrate(duration: 10, amplitude: 20);
+                });
               }
             },
           )

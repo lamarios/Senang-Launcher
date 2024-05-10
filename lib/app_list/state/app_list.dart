@@ -17,13 +17,16 @@ part 'app_list.freezed.dart';
 
 class AppListCubit extends Cubit<AppListState> {
   final bool withIcons;
+  final bool getHidden;
   StreamSubscription<ServiceNotificationEvent>? notificationSubscription;
   StreamSubscription<ApplicationEvent>? appListener;
   final TextEditingController searchController = TextEditingController();
   final SettingsCubit settingsCubit;
 
   AppListCubit(super.initialState, this.settingsCubit,
-      {this.withIcons = false, bool subscribeToStuff = false}) {
+      {this.withIcons = false,
+      bool subscribeToStuff = false,
+      this.getHidden = false}) {
     if (subscribeToStuff) {
       appListener = DeviceApps.listenToAppsChanges().listen(onAppChange);
       setUpNotificationListener();
@@ -85,7 +88,9 @@ class AppListCubit extends Cubit<AppListState> {
             apps: apps,
             since: DateTime.now()
                 .add(Duration(days: -(settingsCubit.state.dataDays)))))
-        .where((element) => element.app != null)
+        // we remove hidden apps
+        .where(
+            (element) => element.app != null && (getHidden || !element.hidden))
         .toList();
 
     appData.sort(
@@ -93,6 +98,7 @@ class AppListCubit extends Cubit<AppListState> {
           a.app!.appName.toLowerCase().compareTo(b.app!.appName.toLowerCase()),
     );
 
+    Map<String, List<AppData>> appsByLetter = {};
     // restore notifications values
     for (int i = 0; i < appData.length; i++) {
       final app = appData[i];
@@ -102,9 +108,15 @@ class AppListCubit extends Cubit<AppListState> {
       if (hasNotifications) {
         appData[i] = app.copyWith(hasNotification: true);
       }
-    }
 
-    emit(state.copyWith(apps: appData, loading: false));
+      final firstLetter = app.app!.appName.substring(0, 1).toLowerCase();
+      appsByLetter[firstLetter] ??= [];
+      appsByLetter[firstLetter]?.add(appData[i]);
+    }
+    print(appsByLetter);
+
+    emit(state.copyWith(
+        apps: appData, loading: false, appsByLetter: appsByLetter));
     setMinMax();
   }
 
@@ -167,9 +179,27 @@ class AppListCubit extends Cubit<AppListState> {
 class AppListState with _$AppListState {
   const factory AppListState(
       {@Default([]) List<AppData> apps,
+      // we sacrifice a bit of memory for the sake of runtime performance as it's crucial
+      // for a launcher to feel smooth at all times
+      @Default({}) Map<String, List<AppData>> appsByLetter,
       @Default(0) int maxLaunches,
       @Default('') String filter,
       @Default(false) bool loading,
       @Default(false) bool isLetterFilter,
       @Default(0) minLaunches}) = _AppListState;
+
+  const AppListState._();
+
+  List<AppData> get appropriateApps {
+    if (isLetterFilter) {
+      return appsByLetter[filter] ?? [];
+    } else if (filter.isNotEmpty) {
+      return apps
+          .where(
+              (element) => element.app!.appName.toLowerCase().contains(filter))
+          .toList();
+    } else {
+      return apps;
+    }
+  }
 }

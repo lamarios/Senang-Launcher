@@ -16,7 +16,11 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$AppListState {
-  List<AppData> get apps => throw _privateConstructorUsedError;
+  List<AppData> get apps =>
+      throw _privateConstructorUsedError; // we sacrifice a bit of memory for the sake of runtime performance as it's crucial
+// for a launcher to feel smooth at all times
+  Map<String, List<AppData>> get appsByLetter =>
+      throw _privateConstructorUsedError;
   int get maxLaunches => throw _privateConstructorUsedError;
   String get filter => throw _privateConstructorUsedError;
   bool get loading => throw _privateConstructorUsedError;
@@ -36,6 +40,7 @@ abstract class $AppListStateCopyWith<$Res> {
   @useResult
   $Res call(
       {List<AppData> apps,
+      Map<String, List<AppData>> appsByLetter,
       int maxLaunches,
       String filter,
       bool loading,
@@ -57,6 +62,7 @@ class _$AppListStateCopyWithImpl<$Res, $Val extends AppListState>
   @override
   $Res call({
     Object? apps = null,
+    Object? appsByLetter = null,
     Object? maxLaunches = null,
     Object? filter = null,
     Object? loading = null,
@@ -68,6 +74,10 @@ class _$AppListStateCopyWithImpl<$Res, $Val extends AppListState>
           ? _value.apps
           : apps // ignore: cast_nullable_to_non_nullable
               as List<AppData>,
+      appsByLetter: null == appsByLetter
+          ? _value.appsByLetter
+          : appsByLetter // ignore: cast_nullable_to_non_nullable
+              as Map<String, List<AppData>>,
       maxLaunches: null == maxLaunches
           ? _value.maxLaunches
           : maxLaunches // ignore: cast_nullable_to_non_nullable
@@ -102,6 +112,7 @@ abstract class _$$AppListStateImplCopyWith<$Res>
   @useResult
   $Res call(
       {List<AppData> apps,
+      Map<String, List<AppData>> appsByLetter,
       int maxLaunches,
       String filter,
       bool loading,
@@ -121,6 +132,7 @@ class __$$AppListStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? apps = null,
+    Object? appsByLetter = null,
     Object? maxLaunches = null,
     Object? filter = null,
     Object? loading = null,
@@ -132,6 +144,10 @@ class __$$AppListStateImplCopyWithImpl<$Res>
           ? _value._apps
           : apps // ignore: cast_nullable_to_non_nullable
               as List<AppData>,
+      appsByLetter: null == appsByLetter
+          ? _value._appsByLetter
+          : appsByLetter // ignore: cast_nullable_to_non_nullable
+              as Map<String, List<AppData>>,
       maxLaunches: null == maxLaunches
           ? _value.maxLaunches
           : maxLaunches // ignore: cast_nullable_to_non_nullable
@@ -155,15 +171,18 @@ class __$$AppListStateImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$AppListStateImpl implements _AppListState {
+class _$AppListStateImpl extends _AppListState {
   const _$AppListStateImpl(
       {final List<AppData> apps = const [],
+      final Map<String, List<AppData>> appsByLetter = const {},
       this.maxLaunches = 0,
       this.filter = '',
       this.loading = false,
       this.isLetterFilter = false,
       this.minLaunches = 0})
-      : _apps = apps;
+      : _apps = apps,
+        _appsByLetter = appsByLetter,
+        super._();
 
   final List<AppData> _apps;
   @override
@@ -172,6 +191,19 @@ class _$AppListStateImpl implements _AppListState {
     if (_apps is EqualUnmodifiableListView) return _apps;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_apps);
+  }
+
+// we sacrifice a bit of memory for the sake of runtime performance as it's crucial
+// for a launcher to feel smooth at all times
+  final Map<String, List<AppData>> _appsByLetter;
+// we sacrifice a bit of memory for the sake of runtime performance as it's crucial
+// for a launcher to feel smooth at all times
+  @override
+  @JsonKey()
+  Map<String, List<AppData>> get appsByLetter {
+    if (_appsByLetter is EqualUnmodifiableMapView) return _appsByLetter;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_appsByLetter);
   }
 
   @override
@@ -192,7 +224,7 @@ class _$AppListStateImpl implements _AppListState {
 
   @override
   String toString() {
-    return 'AppListState(apps: $apps, maxLaunches: $maxLaunches, filter: $filter, loading: $loading, isLetterFilter: $isLetterFilter, minLaunches: $minLaunches)';
+    return 'AppListState(apps: $apps, appsByLetter: $appsByLetter, maxLaunches: $maxLaunches, filter: $filter, loading: $loading, isLetterFilter: $isLetterFilter, minLaunches: $minLaunches)';
   }
 
   @override
@@ -201,6 +233,8 @@ class _$AppListStateImpl implements _AppListState {
         (other.runtimeType == runtimeType &&
             other is _$AppListStateImpl &&
             const DeepCollectionEquality().equals(other._apps, _apps) &&
+            const DeepCollectionEquality()
+                .equals(other._appsByLetter, _appsByLetter) &&
             (identical(other.maxLaunches, maxLaunches) ||
                 other.maxLaunches == maxLaunches) &&
             (identical(other.filter, filter) || other.filter == filter) &&
@@ -215,6 +249,7 @@ class _$AppListStateImpl implements _AppListState {
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(_apps),
+      const DeepCollectionEquality().hash(_appsByLetter),
       maxLaunches,
       filter,
       loading,
@@ -228,17 +263,22 @@ class _$AppListStateImpl implements _AppListState {
       __$$AppListStateImplCopyWithImpl<_$AppListStateImpl>(this, _$identity);
 }
 
-abstract class _AppListState implements AppListState {
+abstract class _AppListState extends AppListState {
   const factory _AppListState(
       {final List<AppData> apps,
+      final Map<String, List<AppData>> appsByLetter,
       final int maxLaunches,
       final String filter,
       final bool loading,
       final bool isLetterFilter,
       final dynamic minLaunches}) = _$AppListStateImpl;
+  const _AppListState._() : super._();
 
   @override
   List<AppData> get apps;
+  @override // we sacrifice a bit of memory for the sake of runtime performance as it's crucial
+// for a launcher to feel smooth at all times
+  Map<String, List<AppData>> get appsByLetter;
   @override
   int get maxLaunches;
   @override

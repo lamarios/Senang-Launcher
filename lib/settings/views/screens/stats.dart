@@ -23,7 +23,7 @@ class StatsScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => AppListCubit(
           const AppListState(), context.read<SettingsCubit>(),
-          withIcons: true)
+          withIcons: true, getHidden: true)
         ..getApps(withLoading: true),
       child: Scaffold(
           appBar: AppBar(

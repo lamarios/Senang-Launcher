@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:access_wallpaper/access_wallpaper.dart';
 import 'package:auto_route/annotations.dart';
 import 'package:device_apps/device_apps.dart';
@@ -10,6 +12,7 @@ import 'package:senang_launcher/app_list/views/components/app.dart';
 import 'package:senang_launcher/app_list/views/components/letter_list.dart';
 import 'package:senang_launcher/settings/state/settings.dart';
 import 'package:senang_launcher/settings/views/screens/settings.dart';
+import 'package:senang_launcher/utils/views/components/conditional_wrap.dart';
 
 @RoutePage()
 class AppListScreen extends StatelessWidget {
@@ -37,10 +40,20 @@ class AppListScreen extends StatelessWidget {
                           .getWallpaper(AccessWallpaper.homeScreenFlag),
                       builder: (context, snapshot) {
                         return snapshot.hasData && snapshot.data != null
-                            ? Image.memory(
-                                snapshot.data!,
-                                fit: BoxFit.cover,
-                                gaplessPlayback: true,
+                            ? ConditionalWrap(
+                                wrapIf: settings.wallpaperBlur > 0,
+                                wrapper: (child) => ImageFiltered(
+                                  imageFilter: ImageFilter.blur(
+                                    sigmaY: settings.wallpaperBlur,
+                                    sigmaX: settings.wallpaperBlur,
+                                  ),
+                                  child: child,
+                                ),
+                                child: Image.memory(
+                                  snapshot.data!,
+                                  fit: BoxFit.cover,
+                                  gaplessPlayback: true,
+                                ),
                               )
                             : const SizedBox.shrink();
                       },
@@ -145,8 +158,8 @@ class _AppList extends StatelessWidget {
 
     return BlocBuilder<SettingsCubit, SettingsState>(
       builder: (context, settings) {
-        final apps = context.select((AppListCubit value) =>
-            value.state.apps.where((element) => !element.hidden));
+        final apps =
+            context.select((AppListCubit value) => value.state.appropriateApps);
         final filter =
             context.select((AppListCubit value) => value.state.filter);
         final isLetterFilter =
@@ -162,17 +175,6 @@ class _AppList extends StatelessWidget {
               )
             : settings.listStyle.wrapApps(context,
                 children: apps
-                    .where((element) {
-                      if (isLetterFilter) {
-                        return element.app!.appName
-                            .toLowerCase()
-                            .startsWith(filter);
-                      } else {
-                        return element.app!.appName
-                            .toLowerCase()
-                            .contains(filter);
-                      }
-                    })
                     .map((e) => GestureDetector(
                         onLongPress: () => SettingsSheet.showSettingsSheet(
                             context,

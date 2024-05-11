@@ -71,8 +71,7 @@ git submodule update
 ./submodules/flutter/bin/dart run tools/setup_git_hooks.dart
 ```
 
-or using nix that will handle all the above plus starting a working invidious instance with user
-test and password test.
+or using nix that will handle all the above. 
 
 ```
 nix-shell

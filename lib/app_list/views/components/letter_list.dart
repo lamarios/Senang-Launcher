@@ -33,12 +33,11 @@ class _LetterListState extends State<LetterList> {
     double y = position.dy; //this is y - I think it's what you want
     final xPosition = (globalPosition.dx - position.dx);
     double percentageOfHeight = (globalPosition.dy - y) / box.size.height;
-    int index = (letters.length * percentageOfHeight).toInt();
-    index = min(letters.length - 1, index);
-    index = max(0, index);
+    double index = (letters.length * percentageOfHeight);
 
-    context.read<LetterListCubit>().setIndex(index, letters[index], xPosition,
-        fromInvisible: widget.invisible);
+    context
+        .read<LetterListCubit>()
+        .setIndex(index, xPosition, fromInvisible: widget.invisible);
   }
 
   showSettings(BuildContext context) {
@@ -65,6 +64,8 @@ class _LetterListState extends State<LetterList> {
 
       double mean = (_fingerIndexGap * 2 - 1) / 2; // Mean of the bell curve
       double deviation = mean / 3.2; // Standard deviation
+      final double hoverIndex =
+          min(max(0, state.rawIndex ?? 0), state.letters.length.toDouble());
 
       for (final (idx, l) in state.letters.indexed) {
         var hovered = idx == state.index;
@@ -91,7 +92,7 @@ class _LetterListState extends State<LetterList> {
           }
           if (state.index != null &&
               (state.index! - idx).abs() <= _fingerIndexGap) {
-            var distance = (idx - state.index!).abs();
+            var distance = (idx - hoverIndex).abs();
             double bellValue =
                 1 - exp(-(pow(distance - mean, 2) / (2 * pow(deviation, 2))));
 
@@ -165,7 +166,7 @@ class _LetterListState extends State<LetterList> {
               if (state.index == state.letters.length - 1) {
                 showSettings(context);
               }
-              letterCubit.setIndex(null, '', null);
+              letterCubit.setIndex(null, null);
             },
             onLongPress: () {},
             onLongPressCancel: () {},
@@ -173,7 +174,7 @@ class _LetterListState extends State<LetterList> {
               if (state.index == state.letters.length - 1) {
                 showSettings(context);
               }
-              letterCubit.setIndex(null, '', null);
+              letterCubit.setIndex(null, null);
             },
             onLongPressMoveUpdate: (details) =>
                 setIndex(context, details.globalPosition, state.letters),
@@ -185,7 +186,7 @@ class _LetterListState extends State<LetterList> {
               if (state.index == state.letters.length - 1) {
                 showSettings(context);
               }
-              letterCubit.setIndex(null, '', null);
+              letterCubit.setIndex(null, null);
             },
             child: Padding(
               padding: const EdgeInsets.only(left: 8.0),

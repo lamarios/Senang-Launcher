@@ -1,4 +1,6 @@
 // This file is "main.dart"
+import 'dart:math';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:senang_launcher/app_list/models/app_data.dart';
@@ -12,12 +14,20 @@ class LetterListCubit extends Cubit<LetterListState> {
 
   LetterListCubit(super.initialState, this.appListCubit);
 
-  setIndex(int? index, String letter, double? xOffset,
-      {bool fromInvisible = false}) {
+  setIndex(double? rawIndex, double? xOffset, {bool fromInvisible = false}) {
+    int? index;
+    if (rawIndex != null) {
+      index = min(state.letters.length - 1, rawIndex.toInt());
+      index = max(0, index);
+    }
+
     emit(state.copyWith(
-        index: index, xOffset: xOffset?.abs(), fromInvisible: fromInvisible));
+        rawIndex: rawIndex,
+        index: index,
+        xOffset: xOffset?.abs(),
+        fromInvisible: fromInvisible));
     if (index != null) {
-      appListCubit.setLetterFilter(index == 0 ? null : letter);
+      appListCubit.setLetterFilter(index == 0 ? null : state.letters[index]);
     }
   }
 
@@ -43,6 +53,7 @@ class LetterListCubit extends Cubit<LetterListState> {
 class LetterListState with _$LetterListState {
   const factory LetterListState(
       {int? index,
+      double? rawIndex,
       double? xOffset,
       @Default([]) List<String> letters,
       @Default(false) bool fromInvisible}) = _LetterListState;

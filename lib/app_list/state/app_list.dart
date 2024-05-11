@@ -113,7 +113,6 @@ class AppListCubit extends Cubit<AppListState> {
       appsByLetter[firstLetter] ??= [];
       appsByLetter[firstLetter]?.add(appData[i]);
     }
-    print(appsByLetter);
 
     emit(state.copyWith(
         apps: appData, loading: false, appsByLetter: appsByLetter));

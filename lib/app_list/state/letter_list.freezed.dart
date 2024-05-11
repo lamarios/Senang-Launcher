@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$LetterListState {
   int? get index => throw _privateConstructorUsedError;
+  double? get rawIndex => throw _privateConstructorUsedError;
   double? get xOffset => throw _privateConstructorUsedError;
   List<String> get letters => throw _privateConstructorUsedError;
   bool get fromInvisible => throw _privateConstructorUsedError;
@@ -33,7 +34,11 @@ abstract class $LetterListStateCopyWith<$Res> {
       _$LetterListStateCopyWithImpl<$Res, LetterListState>;
   @useResult
   $Res call(
-      {int? index, double? xOffset, List<String> letters, bool fromInvisible});
+      {int? index,
+      double? rawIndex,
+      double? xOffset,
+      List<String> letters,
+      bool fromInvisible});
 }
 
 /// @nodoc
@@ -50,6 +55,7 @@ class _$LetterListStateCopyWithImpl<$Res, $Val extends LetterListState>
   @override
   $Res call({
     Object? index = freezed,
+    Object? rawIndex = freezed,
     Object? xOffset = freezed,
     Object? letters = null,
     Object? fromInvisible = null,
@@ -59,6 +65,10 @@ class _$LetterListStateCopyWithImpl<$Res, $Val extends LetterListState>
           ? _value.index
           : index // ignore: cast_nullable_to_non_nullable
               as int?,
+      rawIndex: freezed == rawIndex
+          ? _value.rawIndex
+          : rawIndex // ignore: cast_nullable_to_non_nullable
+              as double?,
       xOffset: freezed == xOffset
           ? _value.xOffset
           : xOffset // ignore: cast_nullable_to_non_nullable
@@ -84,7 +94,11 @@ abstract class _$$LetterListStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int? index, double? xOffset, List<String> letters, bool fromInvisible});
+      {int? index,
+      double? rawIndex,
+      double? xOffset,
+      List<String> letters,
+      bool fromInvisible});
 }
 
 /// @nodoc
@@ -99,6 +113,7 @@ class __$$LetterListStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? index = freezed,
+    Object? rawIndex = freezed,
     Object? xOffset = freezed,
     Object? letters = null,
     Object? fromInvisible = null,
@@ -108,6 +123,10 @@ class __$$LetterListStateImplCopyWithImpl<$Res>
           ? _value.index
           : index // ignore: cast_nullable_to_non_nullable
               as int?,
+      rawIndex: freezed == rawIndex
+          ? _value.rawIndex
+          : rawIndex // ignore: cast_nullable_to_non_nullable
+              as double?,
       xOffset: freezed == xOffset
           ? _value.xOffset
           : xOffset // ignore: cast_nullable_to_non_nullable
@@ -129,6 +148,7 @@ class __$$LetterListStateImplCopyWithImpl<$Res>
 class _$LetterListStateImpl implements _LetterListState {
   const _$LetterListStateImpl(
       {this.index,
+      this.rawIndex,
       this.xOffset,
       final List<String> letters = const [],
       this.fromInvisible = false})
@@ -136,6 +156,8 @@ class _$LetterListStateImpl implements _LetterListState {
 
   @override
   final int? index;
+  @override
+  final double? rawIndex;
   @override
   final double? xOffset;
   final List<String> _letters;
@@ -153,7 +175,7 @@ class _$LetterListStateImpl implements _LetterListState {
 
   @override
   String toString() {
-    return 'LetterListState(index: $index, xOffset: $xOffset, letters: $letters, fromInvisible: $fromInvisible)';
+    return 'LetterListState(index: $index, rawIndex: $rawIndex, xOffset: $xOffset, letters: $letters, fromInvisible: $fromInvisible)';
   }
 
   @override
@@ -162,6 +184,8 @@ class _$LetterListStateImpl implements _LetterListState {
         (other.runtimeType == runtimeType &&
             other is _$LetterListStateImpl &&
             (identical(other.index, index) || other.index == index) &&
+            (identical(other.rawIndex, rawIndex) ||
+                other.rawIndex == rawIndex) &&
             (identical(other.xOffset, xOffset) || other.xOffset == xOffset) &&
             const DeepCollectionEquality().equals(other._letters, _letters) &&
             (identical(other.fromInvisible, fromInvisible) ||
@@ -169,7 +193,7 @@ class _$LetterListStateImpl implements _LetterListState {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, index, xOffset,
+  int get hashCode => Object.hash(runtimeType, index, rawIndex, xOffset,
       const DeepCollectionEquality().hash(_letters), fromInvisible);
 
   @JsonKey(ignore: true)
@@ -183,12 +207,15 @@ class _$LetterListStateImpl implements _LetterListState {
 abstract class _LetterListState implements LetterListState {
   const factory _LetterListState(
       {final int? index,
+      final double? rawIndex,
       final double? xOffset,
       final List<String> letters,
       final bool fromInvisible}) = _$LetterListStateImpl;
 
   @override
   int? get index;
+  @override
+  double? get rawIndex;
   @override
   double? get xOffset;
   @override

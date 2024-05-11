@@ -145,7 +145,9 @@ class __$$LetterListStateImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$LetterListStateImpl implements _LetterListState {
+class _$LetterListStateImpl
+    with DiagnosticableTreeMixin
+    implements _LetterListState {
   const _$LetterListStateImpl(
       {this.index,
       this.rawIndex,
@@ -174,8 +176,20 @@ class _$LetterListStateImpl implements _LetterListState {
   final bool fromInvisible;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'LetterListState(index: $index, rawIndex: $rawIndex, xOffset: $xOffset, letters: $letters, fromInvisible: $fromInvisible)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'LetterListState'))
+      ..add(DiagnosticsProperty('index', index))
+      ..add(DiagnosticsProperty('rawIndex', rawIndex))
+      ..add(DiagnosticsProperty('xOffset', xOffset))
+      ..add(DiagnosticsProperty('letters', letters))
+      ..add(DiagnosticsProperty('fromInvisible', fromInvisible));
   }
 
   @override

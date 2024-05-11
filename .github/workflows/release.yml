@@ -38,7 +38,7 @@ jobs:
           md5sum /tmp/keystore.jks
       - name: Create service-account.json
         run: |
-          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > ${JSON_KEY_FILE}
+          echo "${{ secrets.SERVICE_ACCOUNT_BASE64 }}" | base64 -d > ${JSON_KEY_FILE}
           md5sum ${JSON_KEY_FILE}
       - name: Create key.properties
         run: |

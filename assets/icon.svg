@@ -9,7 +9,7 @@
    id="svg1"
    inkscape:version="1.3.2 (091e20ef0f, 2023-11-25)"
    sodipodi:docname="icon.svg"
-   inkscape:export-filename="icon.png"
+   inkscape:export-filename="icon_with_background.png"
    inkscape:export-xdpi="24.576"
    inkscape:export-ydpi="24.576"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
@@ -30,8 +30,8 @@
      inkscape:lockguides="true"
      showguides="true"
      inkscape:zoom="0.36945288"
-     inkscape:cx="853.96547"
-     inkscape:cy="895.9194"
+     inkscape:cx="853.96546"
+     inkscape:cy="895.91939"
      inkscape:window-width="2530"
      inkscape:window-height="1356"
      inkscape:window-x="26"
@@ -100,7 +100,7 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     style="display:none">
+     style="display:inline">
     <rect
        style="fill:#191c1b;fill-opacity:1;stroke:none;stroke-width:0.601531;stroke-opacity:1"
        id="rect55"

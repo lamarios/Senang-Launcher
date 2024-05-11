@@ -1,1 +1,1 @@
-Minimalist and efficient launcher.
+Minimalist and efficient launcher

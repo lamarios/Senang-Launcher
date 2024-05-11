@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="2048"
+   height="1000"
+   viewBox="0 0 541.86665 264.58333"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.3.2 (091e20ef0f, 2023-11-25)"
+   sodipodi:docname="icon_feature_graphic.svg"
+   inkscape:export-filename="icon_feature_graphic.png"
+   inkscape:export-xdpi="48.000004"
+   inkscape:export-ydpi="48.000004"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="true"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="px"
+     showgrid="true"
+     inkscape:lockguides="true"
+     showguides="true"
+     inkscape:zoom="0.36945288"
+     inkscape:cx="851.25876"
+     inkscape:cy="893.21269"
+     inkscape:window-width="2530"
+     inkscape:window-height="1356"
+     inkscape:window-x="26"
+     inkscape:window-y="23"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg1">
+    <sodipodi:guide
+       position="0,264.58333"
+       orientation="0,2048"
+       inkscape:locked="true"
+       id="guide1" />
+    <sodipodi:guide
+       position="541.86665,264.58333"
+       orientation="1000,0"
+       inkscape:locked="true"
+       id="guide2" />
+    <sodipodi:guide
+       position="541.86665,0"
+       orientation="0,-2048"
+       inkscape:locked="true"
+       id="guide3" />
+    <sodipodi:guide
+       position="0,0"
+       orientation="-1000,0"
+       inkscape:locked="true"
+       id="guide4" />
+  </sodipodi:namedview>
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     style="display:inline">
+    <rect
+       style="fill:#191c1b;fill-opacity:1;stroke:none;stroke-width:0.430421;stroke-opacity:1"
+       id="rect55"
+       width="541.86664"
+       height="264.58331"
+       x="0"
+       y="4.9999999e-06" />
+  </g>
+  <text
+     xml:space="preserve"
+     style="font-size:97.0139px;fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:0.264583;stroke-opacity:1"
+     x="55.400173"
+     y="131.42781"
+     id="text57"
+     inkscape:label="senang"><tspan
+       sodipodi:role="line"
+       id="tspan57"
+       style="font-size:97.0139px;fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:0.264583;stroke-opacity:1"
+       x="55.400173"
+       y="131.42781">Senang</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-size:61.7361px;fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:0.264583;stroke-opacity:1"
+     x="178.95267"
+     y="198.77701"
+     id="text58"
+     inkscape:label="launcher"><tspan
+       sodipodi:role="line"
+       id="tspan58"
+       style="font-size:61.7361px;fill:#03c1a3;fill-opacity:1;stroke-width:0.264583"
+       x="178.95267"
+       y="198.77701">Launcher</tspan></text>
+</svg>

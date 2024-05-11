@@ -93,6 +93,12 @@ class _LetterListState extends State<LetterList> {
           if (state.index != null &&
               (state.index! - idx).abs() <= _fingerIndexGap) {
             var distance = (idx - hoverIndex).abs();
+
+            // this keeps the high bottom of the curve to come back up
+            if (idx - hoverIndex < 0) {
+              distance--;
+            }
+
             double bellValue =
                 1 - exp(-(pow(distance - mean, 2) / (2 * pow(deviation, 2))));
 

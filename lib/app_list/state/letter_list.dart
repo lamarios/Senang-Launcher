@@ -1,6 +1,7 @@
 // This file is "main.dart"
 import 'dart:math';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:senang_launcher/app_list/models/app_data.dart';

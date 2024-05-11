@@ -42,23 +42,23 @@ class AppListCubit extends Cubit<AppListState> {
   }
 
   setUpNotificationListener() async {
-    /// check if notification permession is enebaled
-    final bool allowed =
-        await NotificationListenerService.isPermissionGranted();
+    if (settingsCubit.state.colorOnNotifications) {
+      final bool allowed =
+          await NotificationListenerService.isPermissionGranted();
 
-    if (!allowed) {
-      /// request notification permission
-      /// it will open the notifications settings page and return `true` once the permission granted.
-      final bool status = await NotificationListenerService.requestPermission();
+      if (!allowed) {
+        final bool status =
+            await NotificationListenerService.requestPermission();
 
-      if (!status) {
-        return;
+        if (!status) {
+          return;
+        }
       }
-    }
 
-    /// stream the incoming notification events
-    notificationSubscription =
-        NotificationListenerService.notificationsStream.listen(onNotification);
+      /// stream the incoming notification events
+      notificationSubscription = NotificationListenerService.notificationsStream
+          .listen(onNotification);
+    }
   }
 
   double percentageOfMax(AppData app) {
@@ -74,7 +74,19 @@ class AppListCubit extends Cubit<AppListState> {
 
     appData[index] = appData[index]
         .copyWith(hasNotification: !(notification.hasRemoved ?? false));
-    emit(state.copyWith(apps: appData));
+
+    final firstLetter =
+        appData[index].app!.appName.substring(0, 1).toLowerCase();
+    Map<String, List<AppData>> letterMap = Map.from(state.appsByLetter);
+
+    final mapIndex = letterMap[firstLetter]?.indexWhere((element) =>
+            element.app?.packageName == notification.packageName) ??
+        -1;
+    if (mapIndex >= 0) {
+      letterMap[firstLetter]?[mapIndex] = appData[index];
+    }
+
+    emit(state.copyWith(apps: appData, appsByLetter: letterMap));
   }
 
   getApps({bool withLoading = false}) async {

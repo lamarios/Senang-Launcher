@@ -10,18 +10,25 @@ import 'package:senang_launcher/settings/state/settings.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await db.setUpDb();
-  runApp(MyApp());
+  final settings = SettingsCubit(const SettingsState());
+  await settings.getSettings();
+  runApp(MyApp(
+    settingsCubit: settings,
+  ));
 }
 
 class MyApp extends StatelessWidget {
-  final _appRouter = AppRouter();
+  final SettingsCubit settingsCubit;
+  late final _appRouter =
+      AppRouter(firstLaunch: settingsCubit.state.firstLaunch);
 
-  MyApp({super.key});
+  MyApp({super.key, required this.settingsCubit});
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return AppSetup(
+      settingsCubit: settingsCubit,
       child: Builder(builder: (context) {
         final brandColor =
             context.select((SettingsCubit value) => value.state.color);

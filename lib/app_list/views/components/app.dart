@@ -51,7 +51,7 @@ class App extends StatelessWidget {
             fontSize: fontSize,
             color: color,
             fontWeight: FontWeight.bold,
-            height: settings.lineHeight),
+            height: 1),
       );
     });
   }

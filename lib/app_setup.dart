@@ -8,16 +8,16 @@ import 'package:vibration/vibration.dart';
 
 /// sets up all the global providers and listeners
 class AppSetup extends StatelessWidget {
+  final SettingsCubit settingsCubit;
   final Widget child;
 
-  const AppSetup({super.key, required this.child});
+  const AppSetup({super.key, required this.child, required this.settingsCubit});
 
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
         providers: [
-          BlocProvider(
-              create: (context) => SettingsCubit(const SettingsState())),
+          BlocProvider(create: (context) => settingsCubit),
           BlocProvider(
             create: (context) => AppListCubit(
                 const AppListState(), context.read<SettingsCubit>(),
@@ -36,6 +36,16 @@ class AppSetup extends StatelessWidget {
             listenWhen: (previous, current) =>
                 previous.dataDays != current.dataDays,
           ),
+          BlocListener<SettingsCubit, SettingsState>(
+              listener: (context, state) {
+            var appListCubit = context.read<AppListCubit>();
+            state.colorOnNotifications
+                ? appListCubit.setUpNotificationListener()
+                : appListCubit.notificationSubscription?.cancel();
+          }, listenWhen: (previous, current) {
+            return previous.colorOnNotifications !=
+                current.colorOnNotifications;
+          }),
           BlocListener<AppListCubit, AppListState>(
             listenWhen: (previous, current) => previous.apps != current.apps,
             listener: (context, state) =>

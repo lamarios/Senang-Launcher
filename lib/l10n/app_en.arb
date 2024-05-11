@@ -52,5 +52,29 @@
   "dynamicColorsExplanation": "User Material You colors (only available on Android 12+)",
   "listStyle": "List style",
   "setAsDefaultLauncher": "Set as default launcher",
-  "setAsDefaultLauncherExplanation": "Once on the settings screen, select the default home app"
+  "setAsDefaultLauncherExplanation": "Once on the settings screen, select the default home app",
+  "introText1": "Welcome to Senang Launcher",
+  "introText2": "A minimalist and efficient launcher that relies on two simple concepts that we going to review now.",
+  "next": "Next",
+  "previous": "Previous",
+  "introExplanation1": "First, the more you use an app the bigger it becomes.",
+  "introMoreWord": "more",
+  "@introMoreWord": {
+    "description": "Must be the same as the introExplanation1 as it is going to be used to make the word bigger"
+  },
+  "introAppWord": "app",
+  "@introAppWord": {
+    "description": "Must be the same as the introExplanation1 as it is going to be used to make the word bigger"
+  },
+  "introBiggerWord": "bigger",
+  "@introBiggerWord": {
+    "description": "Must be the same as the introExplanation1 as it is going to be used to make the word bigger"
+  },
+  "introExplanation1SubText": "It might look weird at the very beginning but the more you use it the more it makes sense.",
+  "introExplanation2": "Second, the letter list on the side allows you to access any app within 2 taps. You can also slide your finger on it to get where you want to. It facilitates one hand use, you can choose in the settings which side you want the list to appear.\n\nSlide all the way down to access the settings.",
+  "startUsingSenangLauncher": "Start using Senang Launcher",
+  "coupleLastThings": "Couple of last things:",
+  "allowAccessToNotifications": "Give access",
+  "allowAccessToNotificationsExplanation": "To show you which apps have notifications, you need to grant it access",
+  "introSetAsDefaultLauncherExplanation": "You can set Senang launcher as your default launcher now or later in the app settings."
 }

@@ -30,20 +30,20 @@ const themeSettingName = 'theme';
 const wallpaperBlurSettingName = 'wallpaper-blur';
 const useDynamicColorSettingName = 'dynamic-colors';
 const listStyleSettingsName = 'app-list-style';
+const firstLaunchSettingName = 'first-launch';
 
 const wallPaperDimSettingName = 'wall-paper-dim';
 
 class SettingsCubit extends Cubit<SettingsState> {
   late PackageInfo packageInfo;
 
-  SettingsCubit(super.initialState) {
-    getSettings();
-  }
+  SettingsCubit(super.initialState);
 
-  getSettings() async {
+  Future<bool> getSettings() async {
     packageInfo = await PackageInfo.fromPlatform();
     final settings = await db.getSettings();
     emit(state.copyWith(settings: settings));
+    return state.firstLaunch;
   }
 
   updateSetting(String name, String value) async {
@@ -76,7 +76,7 @@ class SettingsState with _$SettingsState {
       double.tryParse(settings[minFontSizeSettingName] ?? '20') ?? 20;
 
   double get maxFontSize =>
-      double.tryParse(settings[maxFontSizeSettingName] ?? '50') ?? 50;
+      double.tryParse(settings[maxFontSizeSettingName] ?? '50') ?? 70;
 
   double get lineHeight =>
       double.tryParse(settings[lineHeightSettingName] ?? '1') ?? 1;
@@ -92,10 +92,11 @@ class SettingsState with _$SettingsState {
           Colors.yellow.value);
 
   bool get colorOnNotifications =>
-      bool.tryParse(settings[colorOnNotificationSettingName] ?? 'true') ?? true;
+      bool.tryParse(settings[colorOnNotificationSettingName] ?? 'false') ??
+      false;
 
   bool get showSearch =>
-      bool.tryParse(settings[showSearchSettingName] ?? 'true') ?? true;
+      bool.tryParse(settings[showSearchSettingName] ?? 'false') ?? false;
 
   bool get showWallPaper =>
       bool.tryParse(settings[showWallPaperSettingName] ?? 'false') ?? false;
@@ -128,6 +129,9 @@ class SettingsState with _$SettingsState {
 
   bool get dynamicColors =>
       bool.tryParse(settings[useDynamicColorSettingName] ?? 'true') ?? true;
+
+  bool get firstLaunch =>
+      bool.tryParse(settings[firstLaunchSettingName] ?? 'true') ?? true;
 
   ThemeMode? get themeMode => ThemeMode.values
       .where((element) => element.name == settings[themeSettingName])

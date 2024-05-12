@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/foundation.dart';
 import 'package:senang_launcher/app_list/views/screens/app_list.dart';
 import 'package:senang_launcher/first_launch/views/screens/first_launch.dart';
 import 'package:senang_launcher/settings/views/screens/hidden_apps.dart';
@@ -15,9 +16,11 @@ class AppRouter extends _$AppRouter {
 
   @override
   List<AutoRoute> get routes => [
-        AutoRoute(page: AppListRoute.page, initial: !firstLaunch),
+        AutoRoute(
+            page: AppListRoute.page, initial: !kDebugMode && !firstLaunch),
         AutoRoute(page: HiddenAppRoute.page),
         AutoRoute(page: StatsRoute.page),
-        AutoRoute(page: FirstLaunchRoute.page, initial: firstLaunch)
+        AutoRoute(
+            page: FirstLaunchRoute.page, initial: kDebugMode || firstLaunch)
       ];
 }

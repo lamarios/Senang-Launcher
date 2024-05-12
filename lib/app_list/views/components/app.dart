@@ -7,12 +7,32 @@ import 'package:senang_launcher/app_list/state/app_list.dart';
 import 'package:senang_launcher/settings/state/settings.dart';
 import 'package:senang_launcher/utils/utils.dart';
 
-// const List<double> _brackets = [0, 0.25, 0.5, 0.75, 1];
-
 class App extends StatelessWidget {
   final AppData app;
 
   const App({super.key, required this.app});
+
+  Color getColor(BuildContext context,
+      {required SettingsState settings,
+      required double percentageOfMax,
+      required ColorScheme colors}) {
+    final mainColor = settings.dynamicColors ? colors.primary : settings.color;
+
+    if (app.hasNotification && settings.colorOnNotifications) {
+      return settings.notificationColor;
+    }
+    final brightness = Theme.of(context).brightness;
+
+    if (!settings.tintColor) {
+      return settings.invertTint
+          ? tintColor(mainColor, brightness, 1)
+          : mainColor;
+    } else if (settings.invertTint) {
+      return tintColor(mainColor, brightness, 1 - percentageOfMax);
+    } else {
+      return tintColor(mainColor, brightness, percentageOfMax);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,18 +45,8 @@ class App extends StatelessWidget {
         return c.percentageOfMax(app);
       });
 
-      final mainColor =
-          settings.dynamicColors ? colors.primary : settings.color;
-
-      final color = app.hasNotification
-          ? settings.notificationColor
-          : Theme.of(context).brightness == Brightness.light
-              ? settings.tintColor
-                  ? darken(mainColor, max(1, (percentageOfMax * 100).toInt()))
-                  : mainColor
-              : settings.tintColor
-                  ? lighten(mainColor, max(1, (percentageOfMax * 100).toInt()))
-                  : mainColor;
+      final color = getColor(context,
+          settings: settings, percentageOfMax: percentageOfMax, colors: colors);
 
       var fontSize = min(
           settings.maxFontSize,

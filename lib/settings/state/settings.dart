@@ -31,6 +31,7 @@ const wallpaperBlurSettingName = 'wallpaper-blur';
 const useDynamicColorSettingName = 'dynamic-colors';
 const listStyleSettingsName = 'app-list-style';
 const firstLaunchSettingName = 'first-launch';
+const invertTintSettingName = 'invert-tint';
 
 const wallPaperDimSettingName = 'wall-paper-dim';
 
@@ -86,6 +87,9 @@ class SettingsState with _$SettingsState {
 
   bool get tintColor =>
       bool.tryParse(settings[tintColorSettingName] ?? 'true') ?? true;
+
+  bool get invertTint =>
+      bool.tryParse(settings[invertTintSettingName] ?? 'false') ?? false;
 
   Color get notificationColor => Color(
       int.tryParse(settings[notificationColorSettingName] ?? '0xFFFFEB3B') ??

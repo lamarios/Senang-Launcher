@@ -1,5 +1,5 @@
 name: senang_launcher
-version: 0.0.22+22
+version: 0.0.23+23
 publish_to: none
 description: Senang Launcher
 environment:
@@ -44,6 +44,6 @@ dev_dependencies:
     sdk: flutter
 flutter:
   assets:
-    - ./lib/assets/app-list.gif
+    - ./lib/assets/
   uses-material-design: true
   generate: true # Add this line

@@ -94,7 +94,7 @@ class FirstScreen extends StatelessWidget {
     final locals = AppLocalizations.of(context)!;
     final textTheme = Theme.of(context).textTheme;
     final colors = Theme.of(context).colorScheme;
-
+    final brightness = Theme.of(context).brightness;
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -129,19 +129,19 @@ class FirstScreen extends StatelessWidget {
                   style = style?.copyWith(
                       height: 1,
                       fontSize: 50,
-                      color: lighten(colors.primary, 100));
+                      color: tintColor(colors.primary, brightness, 1));
                 }
                 if (e == locals.introAppWord) {
                   style = style?.copyWith(
                       height: 1,
                       fontSize: 30,
-                      color: lighten(colors.primary, 50));
+                      color: tintColor(colors.primary, brightness, 0.5));
                 }
                 if (e == locals.introBiggerWord) {
                   style = style?.copyWith(
                       height: 1,
                       fontSize: 40,
-                      color: lighten(colors.primary, 75));
+                      color: tintColor(colors.primary, brightness, 0.75));
                 }
 
                 return Text(

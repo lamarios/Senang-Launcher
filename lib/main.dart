@@ -1,5 +1,7 @@
 import 'package:dynamic_color/dynamic_color.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:senang_launcher/app_setup.dart';
@@ -11,6 +13,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await db.setUpDb();
   final settings = SettingsCubit(const SettingsState());
+
   await settings.getSettings();
   runApp(MyApp(
     settingsCubit: settings,

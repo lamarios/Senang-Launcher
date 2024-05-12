@@ -33,6 +33,13 @@ class ColorSettings extends StatelessWidget {
                   cubit.updateSetting(tintColorSettingName, value.toString()),
             ),
             SettingsTile.switchTile(
+              title: Text(locals.invertTint),
+              description: Text(locals.invertTintDescription),
+              initialValue: settings.invertTint,
+              onToggle: (value) =>
+                  cubit.updateSetting(invertTintSettingName, value.toString()),
+            ),
+            SettingsTile.switchTile(
               title: Text(locals.dynamicColors),
               description: Text(locals.dynamicColorsExplanation),
               initialValue: settings.dynamicColors,

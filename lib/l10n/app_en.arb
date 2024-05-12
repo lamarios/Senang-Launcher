@@ -76,5 +76,8 @@
   "coupleLastThings": "Couple of last things:",
   "allowAccessToNotifications": "Give access",
   "allowAccessToNotificationsExplanation": "To show you which apps have notifications, you need to grant it access",
-  "introSetAsDefaultLauncherExplanation": "You can set Senang launcher as your default launcher now or later in the app settings."
+  "introSetAsDefaultLauncherExplanation": "You can set Senang launcher as your default launcher now or later in the app settings.",
+  "licenses": "Show licences",
+  "invertTint": "Invert tint",
+  "invertTintDescription": "Instead of going from color to black (light theme) or white (dark theme), go from black or white to color"
 }

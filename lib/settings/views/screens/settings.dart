@@ -123,6 +123,11 @@ class SettingsSheet extends StatelessWidget {
               title: Text('${locals.version}: ${packageInfo.version}'),
               description: Text('${locals.build}: ${packageInfo.buildNumber}'),
             ),
+            SettingsTile.navigation(
+              leading: const Icon(Icons.account_balance),
+              title: Text(locals.licenses),
+              onPressed: (context) => showLicensePage(context: context),
+            )
           ]),
         ],
       );

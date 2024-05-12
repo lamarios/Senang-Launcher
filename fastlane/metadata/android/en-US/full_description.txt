@@ -1,0 +1,4 @@
+Senang Launcher aims to be minimalist in the
+way it looks and efficient. The more you use an app the bigger it becomes so you favourite apps are
+easier to find and launch, also, any app on your phone is available within 2 taps via the letter
+list slider.

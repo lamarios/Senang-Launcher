@@ -1,5 +1,5 @@
+import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ColorPickerSheet extends StatefulWidget {
@@ -23,13 +23,15 @@ class _ColorPickerSheetState extends State<ColorPickerSheet> {
     return Column(
       children: [
         ColorPicker(
-          colorPickerWidth: 200,
-          pickerColor: pickedColor,
+          color: pickedColor,
+          pickersEnabled: const {
+            ColorPickerType.primary: true,
+            ColorPickerType.accent: true,
+            ColorPickerType.wheel: true,
+          },
           onColorChanged: (value) => setState(() {
             pickedColor = value;
           }),
-          enableAlpha: false,
-          paletteType: PaletteType.hueWheel,
         ),
         TextButton(
             onPressed: () => widget.onChanged(pickedColor),

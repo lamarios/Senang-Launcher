@@ -75,7 +75,10 @@ class SettingsSheet extends StatelessWidget {
                   ),
                   SettingsTile(
                     title: Text(locals.hideApp),
-                    onPressed: (context) => hideApp(app!, true),
+                    onPressed: (context) {
+                      hideApp(app!, true);
+                      Navigator.of(context).pop();
+                    },
                     leading: const Icon(Icons.remove_red_eye_rounded),
                   )
                 ]),

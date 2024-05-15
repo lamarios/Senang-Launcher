@@ -34,40 +34,32 @@ class AppListScreen extends StatelessWidget {
             final cubit = context.read<AppListCubit>();
             return Stack(
               children: [
-                Positioned.fill(
-                  child: AnimatedSwitcher(
-                    duration: const Duration(
-                      milliseconds: 1000,
+                if (settings.showWallPaper)
+                  Positioned.fill(
+                    child: FutureBuilder<Uint8List?>(
+                      future: AccessWallpaper()
+                          .getWallpaper(AccessWallpaper.homeScreenFlag),
+                      builder: (context, snapshot) {
+                        return snapshot.hasData && snapshot.data != null
+                            ? ConditionalWrap(
+                                wrapIf: settings.wallpaperBlur > 0,
+                                wrapper: (child) => ImageFiltered(
+                                  imageFilter: ImageFilter.blur(
+                                    sigmaY: settings.wallpaperBlur,
+                                    sigmaX: settings.wallpaperBlur,
+                                  ),
+                                  child: child,
+                                ),
+                                child: Image.memory(
+                                  snapshot.data!,
+                                  fit: BoxFit.cover,
+                                  gaplessPlayback: true,
+                                ),
+                              )
+                            : const SizedBox.shrink();
+                      },
                     ),
-                    switchInCurve: Curves.easeInOutQuad,
-                    switchOutCurve: Curves.easeInOutQuad,
-                    child: !settings.showWallPaper
-                        ? const SizedBox.shrink()
-                        : FutureBuilder<Uint8List?>(
-                            future: AccessWallpaper()
-                                .getWallpaper(AccessWallpaper.homeScreenFlag),
-                            builder: (context, snapshot) {
-                              return snapshot.hasData && snapshot.data != null
-                                  ? ConditionalWrap(
-                                      wrapIf: settings.wallpaperBlur > 0,
-                                      wrapper: (child) => ImageFiltered(
-                                        imageFilter: ImageFilter.blur(
-                                          sigmaY: settings.wallpaperBlur,
-                                          sigmaX: settings.wallpaperBlur,
-                                        ),
-                                        child: child,
-                                      ),
-                                      child: Image.memory(
-                                        snapshot.data!,
-                                        fit: BoxFit.cover,
-                                        gaplessPlayback: true,
-                                      ),
-                                    )
-                                  : const SizedBox.shrink();
-                            },
-                          ),
                   ),
-                ),
                 if (settings.showWallPaper)
                   Positioned.fill(
                       child: Container(

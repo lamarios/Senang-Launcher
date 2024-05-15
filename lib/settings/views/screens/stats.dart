@@ -26,6 +26,7 @@ class StatsScreen extends StatelessWidget {
           withIcons: true, getHidden: true)
         ..getApps(withLoading: true),
       child: Scaffold(
+          backgroundColor: colors.surface,
           appBar: AppBar(
             title: Text(locals.appsStats),
             actions: [

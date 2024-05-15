@@ -25,6 +25,7 @@ class AppListScreen extends StatelessWidget {
     return PopScope(
       canPop: false,
       child: Scaffold(
+        backgroundColor: colors.surface,
         body: BlocBuilder<SettingsCubit, SettingsState>(
           builder: (context, settings) {
             final loading =

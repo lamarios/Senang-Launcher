@@ -13,9 +13,11 @@ class HiddenAppScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
     final locals = AppLocalizations.of(context)!;
 
     return Scaffold(
+      backgroundColor: colors.surface,
       appBar: AppBar(
         title: Text(locals.hiddenApps),
       ),

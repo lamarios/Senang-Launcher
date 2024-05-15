@@ -53,11 +53,11 @@ class MyApp extends StatelessWidget {
           final darkTheme = dynamicColors && darkDynamic != null
               ? darkDynamic
                   .harmonized()
-                  .copyWith(background: blackBackground ? Colors.black : null)
+                  .copyWith(surface: blackBackground ? Colors.black : null)
               : ColorScheme.fromSeed(
                   seedColor: brandColor,
                   brightness: Brightness.dark,
-                  background: blackBackground ? Colors.black : null);
+                  surface: blackBackground ? Colors.black : null);
 
           const appBarTheme = AppBarTheme(
             elevation: 0,
@@ -69,7 +69,7 @@ class MyApp extends StatelessWidget {
             themeMode: theme,
             theme: ThemeData(
               appBarTheme:
-                  appBarTheme.copyWith(backgroundColor: lightTheme.background),
+                  appBarTheme.copyWith(backgroundColor: lightTheme.surface),
               colorScheme: lightTheme,
               useMaterial3: true,
             ),
@@ -77,8 +77,8 @@ class MyApp extends StatelessWidget {
             darkTheme: ThemeData(
                 colorScheme: darkTheme,
                 useMaterial3: true,
-                appBarTheme: appBarTheme.copyWith(
-                    backgroundColor: darkTheme.background)),
+                appBarTheme:
+                    appBarTheme.copyWith(backgroundColor: darkTheme.surface)),
             routerConfig: _appRouter.config(),
           );
         });

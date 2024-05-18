@@ -42,11 +42,15 @@ class _LetterListState extends State<LetterList> {
 
   showSettings(BuildContext context) {
     final cubit = context.read<AppListCubit>();
+    cubit.setShowingSettings(true);
     SettingsSheet.showSettingsSheet(
         context,
         (context) => SettingsSheet(
               hideApp: cubit.hideApp,
-            )).then((value) => context.read<AppListCubit>().getApps());
+            )).then((value) {
+      cubit.setShowingSettings(false);
+      return context.read<AppListCubit>().getApps();
+    });
 
     cubit.setLetterFilter(null);
   }
@@ -139,20 +143,20 @@ class _LetterListState extends State<LetterList> {
                                   size: 13,
                                   color: hovered
                                       ? colors.primary
-                                      : colors.onBackground)
+                                      : colors.onSurface)
                               : l == settingLetterPlaceHolder
                                   ? Icon(Icons.settings,
                                       size: 13,
                                       color: hovered
                                           ? colors.primary
-                                          : colors.onBackground)
+                                          : colors.onSurface)
                                   : Text(
                                       l,
                                       style: textTheme.labelMedium?.copyWith(
                                           fontSize: 14,
                                           color: hovered
                                               ? colors.primary
-                                              : colors.onBackground),
+                                              : colors.onSurface),
                                     ),
                         ),
                       ),

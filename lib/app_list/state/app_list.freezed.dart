@@ -23,6 +23,7 @@ mixin _$AppListState {
       throw _privateConstructorUsedError;
   int get maxLaunches => throw _privateConstructorUsedError;
   String get filter => throw _privateConstructorUsedError;
+  bool get showingSettings => throw _privateConstructorUsedError;
   bool get loading => throw _privateConstructorUsedError;
   bool get isLetterFilter => throw _privateConstructorUsedError;
   dynamic get minLaunches => throw _privateConstructorUsedError;
@@ -43,6 +44,7 @@ abstract class $AppListStateCopyWith<$Res> {
       Map<String, List<AppData>> appsByLetter,
       int maxLaunches,
       String filter,
+      bool showingSettings,
       bool loading,
       bool isLetterFilter,
       dynamic minLaunches});
@@ -65,6 +67,7 @@ class _$AppListStateCopyWithImpl<$Res, $Val extends AppListState>
     Object? appsByLetter = null,
     Object? maxLaunches = null,
     Object? filter = null,
+    Object? showingSettings = null,
     Object? loading = null,
     Object? isLetterFilter = null,
     Object? minLaunches = freezed,
@@ -86,6 +89,10 @@ class _$AppListStateCopyWithImpl<$Res, $Val extends AppListState>
           ? _value.filter
           : filter // ignore: cast_nullable_to_non_nullable
               as String,
+      showingSettings: null == showingSettings
+          ? _value.showingSettings
+          : showingSettings // ignore: cast_nullable_to_non_nullable
+              as bool,
       loading: null == loading
           ? _value.loading
           : loading // ignore: cast_nullable_to_non_nullable
@@ -115,6 +122,7 @@ abstract class _$$AppListStateImplCopyWith<$Res>
       Map<String, List<AppData>> appsByLetter,
       int maxLaunches,
       String filter,
+      bool showingSettings,
       bool loading,
       bool isLetterFilter,
       dynamic minLaunches});
@@ -135,6 +143,7 @@ class __$$AppListStateImplCopyWithImpl<$Res>
     Object? appsByLetter = null,
     Object? maxLaunches = null,
     Object? filter = null,
+    Object? showingSettings = null,
     Object? loading = null,
     Object? isLetterFilter = null,
     Object? minLaunches = freezed,
@@ -156,6 +165,10 @@ class __$$AppListStateImplCopyWithImpl<$Res>
           ? _value.filter
           : filter // ignore: cast_nullable_to_non_nullable
               as String,
+      showingSettings: null == showingSettings
+          ? _value.showingSettings
+          : showingSettings // ignore: cast_nullable_to_non_nullable
+              as bool,
       loading: null == loading
           ? _value.loading
           : loading // ignore: cast_nullable_to_non_nullable
@@ -177,6 +190,7 @@ class _$AppListStateImpl extends _AppListState {
       final Map<String, List<AppData>> appsByLetter = const {},
       this.maxLaunches = 0,
       this.filter = '',
+      this.showingSettings = false,
       this.loading = false,
       this.isLetterFilter = false,
       this.minLaunches = 0})
@@ -214,6 +228,9 @@ class _$AppListStateImpl extends _AppListState {
   final String filter;
   @override
   @JsonKey()
+  final bool showingSettings;
+  @override
+  @JsonKey()
   final bool loading;
   @override
   @JsonKey()
@@ -224,7 +241,7 @@ class _$AppListStateImpl extends _AppListState {
 
   @override
   String toString() {
-    return 'AppListState(apps: $apps, appsByLetter: $appsByLetter, maxLaunches: $maxLaunches, filter: $filter, loading: $loading, isLetterFilter: $isLetterFilter, minLaunches: $minLaunches)';
+    return 'AppListState(apps: $apps, appsByLetter: $appsByLetter, maxLaunches: $maxLaunches, filter: $filter, showingSettings: $showingSettings, loading: $loading, isLetterFilter: $isLetterFilter, minLaunches: $minLaunches)';
   }
 
   @override
@@ -238,6 +255,8 @@ class _$AppListStateImpl extends _AppListState {
             (identical(other.maxLaunches, maxLaunches) ||
                 other.maxLaunches == maxLaunches) &&
             (identical(other.filter, filter) || other.filter == filter) &&
+            (identical(other.showingSettings, showingSettings) ||
+                other.showingSettings == showingSettings) &&
             (identical(other.loading, loading) || other.loading == loading) &&
             (identical(other.isLetterFilter, isLetterFilter) ||
                 other.isLetterFilter == isLetterFilter) &&
@@ -252,6 +271,7 @@ class _$AppListStateImpl extends _AppListState {
       const DeepCollectionEquality().hash(_appsByLetter),
       maxLaunches,
       filter,
+      showingSettings,
       loading,
       isLetterFilter,
       const DeepCollectionEquality().hash(minLaunches));
@@ -269,6 +289,7 @@ abstract class _AppListState extends AppListState {
       final Map<String, List<AppData>> appsByLetter,
       final int maxLaunches,
       final String filter,
+      final bool showingSettings,
       final bool loading,
       final bool isLetterFilter,
       final dynamic minLaunches}) = _$AppListStateImpl;
@@ -283,6 +304,8 @@ abstract class _AppListState extends AppListState {
   int get maxLaunches;
   @override
   String get filter;
+  @override
+  bool get showingSettings;
   @override
   bool get loading;
   @override

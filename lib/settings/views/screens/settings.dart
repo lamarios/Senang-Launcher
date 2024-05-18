@@ -25,12 +25,19 @@ class SettingsSheet extends StatelessWidget {
 
   static Future<void> showSettingsSheet(
       BuildContext context, Widget Function(BuildContext context) builder) {
+    final maxHeight = MediaQuery.sizeOf(context).height * 0.65;
+    final colors = Theme.of(context).colorScheme;
     return showModalBottomSheet(
-        context: context,
-        builder: builder,
-        enableDrag: true,
-        barrierColor: Colors.transparent,
-        showDragHandle: true);
+      backgroundColor: colors.secondaryContainer,
+      context: context,
+      isScrollControlled: true,
+      useSafeArea: true,
+      constraints: BoxConstraints(maxHeight: maxHeight),
+      showDragHandle: false,
+      enableDrag: false,
+      builder: builder,
+      barrierColor: Colors.transparent,
+    );
   }
 
   @override

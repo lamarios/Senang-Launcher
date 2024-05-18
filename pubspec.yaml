@@ -1,5 +1,5 @@
 name: senang_launcher
-version: 1.0.1+26
+version: 1.0.2+27
 publish_to: none
 description: Senang Launcher
 environment:
@@ -16,6 +16,7 @@ dependencies:
   flutter_settings_ui: 3.0.1
   freezed_annotation: 2.4.1
   gap: 3.0.1
+  google_fonts: 6.2.1
   intl: any
   json_annotation: 4.9.0
   notification_listener_service: 0.3.3

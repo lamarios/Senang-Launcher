@@ -79,5 +79,9 @@
   "introSetAsDefaultLauncherExplanation": "You can set Senang launcher as your default launcher now or later in the app settings.",
   "licenses": "Show licences",
   "invertTint": "Invert tint",
-  "invertTintDescription": "Instead of going from color to black (light theme) or white (dark theme), go from black or white to color"
+  "invertTintDescription": "Instead of going from color to black (light theme) or white (dark theme), go from black or white to color",
+  "selectFont": "Select font",
+  "useDefaultFont": "Use default font",
+  "search": "Search",
+  "bold": "Bold"
 }

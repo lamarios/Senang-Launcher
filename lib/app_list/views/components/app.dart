@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:senang_launcher/app_list/models/app_data.dart';
 import 'package:senang_launcher/app_list/state/app_list.dart';
 import 'package:senang_launcher/settings/state/settings.dart';
@@ -45,6 +46,10 @@ class App extends StatelessWidget {
         return c.percentageOfMax(app);
       });
 
+      final textFont = settings.textFont != null
+          ? GoogleFonts.getFont(settings.textFont!)
+          : textTheme.bodyLarge;
+
       final color = getColor(context,
           settings: settings, percentageOfMax: percentageOfMax, colors: colors);
 
@@ -57,10 +62,10 @@ class App extends StatelessWidget {
       return Text(
         app.app!.appName,
         textAlign: settings.listStyle.textAlign,
-        style: textTheme.bodyLarge?.copyWith(
+        style: textFont?.copyWith(
             fontSize: fontSize,
             color: color,
-            fontWeight: FontWeight.bold,
+            fontWeight: settings.fontWeight,
             height: 1),
       );
     });

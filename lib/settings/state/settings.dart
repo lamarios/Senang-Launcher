@@ -1,4 +1,6 @@
 // This file is "main.dart"
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -32,6 +34,8 @@ const useDynamicColorSettingName = 'dynamic-colors';
 const listStyleSettingsName = 'app-list-style';
 const firstLaunchSettingName = 'first-launch';
 const invertTintSettingName = 'invert-tint';
+const fontSettingName = 'font';
+const boldFontSettingName = 'bold-font';
 
 const wallPaperDimSettingName = 'wall-paper-dim';
 
@@ -48,6 +52,7 @@ class SettingsCubit extends Cubit<SettingsState> {
   }
 
   updateSetting(String name, String value) async {
+    print('name $name $value');
     await db.updateSetting(name, value);
     getSettings();
   }
@@ -66,6 +71,13 @@ class SettingsState with _$SettingsState {
   const SettingsState._();
 
   int get dataDays => int.tryParse(settings[dataDaysSettingName] ?? '7') ?? 7;
+
+  String? get textFont => settings[fontSettingName];
+
+  FontWeight get fontWeight =>
+      (bool.tryParse(settings[boldFontSettingName] ?? 'true') ?? true)
+          ? FontWeight.bold
+          : FontWeight.normal;
 
   double get horizontalSpacing =>
       double.tryParse(settings[horizontalSpacingSettingName] ?? '25') ?? 15;

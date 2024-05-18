@@ -5,6 +5,8 @@ import 'package:senang_launcher/app_list/models/list_style.dart';
 import 'package:senang_launcher/settings/state/settings.dart';
 import 'package:senang_launcher/settings/views/components/plus_minus.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:senang_launcher/settings/views/screens/fonts.dart';
+import 'package:senang_launcher/settings/views/screens/settings.dart';
 
 class TextSettingsSheet extends StatelessWidget {
   const TextSettingsSheet({super.key});
@@ -22,6 +24,14 @@ class TextSettingsSheet extends StatelessWidget {
         lightTheme:
             const SettingsThemeData(settingsListBackground: Colors.transparent),
         sections: [
+          SettingsSection(tiles: [
+            SettingsTile.navigation(
+              leading: const Icon(Icons.font_download),
+              title: Text(locals.selectFont),
+              onPressed: (context) => SettingsSheet.showSettingsSheet(
+                  context, (context) => const FontSettings()),
+            ),
+          ]),
           SettingsSection(title: Text(locals.textSize), tiles: [
             SettingsTile(
               title: Text(locals.minimumSize),

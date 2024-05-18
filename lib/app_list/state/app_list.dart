@@ -184,6 +184,11 @@ class AppListCubit extends Cubit<AppListState> {
     await db.resetLaunches();
     getApps();
   }
+
+  setShowingSettings(bool settings) {
+    print('showing settings $settings');
+    emit(state.copyWith(showingSettings: settings));
+  }
 }
 
 @freezed
@@ -195,6 +200,7 @@ class AppListState with _$AppListState {
       @Default({}) Map<String, List<AppData>> appsByLetter,
       @Default(0) int maxLaunches,
       @Default('') String filter,
+      @Default(false) bool showingSettings,
       @Default(false) bool loading,
       @Default(false) bool isLetterFilter,
       @Default(0) minLaunches}) = _AppListState;

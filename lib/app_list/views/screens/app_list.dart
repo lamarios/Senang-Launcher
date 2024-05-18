@@ -30,6 +30,10 @@ class AppListScreen extends StatelessWidget {
           builder: (context, settings) {
             final loading =
                 context.select((AppListCubit value) => value.state.loading);
+            final showingSettings = context
+                .select((AppListCubit value) => value.state.showingSettings);
+
+            print(showingSettings);
 
             final cubit = context.read<AppListCubit>();
             return Stack(
@@ -73,22 +77,32 @@ class AppListScreen extends StatelessWidget {
                         padding:
                             const EdgeInsets.only(left: 8, right: 8, top: 58),
                         child: GestureDetector(
-                          onLongPress: () => SettingsSheet.showSettingsSheet(
-                              context,
-                              (context) => SettingsSheet(
-                                    hideApp: cubit.hideApp,
-                                  )).then((value) => cubit.getApps()),
+                          onLongPress: () {
+                            cubit.setShowingSettings(true);
+                            SettingsSheet.showSettingsSheet(
+                                context,
+                                (context) => SettingsSheet(
+                                      hideApp: cubit.hideApp,
+                                    )).then((value) {
+                              cubit.setShowingSettings(false);
+                              return cubit.getApps();
+                            });
+                          },
                           child: Column(
                             children: [
                               Expanded(
                                 child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  crossAxisAlignment: showingSettings
+                                      ? CrossAxisAlignment.start
+                                      : CrossAxisAlignment.center,
                                   children: [
                                     if (settings.showLetterList &&
                                         (!settings.letterListOnRight ||
                                             settings.showInvisibleLetterList))
                                       Align(
-                                          alignment: Alignment.bottomRight,
+                                          alignment: showingSettings
+                                              ? Alignment.topRight
+                                              : Alignment.bottomRight,
                                           child: LetterList(
                                             rightMode: false,
                                             invisible: settings
@@ -104,7 +118,9 @@ class AppListScreen extends StatelessWidget {
                                         (settings.letterListOnRight ||
                                             settings.showInvisibleLetterList))
                                       Align(
-                                          alignment: Alignment.bottomRight,
+                                          alignment: showingSettings
+                                              ? Alignment.topRight
+                                              : Alignment.bottomRight,
                                           child: LetterList(
                                             rightMode: true,
                                             invisible: !settings
@@ -177,12 +193,18 @@ class _AppList extends StatelessWidget {
             : settings.listStyle.wrapApps(context,
                 children: apps
                     .map((e) => GestureDetector(
-                        onLongPress: () => SettingsSheet.showSettingsSheet(
-                            context,
-                            (context) => SettingsSheet(
-                                  hideApp: cubit.hideApp,
-                                  app: e,
-                                )).then((value) => cubit.getApps()),
+                        onLongPress: () {
+                          cubit.setShowingSettings(true);
+                          SettingsSheet.showSettingsSheet(context, (context) {
+                            return SettingsSheet(
+                              hideApp: cubit.hideApp,
+                              app: e,
+                            );
+                          }).then((value) {
+                            cubit.setShowingSettings(false);
+                            return cubit.getApps();
+                          });
+                        },
                         onTap: () {
                           if (!kDebugMode) {
                             DeviceApps.openApp(e.app!.packageName);
